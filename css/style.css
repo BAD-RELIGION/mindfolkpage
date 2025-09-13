@@ -1,0 +1,142 @@
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+}
+
+/* Font Definitions */
+@font-face {
+  font-family: 'hipeless_brushregular';
+  src: url('../fonts/hipeless_brush-webfont.woff2') format('woff2'),
+       url('../fonts/hipeless_brush-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'dirty_brushregular';
+  src: url('../fonts/dirty_brush-webfont.woff2') format('woff2'),
+       url('../fonts/dirty_brush-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Typography */
+.letter-spacing-1 {
+  letter-spacing: .06em;
+}
+
+.hipeless {
+  font-family: 'hipeless_brushregular', cursive;
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+}
+
+.hipeless-sub {
+  font-family: 'dirty_brushregular', cursive;
+  text-transform: none;
+  font-size: 2rem;
+}
+
+/* Navbar “MINDFOLK” brand */
+.navbar-brand span {
+  font-family: 'hipeless_brushregular', cursive;
+  font-size: 1.8rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Hero title “MINDFOLK” (typed) */
+#type-title {
+  font-family: 'hipeless_brushregular', cursive;
+  font-size: 6.6rem !important;
+  letter-spacing: 0.07em !important;
+}
+
+/* Hero subtitle (typed) */
+#type-sub {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: 2.1rem !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* Components */
+.navbar .nav-link.active {
+  color: #ffc107 !important;
+  font-weight: 700;
+}
+
+.typewriter {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid rgba(255,255,255,.75);
+  animation: caret-blink 1s step-end infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.typewriter.done {
+  animation: none;
+  border-right-color: transparent;
+}
+
+.footer-dark {
+  background-color: #000;
+}
+
+/* Sections */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+.hero {
+  min-height: 100vh;
+  background: url('../img/col3.png') center center / cover no-repeat;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+#history h1 {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#mindfolk-streak h2 {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: 4.5rem !important;
+  letter-spacing: 0.06em !important;
+}
+
+#revival h1 {
+  font-family: 'dirty_brushregular', cursive;
+  text-transform: uppercase;
+  font-size: 3rem;
+  letter-spacing: 0.05em;
+}
+
+/* Media Queries and Feature-Specific Rules */
+@supports (-webkit-touch-callout: none) {
+  #mindfolk-streak {
+    background-attachment: scroll !important;
+  }
+}
