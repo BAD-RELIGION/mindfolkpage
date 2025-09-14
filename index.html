@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -25,81 +25,83 @@
     <link rel="stylesheet" href="fonts/stylesheet.css">
 
     <style>
-      html { scroll-behavior: smooth; }
-      section[id] { scroll-margin-top: 90px; }
-      .typewriter { display:inline-block; white-space:nowrap; overflow:hidden; border-right:2px solid rgba(255,255,255,.75); animation: caret-blink 1s step-end infinite; }
-      .typewriter.done { animation:none; border-right-color:transparent; }
-      @keyframes caret-blink { 50% { border-color: transparent; } }
+
     </style>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll bg-light" data-mdb-navbar-init>
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#top" aria-label="Mindfolk home">
-          <img src="img/mflarge.jpg" alt="Mindfolk Logo" height="40" loading="lazy" />
-          <span class="fw-bold">MINDFOLK</span>
-        </a>
 
+    <header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll" data-mdb-navbar-init>
+      <div class="container">
+        <a class="navbar-brand mf-logo" href="index.html">
+  <img id="nav-logo" src="img/mfwhite.png" alt="MF Logo" />
+</a>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-collapse-init
-          data-mdb-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
+                class="navbar-toggler"
+                type="button"
+                data-mdb-collapse-init
+                data-mdb-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
           <i class="fas fa-bars"></i>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto my-2 my-lg-0">
+          <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
             <li class="nav-item"><a class="nav-link" href="#revival">MF Revival</a></li>
             <li class="nav-item"><a class="nav-link" href="#links">Official Links</a></li>
           </ul>
-
           <ul class="navbar-nav d-flex flex-row">
             <li class="nav-item me-1">
               <a class="nav-link nav-icon" href="https://x.com/the_mindfolk" target="_blank" rel="noopener" aria-label="Mindfolk on X">
-                <img src="img/xlogo.jpg" alt="X" style="height:22px;width:auto" loading="lazy" />
+                <img src="img/xcom.png" alt="X" style="height:22px;width:auto" loading="lazy" />
               </a>
             </li>
             <li class="nav-item me-1">
               <a class="nav-link nav-icon" href="https://magiceden.io/marketplace/mindfolk" target="_blank" rel="noopener" aria-label="Magic Eden Marketplace">
-                <img src="img/melogo.png" alt="Magic Eden" style="height:22px;width:auto" loading="lazy" />
+                <img src="img/magic.png" alt="Magic Eden" style="height:22px;width:auto" loading="lazy" />
               </a>
             </li>
             <li class="nav-item me-1">
               <a class="nav-link nav-icon" href="https://www.tensor.trade/trade/mindfolk" target="_blank" rel="noopener" aria-label="Tensor Marketplace">
-                <img src="img/tensor.jpg" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
+                <img src="img/ten.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-icon" href="https://d1srupt.store/mindfolk/" target="_blank" rel="noopener" aria-label="Merch Store">
-                <i class="fas fa-shopping-cart"></i>
+                <img src="img/store.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
               </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+    <!-- Navbar -->
 
-    <header id="top" class="hero d-flex align-items-center text-white text-center mt-4">
-      <div class="container hero-inner">
-        <h1 class="display-2 fw-bold text-uppercase mt-2">
-          <span id="type-title" class="typewriter" aria-label="Mindfolk"></span>
-        </h1>
-        <p class="lead fs-3">
-          <span id="type-sub" class="typewriter" aria-label="A new chapter begins. Rebuilding. Rebranding. Rising stronger."></span>
-        </p>
+    <!--Section: Design Block-->
+    <section id="top" class="intro text-center">
+  <div class="mask">
+    <div class="d-flex justify-content-center align-items-center h-100 mt-4">
+      <div class="text-white">
+        <img src="img/mfletters.png" alt="Mindfolk Logo" class="img-fluid" style="max-height:150px;" />
+        <h3 class="pb-4 type-sub">
+          A new chapter begins. Rebuilding. Rebranding. Rising stronger.
+        </h3>
       </div>
-    </header>
+    </div>
+  </div>
+</section>
+    <!--Section: Design Block-->
+  </header>
 
     <section id="history" class="py-4">
       <div class="container my-5">
-        <h1 class="fw-bold mb-5 text-center">History of Mindfolk</h1>
+        <h1 class="fw-bold mb-5 text-center text-warning">History of Mindfolk</h1>
 
         <div class="row gx-lg-5 mb-5 align-items-center">
           <div class="col-md-6 mb-4 mb-md-0 text-center">
@@ -163,8 +165,8 @@
             <h2 class="display-5 fw-bold text-uppercase mb-2 letter-spacing-1 text-white">Mindfolk // Reawakening</h2>
             <p class="lead mb-4 text-white brush-text">We’re reforging the lore with transparency, art, and community collaboration.</p>
             <div class="d-flex flex-wrap justify-content-center gap-2">
-              <a href="https://x.com/the_mindfolk" class="btn btn-light btn-lg px-4" target="_blank" rel="noopener">Explore us on X</a>
-              <a href="https://discord.gg/A9z9QRYRHu" class="btn btn-dark btn-lg px-4" target="_blank" rel="noopener">Join Mindfolk — Discord</a>
+              <a href="https://x.com/the_mindfolk" class="btn btn-light btn-lg px-4 text-black" target="_blank" rel="noopener">Explore us on X</a>
+              <a href="https://discord.gg/A9z9QRYRHu" class="btn btn-dark btn-lg px-4 text-warning" target="_blank" rel="noopener">Join Mindfolk — Discord</a>
             </div>
           </div>
         </div>
@@ -173,7 +175,7 @@
 
     <section id="revival" class="py-4">
       <div class="container my-5">
-        <h1 class="fw-bold text-center mb-5">Mindfolk Revival</h1>
+        <h1 class="fw-bold text-center mb-5 text-warning">Mindfolk Revival</h1>
 
         <div class="row align-items-center mb-5">
           <div class="col-12">
@@ -181,7 +183,7 @@
               Mindfolk is more than an NFT collection, it’s a movement powered by its community. As a
               <strong>community-run</strong> project, every active member has the chance and responsibility to shape its future.
 
-              Have an idea? <strong>Bring it forward.</strong> Think it matters? <strong>Share it with the Folks.</strong>
+              Have an idea? <strong>Bring it forward.</strong> Think it matters? <strong>Share it with the Folk.</strong>
               Want to see it live? <strong>Put it to a community vote.</strong>
 
               This is how we move an iconic Solana NFT project forward: together, transparently, and with the creativity that
@@ -237,19 +239,19 @@
         <div class="row align-items-center">
           <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
             <div class="d-flex align-items-center mb-3">
-              <img src="img/mflarge.jpg" alt="Mindfolk Logo" style="max-height: 50px; width: auto; margin-right: 15px;" loading="lazy" />
-              <h5 class="text-uppercase mb-0">
-                <span class="hipeless">Mindfolk</span>
-                <span class="hipeless-sub"> — Life after Renaissance</span>
-              </h5>
+              <img src="img/mfwhite.png" alt="Mindfolk Logo" style="max-height: 50px; width: auto; margin-right: 15px;" loading="lazy" />
+              <h4 class="text-uppercase mb-0">
+                <span class="hipeless-sub text-warning"> — Life after Renaissance</span>
+              </h4>
             </div>
-            <p class="mb-0">
+            <p class="mb-3">
               Mindfolk is a community-driven NFT project on Solana. Together we build, create, and shape the future of this collection. Chop Chop!
             </p>
           </div>
 
           <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Links</h5>
+            <h5 class="mb-0">Links</h5>
+            <hr class="text center text-warning">
             <ul class="list-unstyled mb-0">
               <li><a href="https://d1srupt.store/mindfolk/" class="text-white" target="_blank" rel="noopener">MF Merchandise</a></li>
               <li><a href="https://magiceden.io/marketplace/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — Magic Eden</a></li>
@@ -258,8 +260,9 @@
             </ul>
           </div>
 
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-0">More...</h5>
+          <div class="col-lg-3 col-md-6 mb-2 mb-md-0">
+            <h5 class=" mb-0">More Links</h5>
+            <hr class="text center text-warning">
             <ul class="list-unstyled mb-0">
               <li><a href="https://mindfolk.substack.com" class="text-white" target="_blank" rel="noopener">MF Substack</a></li>
               <li><a href="https://magiceden.io/marketplace/mindlings" class="text-white" target="_blank" rel="noopener">Mindlings — Magic Eden</a></li>
@@ -270,7 +273,7 @@
         </div>
       </div>
 
-      <div class="text-center pt-4" style="background-color: rgba(0, 0, 0, 0.2);">
+      <div class="text-center pt-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2025 Mindfolk Community. All Rights Reserved.
       </div>
     </footer>
@@ -390,5 +393,125 @@
         }
       })();
     </script>
+    <script>
+      (function () {
+        const nav = document.querySelector('.navbar');           // your <nav class="navbar ... navbar-scroll">
+        const onScroll = () => {
+          const scrolled = window.scrollY > 10;                  // threshold
+          if (scrolled) nav.classList.add('navbar-scrolled');
+          else nav.classList.remove('navbar-scrolled');
+        };
+        onScroll();                                              // set initial state
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+    <script>
+(function () {
+  const nav = document.querySelector('.navbar');
+  const logo = document.getElementById('nav-logo');
+
+  let currentLogo = "img/mfwhite.png";
+
+  function swapLogo(newSrc) {
+    if (logo.src.includes(newSrc)) return; // already set
+    logo.classList.add("fading");
+    setTimeout(() => {
+      logo.src = newSrc;
+      logo.classList.remove("fading");
+    }, 200); // match CSS duration
+  }
+
+  function onScroll() {
+    if (window.scrollY > 10) {
+      nav.classList.add("navbar-scrolled");
+      swapLogo("img/mfblack.png");
+    } else {
+      nav.classList.remove("navbar-scrolled");
+      swapLogo("img/mfwhite.png");
+    }
+  }
+
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();
+</script>
+<script>
+(() => {
+  // The sections in the order you want highlighted
+  const SECTIONS = ['top','history','revival','links'];
+
+  // Map section id -> corresponding <a> in the navbar
+  const linkMap = new Map(
+    SECTIONS.map(id => [id, document.querySelector(`.navbar a.nav-link[href="#${id}"]`)])
+  );
+
+  // Remove any that don't exist (keeps things robust)
+  for (const [id, a] of [...linkMap]) {
+    if (!document.getElementById(id) || !a) linkMap.delete(id);
+  }
+
+  function setActive(id) {
+    linkMap.forEach(a => a && a.classList.remove('active'));
+    const a = linkMap.get(id);
+    if (a) {
+      a.classList.add('active');
+      a.setAttribute('aria-current','page');
+    }
+  }
+
+  // Highlight the section that occupies the middle of the viewport
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    const id = visible.target.id;
+    if (linkMap.has(id)) setActive(id);
+  }, {
+    root: null,
+    // “Activation zone” = middle strip of the screen
+    rootMargin: '-30% 0px -50% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  });
+
+  // Observe the sections we care about
+  linkMap.forEach((_a, id) => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // Make clicks feel instant + smooth scroll with fixed nav offset
+  const OFFSET = 100;
+  document.querySelectorAll('.navbar a.nav-link[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      setActive(id);
+      const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Close mobile menu if open
+      const navEl = document.getElementById('navbarSupportedContent');
+      if (navEl && navEl.classList.contains('show')) {
+        try {
+          if (window.mdb?.Collapse) new mdb.Collapse(navEl).hide();
+          else navEl.classList.remove('show');
+        } catch (_) { navEl.classList.remove('show'); }
+      }
+    });
+  });
+
+  // If landing mid-page, set initial active correctly
+  const firstInView = SECTIONS.find(id => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
+  });
+  if (firstInView) setActive(firstInView);
+})();
+</script>
   </body>
 </html>
