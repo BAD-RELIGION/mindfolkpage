@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="Mindfolk - Official Solana NFT community. Stake SOL with the Mindfolk validator and support decentralization." />
+    <meta name="author" content="Mindfolk" />
+    <meta name="theme-color" content="#ffc107" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com; child-src 'self' https://www.youtube.com https://youtube.com; connect-src 'self' https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com;" />
     <title>Mindfolk | Official Community Site</title>
 
-    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
@@ -22,6 +25,7 @@
 
     <link rel="stylesheet" href="css/mdb.min.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/staking.css" />
     <link rel="stylesheet" href="fonts/stylesheet.css">
 
     <style>
@@ -55,9 +59,10 @@
             <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
             <li class="nav-item"><a class="nav-link" href="#goodwood">The Good Wood Show</a></li>
             <li class="nav-item"><a class="nav-link" href="#revival">MF Revival</a></li>
+            <li class="nav-item"><a class="nav-link" href="#staking">Stake</a></li>
             <li class="nav-item"><a class="nav-link" href="#links">Official Links</a></li>
           </ul>
-          <ul class="navbar-nav d-flex flex-row">
+          <ul class="navbar-nav d-flex flex-row align-items-center">
             <li class="nav-item me-1">
               <a class="nav-link nav-icon" href="https://x.com/the_mindfolk" target="_blank" rel="noopener" aria-label="Mindfolk on X">
                 <img src="img/xcom.png" alt="X" style="height:22px;width:auto" loading="lazy" />
@@ -73,10 +78,19 @@
                 <img src="img/ten.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-2">
               <a class="nav-link nav-icon" href="https://d1srupt.store/mindfolk/" target="_blank" rel="noopener" aria-label="Merch Store">
                 <img src="img/store.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
               </a>
+            </li>
+            <li class="nav-item" id="walletIndicator" style="display: none;">
+              <div class="wallet-indicator d-flex align-items-center gap-2">
+                <img id="walletIndicatorIcon" src="" alt="Wallet" style="height:24px;width:24px;border-radius:6px;" loading="lazy" />
+                <div class="wallet-indicator-info d-flex flex-column">
+                  <span class="wallet-indicator-name" id="walletIndicatorName" style="font-size:0.75rem;font-weight:600;line-height:1.2;"></span>
+                  <span class="wallet-indicator-balance" id="walletIndicatorBalance" style="font-size:0.7rem;opacity:0.8;line-height:1.2;"></span>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
@@ -99,6 +113,7 @@
 </section>
     <!--Section: Design Block-->
   </header>
+
 
     <section id="history" class="py-4">
       <div class="container my-5">
@@ -159,8 +174,7 @@
       </div>
     </section>
 
-
-    <section class="bg-warning border-bottom p-5 pb-5" id="goodwood">
+    <section class="bg-warning p-5 pb-5" id="goodwood">
       <h1 class="fw-bold text-center mb-2 pt-4 text-white">The Good Wood Show</h1>
       <div class="container my-5">
         <div class="accordion" id="accordionExample">
@@ -181,16 +195,18 @@
               <div class="accordion-body">
                 <div class="container my-4">
                   <div class="row align-items-start g-3">
-                    <div class="col-12 col-md-3 text-center">
-                      <a href="https://youtu.be/CxVaetz5aEM" class="d-inline-block" target="_blank" rel="noopener">
-                        <img
-                          src="img/gwep1.png"
-                          class="img-fluid shadow-1-strong rounded-5"
-                          alt="Good Wood Episode 1 thumbnail"
-                        />
-                      </a>
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/CxVaetz5aEM?rel=0"
+                          title="Good Wood Show EP1 - Kais from Okay Bears"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
                     </div>
-                    <div class="col-12 col-md-9">
+                    <div class="col-12 col-lg-6">
                       <a href="https://youtu.be/CxVaetz5aEM" target="_blank" rel="noopener">
                         <h5 class="mb-3 text-muted"><strong>Good Wood Show EP1 - Kais from Okay Bears: "Doing good can make money!"</strong></h5>
                       </a>
@@ -224,16 +240,18 @@
               <div class="accordion-body">
                 <div class="container my-4">
                   <div class="row align-items-start g-3">
-                    <div class="col-12 col-md-3 text-center">
-                      <a href="https://youtu.be/Rl7fwkMdHeg?si=NETRcrtS4_STrsut" class="d-inline-block" target="_blank" rel="noopener">
-                        <img
-                          src="img/gwep2.png"
-                          class="img-fluid shadow-1-strong rounded-5"
-                          alt="Good Wood Episode 2 thumbnail"
-                        />
-                      </a>
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/Rl7fwkMdHeg?rel=0"
+                          title="Good Wood Show EP2 - Ian Cummings / Photo Finish"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
                     </div>
-                    <div class="col-12 col-md-9">
+                    <div class="col-12 col-lg-6">
                       <a href="https://youtu.be/Rl7fwkMdHeg?si=NETRcrtS4_STrsut" target="_blank" rel="noopener">
                         <h5 class="mb-3 text-muted"><strong>Good Wood Show EP2 - Ian Cummings / Photo Finish: "Every single one of my friends thinks web3 is a scam." </strong></h5>
                       </a>
@@ -250,7 +268,6 @@
         </div>
       </div>
     </section>
-
 
     <section id="mindfolk-streak" aria-label="Mindfolk Rebrand Promo">
       <div class="bg-image bg-fixed text-center" style="background-image:url('img/bigcollage.png'); min-height:440px;">
@@ -328,6 +345,172 @@
       </div>
     </section>
 
+    <section id="staking" class="py-5 staking-section">
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="fw-bold text-center mb-4 text-white staking-title">Mindfolk Validator</h1>
+          </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+          <div class="col-lg-8 col-xl-7">
+            <div class="staking-card rounded-4 shadow-lg">
+              <div class="validator-callout text-white mb-4 text-center">
+                <p class="mb-0 validator-description">
+                  Mindfolk runs a performance-optimized Solana validator with 24/7 monitoring, geo-redundant infrastructure, and a community-first commission. Staking with us supports decentralization while routing rewards back to the Mindfolk ecosystem.
+                </p>
+              </div>
+              <div class="staking-toggle" role="tablist" aria-label="Select staking mode">
+                <button type="button" class="staking-toggle-btn active" data-mode="native" aria-selected="true">Native Staking</button>
+                <button type="button" class="staking-toggle-btn staking-toggle-btn-disabled" data-mode="liquid" aria-selected="false" disabled title="Liquid staking coming soon">Liquid Staking</button>
+              </div>
+              <div class="staking-panel active" data-panel="native" data-apy="0.07" data-token-symbol="SOL" data-reward-symbol="SOL">
+                <form class="staking-form needs-validation" novalidate>
+                  <div class="d-flex flex-wrap justify-content-end align-items-center mb-2 gap-2 staking-balance-row">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                      <div class="staking-balance text-muted text-end" data-wallet-balance hidden>Balance: -- SOL</div>
+                      <div class="d-flex flex-wrap gap-2 quick-amounts">
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.25">25%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.5">50%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.75">75%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="1">Max</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group input-group-lg mb-2 staking-amount-input-group">
+                    <input
+                      type="number"
+                      class="form-control bg-transparent text-white border-0 text-end staking-amount-input"
+                      id="nativeAmount"
+                      name="nativeAmount"
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      inputmode="decimal"
+                      aria-describedby="nativeAmountHelp"
+                    />
+                    <span class="input-group-text bg-transparent text-white border-0 pe-0">SOL</span>
+                  </div>
+                  <div class="text-end mb-3">
+                    <small class="text-muted" data-usd-conversion>≈ $0.00</small>
+                  </div>
+                  <button type="submit" class="btn btn-light btn-lg w-100 mb-4" disabled data-submit-stake>Stake SOL</button>
+                  <div class="staking-panel-header text-center mb-4">
+                    <h2 class="h6 mb-1 text-warning">Stake SOL with the Mindfolk Validator</h2>
+                    <p class="text-warning mb-0">Stake directly with our validator. Rewards compound automatically every epoch.</p>
+                    <div class="alert alert-info alert-sm mt-3 mb-0 p-2" style="font-size: 0.7rem; background: rgba(13, 110, 253, 0.1); border: 1px solid rgba(13, 110, 253, 0.3); color: rgba(255, 255, 255, 0.8);">
+                      <strong>Note:</strong> Each stake creates a new stake account (Solana requirement). You'll see multiple stake accounts in your wallet - this is normal. Each requires a one-time rent fee (~0.00228 SOL).
+                    </div>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="text-muted">You stake</span>
+                      <strong class="text-white" data-summary-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2" data-rent-fee style="display: none;">
+                      <span class="text-muted" style="font-size: 0.85rem;">Rent fee (one-time)</span>
+                      <strong class="text-muted" style="font-size: 0.85rem;" data-rent-amount>~0.00228 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2" data-total-cost style="display: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem; margin-top: 0.5rem;">
+                      <span class="text-muted">Total from wallet</span>
+                      <strong class="text-warning" data-total-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Projected yearly rewards</span>
+                      <strong class="text-warning" data-summary-reward>0 SOL</strong>
+                    </div>
+                  </div>
+                  <div class="staking-feedback mb-3" data-feedback role="status" aria-live="polite"></div>
+                  <button type="button" class="btn btn-warning btn-lg w-100 mb-2" data-connect-wallet>Connect Wallet</button>
+                  <button type="button" class="btn btn-outline-light btn-lg w-100 mb-2 d-none" data-disconnect-wallet>Disconnect</button>
+                </form>
+                <!-- Unstaking Section -->
+                <div class="unstaking-section mt-4 pt-4 border-top border-secondary" data-unstaking-section style="display: none;">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h6 mb-0 text-warning">Your Staked SOL</h3>
+                    <button type="button" class="btn btn-sm btn-outline-warning" data-refresh-stakes title="Refresh staking information">
+                      <i class="fa-solid fa-rotate"></i>
+                    </button>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Total Staked</span>
+                      <strong class="text-warning" data-total-staked>0 SOL</strong>
+                    </div>
+                  </div>
+                  <div class="unstaking-feedback mb-3" data-unstaking-feedback role="status" aria-live="polite"></div>
+                  <button type="button" class="btn btn-outline-warning btn-lg w-100" disabled data-unstake-btn>Unstake All</button>
+                  <p class="text-muted small text-center mt-2 mb-0">Unstaking requires deactivation (1-2 epochs) before withdrawal.</p>
+                </div>
+              </div>
+              <div class="staking-panel" data-panel="liquid" data-apy="0.09" data-token-symbol="SOL" data-reward-symbol="pineSOL">
+                <div class="staking-panel-header">
+                  <h2 class="h5 mb-2 text-white">Mint Liquid pineSOL</h2>
+                  <p class="text-muted mb-0">Receive a liquid staking token that accrues rewards while remaining transferable. Perfect for DeFi strategies.</p>
+                </div>
+                <form class="staking-form needs-validation" novalidate>
+                  <label for="liquidAmount" class="form-label text-uppercase small text-muted">Amount (SOL)</label>
+                  <div class="input-group input-group-lg mb-3">
+                    <span class="input-group-text bg-transparent text-white border-0 ps-0">
+                      <i class="fa-solid fa-droplet"></i>
+                    </span>
+                    <input
+                      type="number"
+                      class="form-control bg-transparent text-white border-0"
+                      id="liquidAmount"
+                      name="liquidAmount"
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      inputmode="decimal"
+                      aria-describedby="liquidAmountHelp"
+                    />
+                    <span class="input-group-text bg-transparent text-white border-0 pe-0">SOL</span>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="text-muted">You deposit</span>
+                      <strong class="text-white" data-summary-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">You receive</span>
+                      <strong class="text-warning" data-summary-reward>0.000 pineSOL</strong>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-light btn-lg w-100 mb-2" disabled data-connect-wallet>Connect Wallet</button>
+                  <p class="text-muted small text-center mb-0">Liquid staking integration will unlock once the pool contract is configured.</p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+          <div class="col-lg-7">
+            <div class="staking-faq text-white">
+              <h3 class="mb-3 text-center">How to Stake SOL with Mindfolk</h3>
+              <ul class="staking-steps">
+                <li>
+                  <span class="step-number">1</span>
+                  <p>Select and connect a Solana wallet (Phantom, Solflare, Backpack, or Magic Eden) from the dropdown menu.</p>
+                </li>
+                <li>
+                  <span class="step-number">2</span>
+                  <p>Select the amount to stake. For native staking, we create and delegate a new stake account directly to the Mindfolk validator.</p>
+                </li>
+                <li>
+                  <span class="step-number">3</span>
+                  <p>Confirm the transaction in-wallet and track the stake account, rewards, and cooldown status right from this panel.</p>
+                </li>
+              </ul>
+              <p class="staking-legal mb-0">
+                This sandbox uses mock balances and placeholder APY figures. On launch, these values will be powered by on-chain data and real-time validator stats.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer id="links" class="text-white text-center text-lg-start footer-dark py-5">
       <div class="container my-5">
         <div class="row align-items-center">
@@ -352,7 +535,7 @@
               <li><a href="https://magiceden.io/marketplace/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — Magic Eden</a></li>
               <li><a href="https://www.tensor.trade/trade/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — Tensor</a></li>
               <li><a href="https://discord.gg/A9z9QRYRHu" class="text-white" target="_blank" rel="noopener">Mindfolk — Discord</a></li>
-              <li><a href="https://www.nftstake.app/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk - Staking</a></li>
+              <li><a href="https://www.nftstake.app/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk - NFT Staking</a></li>
             </ul>
           </div>
 
@@ -376,58 +559,72 @@
     </footer>
 
     <script src="js/mdb.umd.min.js"></script>
+    <script id="solana-web3-script" src="https://unpkg.com/@solana/web3.js@1.95.1/lib/index.iife.min.js" integrity="sha384-3bya96mX6iOy4+XVLj0M6Blxh3J3tI4CoLJch1X10WekJe5NWfuVTbE7p9y6OznJ" crossorigin="anonymous"></script>
+    <script src="js/staking-preview.js"></script>
 
-      <script>
-      (() => {
-        // --- SECTION NAVIGATION & ACTIVE LINK HIGHLIGHTING ---
-        const SECTIONS = ['top','history','goodwood','revival','links'];
+    <script>
+      (function () {
         const OFFSET = 100;
+        const NAV_IDS = ['top','history','goodwood','revival','staking','links'];
+        const ALL_IDS = ['top','history','goodwood','mindfolk-streak','revival','staking','links'];
 
-        const linkMap = new Map(
-          SECTIONS.map(id => [id, document.querySelector(`.navbar a.nav-link[href="#${id}"]`)])
-        );
-
-        for (const [id, a] of [...linkMap]) {
-          if (!document.getElementById(id) || !a) linkMap.delete(id);
-        }
+        const sectionsAll = ALL_IDS.map(id => document.getElementById(id)).filter(Boolean);
+        const navLinks = Array.from(document.querySelectorAll('#navbarSupportedContent .nav-link'))
+          .filter(a => NAV_IDS.includes((a.getAttribute('href')||'').replace('#','')));
 
         function setActive(id) {
-          linkMap.forEach(a => a && a.classList.remove('active'));
-          const a = linkMap.get(id);
-          if (a) {
-            a.classList.add('active');
-            a.setAttribute('aria-current', 'page');
+          navLinks.forEach(a => {
+            const match = a.getAttribute('href') === '#' + id;
+            a.classList.toggle('active', match);
+            if (match) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+          });
+        }
+
+        let layoutAll = [];
+        function recompute() {
+          layoutAll = sectionsAll.map(sec => {
+            const top = sec.offsetTop;
+            const height = sec.offsetHeight || 1;
+            return { id: sec.id, top, bottom: top + height };
+          }).sort((a,b) => a.top - b.top);
+        }
+
+        function nearestNavForY(y) {
+          let candidate = NAV_IDS[0];
+          for (const id of NAV_IDS) {
+            const sec = layoutAll.find(s => s.id === id);
+            if (sec && y >= sec.top) candidate = id; else break;
+          }
+          return candidate;
+        }
+
+        function onScroll() {
+          const y = window.scrollY + OFFSET;
+          let current = layoutAll[0]?.id;
+          for (const s of layoutAll) {
+            if (y >= s.top && y < s.bottom) { current = s.id; break; }
+          }
+          const currentForNav = NAV_IDS.includes(current) ? current : nearestNavForY(y);
+          if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2)) {
+            setActive('links');
+          } else {
+            setActive(currentForNav);
           }
         }
 
-        const io = new IntersectionObserver((entries) => {
-          const visible = entries
-            .filter(e => e.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-          if (!visible) return;
-          const id = visible.target.id;
-          if (linkMap.has(id)) setActive(id);
-        }, {
-          rootMargin: '-30% 0px -50% 0px',
-          threshold: [0, 0.25, 0.5, 0.75, 1]
-        });
+        recompute();
+        window.addEventListener('resize', () => { recompute(); onScroll(); }, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
 
-        linkMap.forEach((_a, id) => {
-          const el = document.getElementById(id);
-          if (el) io.observe(el);
-        });
-
-        document.querySelectorAll('.navbar a.nav-link[href^="#"]').forEach(a => {
+        navLinks.forEach(a => {
           a.addEventListener('click', (e) => {
-            const id = a.getAttribute('href').slice(1);
+            const id = (a.getAttribute('href')||'').slice(1);
             const el = document.getElementById(id);
             if (!el) return;
             e.preventDefault();
             setActive(id);
             const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
             window.scrollTo({ top: y, behavior: 'smooth' });
-
-            // Collapse mobile menu if open
             const navEl = document.getElementById('navbarSupportedContent');
             if (navEl && navEl.classList.contains('show')) {
               try {
@@ -438,55 +635,20 @@
           });
         });
 
-        // Handle case when landing mid-page
-        const firstInView = SECTIONS.find(id => {
-          const el = document.getElementById(id);
-          if (!el) return false;
-          const r = el.getBoundingClientRect();
-          return r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
-        });
-        if (firstInView) setActive(firstInView);
+        setActive('top');
+        onScroll();
       })();
-      </script>
+    </script>
 
-      <script>
-      (() => {
-        // --- NAVBAR SCROLL STATE + LOGO SWAP ---
-        const nav = document.querySelector('.navbar');
-        const logo = document.getElementById('nav-logo');
-
-        function swapLogo(newSrc) {
-          if (!logo || logo.src.includes(newSrc)) return;
-          logo.classList.add("fading");
-          setTimeout(() => {
-            logo.src = newSrc;
-            logo.classList.remove("fading");
-          }, 200); // Match CSS transition
-        }
-
-        function onScroll() {
-          if (window.scrollY > 10) {
-            nav.classList.add("navbar-scrolled");
-            swapLogo("img/mfblack.png");
-          } else {
-            nav.classList.remove("navbar-scrolled");
-            swapLogo("img/mfwhite.png");
-          }
-        }
-
-        onScroll(); // Initial state
-        window.addEventListener("scroll", onScroll, { passive: true });
-      })();
-      </script>
-
-      <script>
-      (() => {
-        // --- TYPEWRITER EFFECT ---
+    <script>
+      (function () {
         const titleEl = document.getElementById('type-title');
-        const subEl = document.getElementById('type-sub');
+        const subEl   = document.getElementById('type-sub');
+
+        if (!titleEl || !subEl) return;
 
         const titleText = "MINDFOLK";
-        const subText = "A new chapter begins. Rebuilding. Rebranding. Rising stronger.";
+        const subText   = "A new chapter begins. Rebuilding. Rebranding. Rising stronger.";
 
         function type(el, text, speed = 80) {
           return new Promise(resolve => {
@@ -494,12 +656,8 @@
             let i = 0;
             const tick = () => {
               el.textContent = text.slice(0, i++);
-              if (i <= text.length) {
-                setTimeout(tick, speed);
-              } else {
-                el.classList.add('done');
-                resolve();
-              }
+              if (i <= text.length) { setTimeout(tick, speed); }
+              else { el.classList.add('done'); resolve(); }
             };
             tick();
           });
@@ -518,6 +676,160 @@
             .then(() => type(subEl, subText, 45));
         }
       })();
-      </script>
+    </script>
+    <script>
+      (function () {
+        const nav = document.querySelector('.navbar');           // your <nav class="navbar ... navbar-scroll">
+        const onScroll = () => {
+          const scrolled = window.scrollY > 10;                  // threshold
+          if (scrolled) nav.classList.add('navbar-scrolled');
+          else nav.classList.remove('navbar-scrolled');
+        };
+        onScroll();                                              // set initial state
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+    <script>
+(function () {
+  const nav = document.querySelector('.navbar');
+  const logo = document.getElementById('nav-logo');
+
+  let currentLogo = "img/mfwhite.png";
+
+  function swapLogo(newSrc) {
+    if (logo.src.includes(newSrc)) return; // already set
+    logo.classList.add("fading");
+    setTimeout(() => {
+      logo.src = newSrc;
+      logo.classList.remove("fading");
+    }, 200); // match CSS duration
+  }
+
+  function onScroll() {
+    if (window.scrollY > 10) {
+      nav.classList.add("navbar-scrolled");
+      swapLogo("img/mfblack.png");
+    } else {
+      nav.classList.remove("navbar-scrolled");
+      swapLogo("img/mfwhite.png");
+    }
+  }
+
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();
+</script>
+<script>
+(() => {
+  // The sections in the order you want highlighted
+  const SECTIONS = ['top','history','goodwood','revival','staking','links'];
+
+  // Map section id -> corresponding <a> in the navbar
+  const linkMap = new Map(
+    SECTIONS.map(id => [id, document.querySelector(`.navbar a.nav-link[href="#${id}"]`)])
+  );
+
+  // Remove any that don't exist (keeps things robust)
+  for (const [id, a] of [...linkMap]) {
+    if (!document.getElementById(id) || !a) linkMap.delete(id);
+  }
+
+  function setActive(id) {
+    linkMap.forEach(a => a && a.classList.remove('active'));
+    const a = linkMap.get(id);
+    if (a) {
+      a.classList.add('active');
+      a.setAttribute('aria-current','page');
+    }
+  }
+
+  // Highlight the section that occupies the middle of the viewport
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    const id = visible.target.id;
+    if (linkMap.has(id)) setActive(id);
+  }, {
+    root: null,
+    // “Activation zone” = middle strip of the screen
+    rootMargin: '-30% 0px -50% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  });
+
+  // Observe the sections we care about
+  linkMap.forEach((_a, id) => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // Make clicks feel instant + smooth scroll with fixed nav offset
+  const OFFSET = 100;
+  document.querySelectorAll('.navbar a.nav-link[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      setActive(id);
+      const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Close mobile menu if open
+      const navEl = document.getElementById('navbarSupportedContent');
+      if (navEl && navEl.classList.contains('show')) {
+        try {
+          if (window.mdb?.Collapse) new mdb.Collapse(navEl).hide();
+          else navEl.classList.remove('show');
+        } catch (_) { navEl.classList.remove('show'); }
+      }
+    });
+  });
+
+  // If landing mid-page, set initial active correctly
+  const firstInView = SECTIONS.find(id => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
+  });
+  if (firstInView) setActive(firstInView);
+})();
+</script>
+    <!-- Wallet Selection Modal -->
+    <div class="wallet-modal" id="walletModal" data-mdb-modal-init tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+      <div class="wallet-modal-dialog">
+        <div class="wallet-modal-content">
+          <div class="wallet-modal-header">
+            <h5 class="wallet-modal-title" id="walletModalLabel">Connect a wallet</h5>
+            <button type="button" class="wallet-modal-close" data-mdb-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="wallet-modal-body">
+            <p class="wallet-modal-subtitle">Select a wallet to connect to Mindfolk Staking</p>
+            <div class="wallet-grid" id="walletGrid">
+              <!-- Wallet options will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wallet-modal-backdrop" id="walletModalBackdrop"></div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal" style="display: none;">
+      <div class="success-modal-content">
+        <div class="success-modal-icon">
+          <i class="fa-solid fa-check-circle"></i>
+        </div>
+        <h3 class="success-modal-title">SUCCESS!</h3>
+        <p class="success-modal-message" id="successModalMessage">SOL Staked with Mindfolk Validator</p>
+        <button type="button" class="btn btn-warning btn-lg mt-3" id="successModalClose">Close</button>
+      </div>
+    </div>
+    <div class="success-modal-backdrop" id="successModalBackdrop" style="display: none;"></div>
+
   </body>
 </html>
