@@ -462,22 +462,104 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       try {
         const validatorPubkey = new web3.PublicKey(VALIDATOR_VOTE_ACCOUNT);
         
-        // Get all stake accounts for this wallet using getParsedProgramAccounts
-        // The authorized staker is at offset 12 in the stake account layout
-        // Use Helius directly (public RPC often returns 403)
-        const stakeAccounts = await writeConnection.getParsedProgramAccounts(
-          web3.StakeProgram.programId,
-          {
-            filters: [
+        // Get all stake accounts for this wallet
+        // Use Helius RPC directly (public RPC returns 403 errors, so we skip it)
+        let stakeAccounts = [];
+        
+        try {
+          // Method 1: Use Helius with getParsedProgramAccounts and base58 string
+          // Helius RPC works reliably and supports base58 in memcmp filters
+          try {
+            stakeAccounts = await writeConnection.getParsedProgramAccounts(
+              web3.StakeProgram.programId,
               {
-                memcmp: {
-                  offset: 12, // Authorized staker offset
-                  bytes: STATE.wallet.toBase58()
+                filters: [
+                  {
+                    memcmp: {
+                      offset: 12, // Authorized staker offset
+                      bytes: STATE.wallet.toBase58() // Use base58 string directly
+                    }
+                  }
+                ]
+              },
+              'confirmed'
+            );
+            // Success - found stake accounts using Helius
+          } catch (method1Error) {
+            // If getParsedProgramAccounts fails, try getProgramAccounts with manual decoding
+            console.warn('getParsedProgramAccounts failed, trying getProgramAccounts:', method1Error.message);
+            
+            // Method 2: Use getProgramAccounts with base58 string and decode manually
+            try {
+              const rawAccounts = await writeConnection.getProgramAccounts(
+                web3.StakeProgram.programId,
+                {
+                  filters: [
+                    { dataSize: 200 }, // Stake account data size
+                    {
+                      memcmp: {
+                        offset: 12,
+                        bytes: STATE.wallet.toBase58() // Use base58 string
+                      }
+                    }
+                  ]
+                },
+                'confirmed'
+              );
+              
+              // Decode each account
+              const walletPubkeyStr = STATE.wallet.toBase58();
+              for (const account of rawAccounts) {
+                try {
+                  const stakeData = web3.StakeProgram.decode(account.account.data);
+                  
+                  // Verify authorized staker matches
+                  const authorizedStaker = stakeData.authorized?.staker;
+                  if (!authorizedStaker) continue;
+                  
+                  let stakerMatches = false;
+                  if (authorizedStaker.equals && typeof authorizedStaker.equals === 'function') {
+                    stakerMatches = authorizedStaker.equals(STATE.wallet);
+                  } else {
+                    const stakerStr = authorizedStaker.toString ? authorizedStaker.toString() : String(authorizedStaker);
+                    stakerMatches = stakerStr === walletPubkeyStr;
+                  }
+                  
+                  if (stakerMatches) {
+                    // Convert to parsed format
+                    stakeAccounts.push({
+                      pubkey: account.pubkey,
+                      account: {
+                        data: {
+                          parsed: {
+                            type: 'stake',
+                            info: {
+                              meta: stakeData.meta,
+                              stake: stakeData.stake,
+                              lamports: account.account.lamports
+                            }
+                          }
+                        },
+                        lamports: account.account.lamports
+                      }
+                    });
+                  }
+                } catch (decodeErr) {
+                  continue;
                 }
               }
-            ]
+            } catch (method2Error) {
+              console.error('All methods failed:', method2Error);
+              throw new Error('Unable to query stake accounts. Please try refreshing the page or check your connection.');
+            }
           }
-        );
+        } catch (filterError) {
+          console.error('Failed to fetch stake accounts:', filterError);
+          console.error('This might be an RPC issue. Please try refreshing or check the console for details.');
+          stakeAccounts = [];
+          // Don't throw - show error to user but continue
+          setUnstakingFeedback('Unable to load staking information. The RPC query failed. Please try the "Refresh Stakes" button or refresh the page.', 'error');
+        }
 
         const delegatedAccounts = [];
         let totalStaked = BigInt(0);
@@ -489,49 +571,146 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
           try {
             const parsed = accountInfo.account.data?.parsed;
             
-            if (!parsed || parsed.type !== 'stake') {
-              console.log('Skipping non-stake account:', accountInfo.pubkey.toString());
+            // Debug logging (can be removed in production)
+            // console.log('Account data structure:', {
+            //   pubkey: accountInfo.pubkey.toString(),
+            //   hasData: !!accountInfo.account.data,
+            //   hasParsed: !!parsed,
+            //   parsedType: parsed?.type
+            // });
+            
+            if (!parsed) {
+              console.log('Skipping account - no parsed data:', accountInfo.pubkey.toString());
               continue;
             }
             
-            const stakeInfo = parsed.info;
-            
-            // Check if this account is delegated
-            if (stakeInfo?.stake?.delegation) {
-              const delegation = stakeInfo.stake.delegation;
-              const votePubkey = delegation.voter;
-              
-              // Check if delegated to our validator (compare as strings for reliability)
-              const votePubkeyStr = typeof votePubkey === 'string' ? votePubkey : votePubkey.toString();
-              console.log(`Stake account ${accountInfo.pubkey.toString()} delegated to: ${votePubkeyStr}`);
-              
-              if (votePubkeyStr === VALIDATOR_VOTE_ACCOUNT) {
-                console.log(`✅ Found matching stake account: ${accountInfo.pubkey.toString()}`);
-                // Get stake amount - it might be in different places depending on account state
-                let stakeAmount = '0';
-                if (delegation.stake) {
-                  stakeAmount = delegation.stake.toString();
-                } else if (stakeInfo.lamports) {
-                  // Fallback to account lamports if delegation.stake is not available
-                  stakeAmount = stakeInfo.lamports.toString();
-                } else if (accountInfo.account.lamports) {
-                  // Another fallback
-                  stakeAmount = accountInfo.account.lamports.toString();
-                }
-                
-                delegatedAccounts.push({
-                  pubkey: accountInfo.pubkey.toString(),
-                  stakeAmount: stakeAmount,
-                  activationEpoch: delegation.activationEpoch,
-                  deactivationEpoch: delegation.deactivationEpoch
-                });
-                totalStaked += BigInt(stakeAmount);
-              } else {
-                console.log(`❌ Stake account ${accountInfo.pubkey.toString()} delegated to different validator: ${votePubkeyStr}`);
-              }
-            } else {
-              console.log(`Stake account ${accountInfo.pubkey.toString()} exists but not yet delegated`);
+            // Some RPCs return stake accounts with type 'delegated' or 'stake' - both are valid
+            // Check if it has stake-related info
+            if (!parsed.info && parsed.type !== 'stake' && parsed.type !== 'delegated') {
+              console.log('Skipping non-stake account (type:', parsed.type, '):', accountInfo.pubkey.toString());
+              continue;
             }
+            
+            // 'delegated' is a valid type for stake accounts that are delegated to a validator
+            // No warning needed - this is expected behavior
+            
+            // Handle both parsed and potentially unparsed data
+            let stakeInfo = null;
+            
+            // Try to get stake info from parsed data
+            if (parsed.info) {
+              stakeInfo = parsed.info;
+            } else if (parsed.type === 'stake' && parsed.data) {
+              // Some RPCs might nest it differently
+              stakeInfo = parsed.data;
+            } else if (accountInfo.account.data && !accountInfo.account.data.parsed) {
+              // If we have raw data, try to decode it
+              try {
+                const decoded = web3.StakeProgram.decode(accountInfo.account.data);
+                // Convert decoded data to a structure similar to parsed
+                stakeInfo = {
+                  meta: decoded.meta,
+                  stake: decoded.stake,
+                  lamports: accountInfo.account.lamports
+                };
+                console.log('Decoded raw stake account data for:', accountInfo.pubkey.toString());
+              } catch (decodeErr) {
+                console.warn('Could not decode raw data:', decodeErr);
+              }
+            }
+            
+            if (!stakeInfo) {
+              console.warn('Could not extract stake info from account:', accountInfo.pubkey.toString());
+              continue;
+            }
+            
+            // Debug logging (commented out - uncomment if needed for debugging)
+            // console.log('Stake account structure:', {
+            //   pubkey: accountInfo.pubkey.toString(),
+            //   hasStake: !!stakeInfo?.stake,
+            //   hasDelegation: !!stakeInfo?.stake?.delegation,
+            //   lamports: accountInfo.account.lamports || stakeInfo.lamports
+            // });
+            
+            // Check if this account is delegated - try multiple paths
+            let delegation = null;
+            let votePubkey = null;
+            
+            // Path 1: stakeInfo.stake.delegation (most common)
+            if (stakeInfo?.stake?.delegation) {
+              delegation = stakeInfo.stake.delegation;
+              votePubkey = delegation.voter;
+            }
+            // Path 2: stakeInfo.delegation (alternative structure)
+            else if (stakeInfo?.delegation) {
+              delegation = stakeInfo.delegation;
+              votePubkey = delegation.voter || delegation.voteAccountAddress;
+            }
+            // Path 3: Check if there's delegation info elsewhere
+            else if (stakeInfo?.meta?.authorized) {
+              // Account exists but might not be delegated yet
+              console.log(`Stake account ${accountInfo.pubkey.toString()} exists but not yet delegated`);
+              continue;
+            }
+            
+            if (delegation && votePubkey) {
+              // Normalize vote pubkey to string for comparison
+              let votePubkeyStr = null;
+              if (typeof votePubkey === 'string') {
+                votePubkeyStr = votePubkey;
+              } else if (votePubkey?.toString) {
+                votePubkeyStr = votePubkey.toString();
+              } else if (votePubkey?.toBase58) {
+                votePubkeyStr = votePubkey.toBase58();
+              }
+              
+              if (votePubkeyStr) {
+                // Compare with our validator (case-insensitive, trim whitespace)
+                const normalizedVotePubkey = votePubkeyStr.trim();
+                const normalizedValidator = VALIDATOR_VOTE_ACCOUNT.trim();
+                
+                if (normalizedVotePubkey === normalizedValidator) {
+                  // Success - found matching stake account
+                  // console.log(`✅ Found matching stake account: ${accountInfo.pubkey.toString()}`);
+                  
+                  // Get stake amount - try multiple sources
+                  let stakeAmount = '0';
+                  
+                  // Try delegation.stake first (active stake amount)
+                  if (delegation.stake && typeof delegation.stake === 'string') {
+                    stakeAmount = delegation.stake;
+                  } else if (delegation.stake && typeof delegation.stake === 'number') {
+                    stakeAmount = delegation.stake.toString();
+                  }
+                  // Fallback to account lamports (includes rent)
+                  else if (accountInfo.account.lamports) {
+                    // Subtract rent exemption (~0.00228 SOL = ~2280000 lamports)
+                    const rentExempt = 2280000;
+                    stakeAmount = Math.max(0, accountInfo.account.lamports - rentExempt).toString();
+                  } else if (stakeInfo.lamports) {
+                    const rentExempt = 2280000;
+                    stakeAmount = Math.max(0, stakeInfo.lamports - rentExempt).toString();
+                  }
+                  
+                  // Ensure we have a valid stake amount
+                  if (stakeAmount === '0' || BigInt(stakeAmount) <= 0) {
+                    console.warn(`Stake account ${accountInfo.pubkey.toString()} has zero or invalid stake amount`);
+                    // Still add it but with a note
+                  }
+                  
+                  delegatedAccounts.push({
+                    pubkey: accountInfo.pubkey.toString(),
+                    stakeAmount: stakeAmount,
+                    activationEpoch: delegation.activationEpoch,
+                    deactivationEpoch: delegation.deactivationEpoch
+                  });
+                  totalStaked += BigInt(stakeAmount);
+                }
+                // else: Account delegated to different validator - silently skip
+              }
+              // else: Could not extract vote pubkey - silently skip
+            }
+            // else: Account not delegated - silently skip
           } catch (parseErr) {
             console.warn('Failed to parse stake account:', parseErr, accountInfo);
             continue;
@@ -1334,3 +1513,4 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
     });
   }
 })();
+
