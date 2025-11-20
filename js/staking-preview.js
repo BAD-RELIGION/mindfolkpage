@@ -969,9 +969,13 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
         // Get fresh blockhash right before signing (minimizes expiration risk)
         const latestBlockhash = await writeConnection.getLatestBlockhash('finalized');
         transaction.recentBlockhash = latestBlockhash.blockhash;
-        transaction.partialSign(stakeAccount);
-
+        
+        // SECURITY: Phantom wallet must sign first to avoid Lighthouse security warnings
+        // Following Phantom's recommended signing order for multi-signer transactions
         const signedTx = await STATE.currentProvider.signTransaction(transaction);
+        
+        // Additional signers sign afterward
+        signedTx.partialSign(stakeAccount);
         
         // Send transaction immediately after signing (blockhash is still fresh)
         // Use Helius for write operations (more reliable)
