@@ -151,3 +151,5 @@ The main risks are:
 Direct wallet draining is very unlikely because wallets protect users. The real concern is users being tricked into staking to the wrong validator.
 
 
+
+
