@@ -4,14 +4,39 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
   const MAX_ATTEMPTS = 60;
   const RETRY_DELAY_MS = 200;
 
+  window.solanaWeb3LoadFailed = false;
+
+  document.addEventListener(
+    'click',
+    (ev) => {
+      if (!window.solanaWeb3LoadFailed) return;
+      const t = ev.target.closest('[data-connect-wallet]');
+      if (t && !t.disabled) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        alert('Wallet libraries failed to load. Check your network, disable blockers for this site, then refresh the page.');
+      }
+    },
+    true
+  );
+
   function resolveWeb3() {
     if (typeof window === 'undefined') return undefined;
-    if (window.solanaWeb3) return window.solanaWeb3;
-    if (typeof solanaWeb3 !== 'undefined') return solanaWeb3;
-    const script = document.getElementById('solana-web3-script');
-    const globalName = script?.getAttribute?.('data-global');
-    if (globalName && window[globalName]) return window[globalName];
-    if (window.solana?.Web3) return window.solana.Web3;
+    const candidates = [
+      window.solanaWeb3,
+      typeof solanaWeb3 !== 'undefined' ? solanaWeb3 : null,
+      (() => {
+        const script = document.getElementById('solana-web3-script');
+        const globalName = script?.getAttribute?.('data-global');
+        return globalName && window[globalName] ? window[globalName] : null;
+      })(),
+      window.solana?.Web3
+    ];
+    for (const c of candidates) {
+      if (c && typeof c.Connection === 'function' && typeof c.PublicKey === 'function') {
+        return c;
+      }
+    }
     return undefined;
   }
 
@@ -29,6 +54,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
     }
     if (attempt >= MAX_ATTEMPTS) {
       console.error('Solana web3 library failed to load.');
+      window.solanaWeb3LoadFailed = true;
       return;
     }
     setTimeout(() => waitForWeb3(attempt + 1), RETRY_DELAY_MS);
@@ -814,7 +840,13 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       updateConnectButton();
       
       try {
-        const resp = await provider.connect();
+        let resp;
+        try {
+          resp = await provider.connect({ onlyIfTrusted: false });
+        } catch (e1) {
+          if (e1 && e1.code === 4001) throw e1;
+          resp = await provider.connect();
+        }
         const pubkey = resp?.publicKey || provider.publicKey;
         if (!pubkey) throw new Error('Wallet did not provide a public key.');
         STATE.wallet = new web3.PublicKey(pubkey.toString());
@@ -1257,6 +1289,10 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
     if (connectButton) {
       connectButton.addEventListener('click', (event) => {
         event.preventDefault();
+        if (window.solanaWeb3LoadFailed) {
+          setFeedback('Wallet libraries failed to load. Refresh the page or check your network.', 'error');
+          return;
+        }
         if (STATE.wallet) return; // Already connected
         try {
           openWalletModal();
