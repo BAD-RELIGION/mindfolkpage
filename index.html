@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Mindfolk — official community site on Solana: NFTs, revival, The Good Wood Show, and links. Stake SOL with the Mindfolk validator; full guide at mindfolk.xyz/stake-solana.html."
+    />
+    <meta name="author" content="Mindfolk" />
+    <meta name="theme-color" content="#ffc107" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mindfolk.xyz/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://mindfolk.xyz/" />
+    <meta property="og:site_name" content="Mindfolk" />
+    <meta property="og:title" content="Mindfolk | Official Community Site" />
+    <meta
+      property="og:description"
+      content="Official Mindfolk community on Solana — NFTs, The Good Wood Show, revival, and validator staking. Chop chop!"
+    />
+    <meta property="og:image" content="https://mindfolk.xyz/img/og-mindfolk-staking.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mindfolk | Official Community Site" />
+    <meta
+      name="twitter:description"
+      content="Official Mindfolk community on Solana — NFTs, podcast, revival, and stake SOL with the Mindfolk validator."
+    />
+    <meta name="twitter:image" content="https://mindfolk.xyz/img/og-mindfolk-staking.png" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com; child-src 'self' https://www.youtube.com https://youtube.com; connect-src 'self' https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net;" />
+    <title>Mindfolk | Official Community Site</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Mindfolk",
+            "url": "https://mindfolk.xyz/",
+            "description": "Official Mindfolk community site: Solana NFTs, validator staking, podcast, and links."
+          },
+          {
+            "@type": "Organization",
+            "name": "Mindfolk",
+            "url": "https://mindfolk.xyz/",
+            "sameAs": [
+              "https://x.com/the_mindfolk",
+              "https://discord.gg/A9z9QRYRHu",
+              "https://magiceden.io/marketplace/mindfolk",
+              "https://www.tensor.trade/trade/mindfolk",
+              "https://d1srupt.store/mindfolk/"
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="preload" href="fonts/hipeless_brush-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/dirty_brush-webfont.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="css/mdb.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/staking.css" />
+    <link rel="stylesheet" href="fonts/stylesheet.css">
+
+    <style>
+
+    </style>
+  </head>
+
+  <body>
+
+    <header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll" data-mdb-navbar-init>
+      <div class="container">
+        <a class="navbar-brand mf-logo" href="index.html">
+  <img id="nav-logo" src="img/mfwhite.png" alt="MF Logo" />
+</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-mdb-collapse-init
+                data-mdb-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
+            <li class="nav-item"><a class="nav-link" href="#revival">Revival</a></li>
+            <li class="nav-item"><a class="nav-link" href="#goodwood">The Good Wood Show</a></li>
+            <li class="nav-item"><a class="nav-link" href="#staking">Validator</a></li>
+            <li class="nav-item"><a class="nav-link" href="#links">Official Links</a></li>
+          </ul>
+          <ul class="navbar-nav d-flex flex-row align-items-center">
+            <li class="nav-item me-1">
+              <a class="nav-link nav-icon" href="https://x.com/the_mindfolk" target="_blank" rel="noopener" aria-label="Mindfolk on X">
+                <img src="img/xcom.png" alt="X" style="height:22px;width:auto" loading="lazy" />
+              </a>
+            </li>
+            <li class="nav-item me-1">
+              <a class="nav-link nav-icon" href="https://magiceden.io/marketplace/mindfolk" target="_blank" rel="noopener" aria-label="Magic Eden Marketplace">
+                <img src="img/magic.png" alt="Magic Eden" style="height:22px;width:auto" loading="lazy" />
+              </a>
+            </li>
+            <li class="nav-item me-1">
+              <a class="nav-link nav-icon" href="https://www.tensor.trade/trade/mindfolk" target="_blank" rel="noopener" aria-label="Tensor Marketplace">
+                <img src="img/ten.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
+              </a>
+            </li>
+            <li class="nav-item me-2">
+              <a class="nav-link nav-icon" href="https://d1srupt.store/mindfolk/" target="_blank" rel="noopener" aria-label="Merch Store">
+                <img src="img/store.png" alt="Tensor" style="height:22px;width:auto" loading="lazy" />
+              </a>
+            </li>
+            <li class="nav-item" id="walletIndicator" style="display: none;">
+              <div class="wallet-indicator d-flex align-items-center gap-2">
+                <img id="walletIndicatorIcon" src="" alt="Wallet" style="height:24px;width:24px;border-radius:6px;" loading="lazy" />
+                <div class="wallet-indicator-info d-flex flex-column">
+                  <span class="wallet-indicator-name" id="walletIndicatorName" style="font-size:0.75rem;font-weight:600;line-height:1.2;"></span>
+                  <span class="wallet-indicator-balance" id="walletIndicatorBalance" style="font-size:0.7rem;opacity:0.8;line-height:1.2;"></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!--Section: Design Block-->
+    <section id="top" class="intro text-center">
+  <div class="mask">
+    <div class="d-flex justify-content-center align-items-center h-100 mt-4">
+      <div class="text-white">
+        <h1 class="visually-hidden">Mindfolk — Solana NFT community and validator staking</h1>
+        <img src="img/mfletters.png" alt="Mindfolk Logo" class="img-fluid" style="max-height:150px;" />
+        <h3 class="pb-4 type-sub">
+          A new chapter begins. Rebuilding. Rebranding. Rising stronger.
+        </h3>
+      </div>
+    </div>
+  </div>
+</section>
+    <!--Section: Design Block-->
+  </header>
+
+
+    <section id="history" class="py-4">
+      <div class="container my-5">
+        <h2 class="fw-bold mb-5 text-center text-warning">History of Mindfolk</h2>
+
+        <div class="row gx-lg-5 mb-5 align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0 text-center">
+            <img src="img/steel.png" class="img-fluid rounded-4 shadow-4-strong" alt="The Age of Greatness" loading="lazy" />
+          </div>
+          <div class="col-md-6">
+            <h4 class="fw-bold">The Age of Greatness</h4>
+            <p class="text-muted">
+              Mindfolk launched January 1, 2022 and quickly gained momentum. Non-custodial staking rewarded holders
+              with $WOOD for delisting; soon after, “workshop” actions granted carpenter or lumberjack skills that
+              boosted building or token accrual—unlocking cabins, boats, and surfboards.
+            </p>
+            <h5 class="fw-bold">Cracks in the Armor</h5>
+            <p class="text-muted">
+              By April, the token loop showed strain. Add-on mints and systems increased complexity; even with
+              usability fixes, sentiment slipped and price followed.
+            </p>
+          </div>
+        </div>
+
+        <div class="row gx-lg-5 mb-5 align-items-center flex-lg-row-reverse">
+          <div class="col-md-6 mb-4 mb-md-0 text-center">
+            <img src="img/target.png" class="img-fluid rounded-4 shadow-4-strong" alt="A Renaissance" loading="lazy" />
+          </div>
+          <div class="col-md-6">
+            <h4 class="fw-bold">A Renaissance</h4>
+            <p class="text-muted">
+              The plan: simplify and rebuild with Mindfolk+. Cabins, ships, surfboards, and pirates would morph into
+              mint capsules for a larger collection—guided by a DAO and transparent milestones.
+            </p>
+            <h5 class="fw-bold mt-3">Hope</h5>
+            <p class="text-muted">
+              Engage-to-earn bots, agency partnerships, and evolving art kept embers lit, but questions lingered about
+              direction and sustainability.
+            </p>
+          </div>
+        </div>
+
+        <div class="row gx-lg-5 mb-5 align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0 text-center">
+            <img src="img/hero.png" class="img-fluid rounded-4 shadow-4-strong" alt="Darkness into Light" loading="lazy" />
+          </div>
+          <div class="col-md-6">
+            <h4 class="fw-bold">Darkness into Light</h4>
+            <p class="text-muted">
+              After a hiatus and scandal, the treasury thinned and the IP went up for sale. A failed transfer stalled
+              momentum—until the founders agreed to hand the project to the community.
+            </p>
+            <p class="text-muted mb-0">
+              Now the 10,000 Mindfolk are inscribed and immutable. The helm belongs to the holders. Time to set sail.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mindfolk-streak" aria-label="Mindfolk Rebrand Promo">
+      <div class="bg-image bg-fixed text-center" style="background-image:url('img/bigcollage.png'); min-height:440px;">
+        <div class="mask d-flex align-items-center" style="background-color: rgba(8,12,24,0.65); min-height: 440px;">
+          <div class="container py-4">
+            <h2 class="display-5 fw-bold text-uppercase mb-2 letter-spacing-1 text-white">Mindfolk // Reawakening</h2>
+            <p class="lead mb-4 text-white brush-text">We’re reforging the lore with transparency, art, and community collaboration.</p>
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+              <a href="https://x.com/the_mindfolk" class="btn btn-light btn-lg px-4 text-black" target="_blank" rel="noopener">Explore us on X</a>
+              <a href="https://discord.gg/A9z9QRYRHu" class="btn btn-dark btn-lg px-4 text-warning" target="_blank" rel="noopener">Join Mindfolk — Discord</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="revival" class="py-4">
+      <div class="container my-5">
+        <h2 class="fw-bold text-center mb-5 text-warning">Mindfolk Revival</h2>
+
+        <div class="row align-items-center mb-5">
+          <div class="col-12">
+            <p class="text-muted">
+              Mindfolk is more than an NFT collection, it’s a movement powered by its community. As a
+              <strong>community-run</strong> project, every active member has the chance and responsibility to shape its future.
+
+              Have an idea? <strong>Bring it forward.</strong> Think it matters? <strong>Share it with the Folk.</strong>
+              Want to see it live? <strong>Put it to a community vote.</strong>
+
+              This is how we move an iconic Solana NFT project forward: together, transparently, and with the creativity that
+              made Mindfolk legendary in the first place.
+
+              We are all in this together—and together, we will prevail. <span class="chop">Chop Chop!</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="row gx-lg-5 mb-5 align-items-stretch revival-activities-row">
+          <div class="col-md-6 mb-4 mb-md-0 text-center d-flex align-items-center justify-content-center">
+            <img src="img/cosmo.png" class="img-fluid rounded-4 shadow-4-strong revival-side-art" alt="Mindling artwork" loading="lazy" />
+          </div>
+
+          <div class="col-md-6 d-flex">
+            <div class="d-flex flex-column justify-content-between flex-grow-1 w-100 revival-activities">
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-broom fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Floor Support</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body">Monthly treasury allocation dedicated to sweeping Mindfolk Founders NFTs.</p>
+              </div>
+
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-handshake fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Partnerships & Growth</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body">Giveaways, cross-community events, and WL swaps to expand reach and bring in fresh faces.</p>
+              </div>
+
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-money-bill-1-wave fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Questing (Discord)</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body">Bank “Discord Wood” via interactive quests and spend it on raffles, rewards, and perks.</p>
+              </div>
+
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-server fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Solana Validator</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body">A Solana validator is a node that processes transactions and helps secure the network. Mindfolk runs its own validator—staking SOL with us backs decentralization, earns epoch rewards, and supports the treasury that fuels community initiatives.</p>
+              </div>
+
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-ticket fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Raffles with $WOOD</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body">Use your <strong>$WOOD</strong> tokens to join community raffles for NFTs and prizes—your tokens act as entries for a shot at new collectibles while keeping everything on-chain and transparent.</p>
+              </div>
+
+              <div class="revival-activity py-1">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="revival-activity-icon" aria-hidden="true"><i class="fa-solid fa-microphone-lines fa-lg text-warning"></i></span>
+                  <h5 class="mb-0 fw-bold">Podcast</h5>
+                </div>
+                <p class="text-muted mb-0 revival-activity-desc revival-activity-body"><strong>The Good Wood Show</strong> is our YouTube podcast: long-form chats with builders, founders, and voices across Web3 and the Mindfolk world.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-validator-gradient p-5 pb-5" id="goodwood">
+      <h2 class="fw-bold text-center mb-2 pt-4 text-white">The Good Wood Show</h2>
+      <div class="container my-5">
+        <div class="accordion" id="accordionExample">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                EP9 — Ivan (Nomadz): &ldquo;I want to build a product that benefits many lives&rdquo;
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/LutKt8oF2ZM?rel=0"
+                          title="Good Wood Show EP9 - Ivan from Nomadz"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/LutKt8oF2ZM" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP9 — Ivan from Nomadz: &ldquo;I want to build a product that benefits many lives&rdquo;</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        Ivan on building at Nomadz with a mission to improve real lives—product thinking, responsibility, and what that means in Web3.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                EP8 — Gaius (The Vault): &ldquo;Boring is the new sexy&rdquo;
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/hoBRU4XDZ2c?rel=0"
+                          title="Good Wood Show EP8 - Gaius from The Vault"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/hoBRU4XDZ2c" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP8 — Gaius from The Vault: &ldquo;Boring is the new sexy&rdquo;</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        Gaius on discipline, long-term thinking, and why steady execution often beats hype in Web3.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                EP7 — Casson &amp; Julio (JagPool): Solana security &amp; geographic decentralization
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/fhmGoGjVQuQ?rel=0"
+                          title="Good Wood Show EP7 - Casson and Julio from JagPool"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/fhmGoGjVQuQ" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP7 — Casson &amp; Julio from JagPool: Solana network security &amp; geographic decentralization</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        A deep dive on strengthening the Solana network through geographic distribution of validators and infrastructure.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseFour"
+                aria-expanded="false"
+                aria-controls="collapseFour"
+              >
+                EP6 — KR (Secret Sphinx): &ldquo;Owning assets that are emotional to you&rdquo;
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/Sb3VPitCHZg?rel=0"
+                          title="Good Wood Show EP6 - KR from Secret Sphinx"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/Sb3VPitCHZg" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP6 — KR from Secret Sphinx: &ldquo;The idea of owning assets that are emotional to you still exists&rdquo;</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        KR talks about identity, emotion, and why people still seek ownership of assets that mean something personal—even as markets shift.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseFive"
+                aria-expanded="false"
+                aria-controls="collapseFive"
+              >
+                EP5 — Jemmy (MonkeDAO): &ldquo;The journey into web3 can be daunting&rdquo;
+              </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/l7NZKQe8Ki0?rel=0"
+                          title="Good Wood Show EP5 - Jemmy from MonkeDAO"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/l7NZKQe8Ki0" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP5 — Jemmy from MonkeDAO: &ldquo;The all journey of getting into web3 can be very daunting&rdquo;</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        Jemmy shares the real onboarding path into Web3—what’s intimidating, what helps, and how communities can lower the barrier for newcomers.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSix">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseSix"
+                aria-expanded="false"
+                aria-controls="collapseSix"
+              >
+                EP4 — Ryot from Xitadel &amp; Fidelion
+              </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/Z1_kzlFzVKE?rel=0"
+                          title="Good Wood Show EP4 - Ryot from Xitadel and Fidelion"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/Z1_kzlFzVKE" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP4 — Ryot from Xitadel &amp; Fidelion</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        Ryot joins the show to discuss building in Web3 across projects and what the next phase of community-led products looks like.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSeven">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseSeven"
+                aria-expanded="false"
+                aria-controls="collapseSeven"
+              >
+                EP3 — Brodie Conley &amp; Maarten Walraven: Music and Web3
+              </button>
+            </h2>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/-j0-4tvtk0o?rel=0"
+                          title="Good Wood Show EP3 - Brodie Conley and Maarten Walraven"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/-j0-4tvtk0o" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP3 — Brodie Conley and Maarten Walraven: Music and Web3</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        A conversation on how music and Web3 intersect—creators, communities, and what it takes to build lasting culture on-chain.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEight">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseEight"
+                aria-expanded="false"
+                aria-controls="collapseEight"
+              >
+                EP2 — Ian / Photo Finish: &ldquo;Every single one of my friends thinks web3 is a scam.&rdquo;
+              </button>
+            </h2>
+            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/Rl7fwkMdHeg?rel=0"
+                          title="Good Wood Show EP2 - Ian Cummings / Photo Finish"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/Rl7fwkMdHeg?si=NETRcrtS4_STrsut" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP2 - Ian Cummings / Photo Finish: "Every single one of my friends thinks web3 is a scam." </strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        In this episode we have the pleasure to talk with Ian Cummings, CEO of Third Time Entertainment and creator
+                        of the horse racing game Photo Finish Live, where he shares his journey and the struggles of building games in the web3 space.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingNine">
+              <button
+                data-mdb-collapse-init
+                class="accordion-button collapsed text-warning text-start text-wrap"
+                type="button"
+                data-mdb-target="#collapseNine"
+                aria-expanded="false"
+                aria-controls="collapseNine"
+              >
+                EP1 — Kais (Okay Bears): &ldquo;Doing good can make money!&rdquo;
+              </button>
+            </h2>
+            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-mdb-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="container my-4">
+                  <div class="row align-items-start g-3">
+                    <div class="col-12 col-lg-6">
+                      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-1-strong goodwood-embed">
+                        <iframe
+                          src="https://www.youtube.com/embed/CxVaetz5aEM?rel=0"
+                          title="Good Wood Show EP1 - Kais from Okay Bears"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <a href="https://youtu.be/CxVaetz5aEM" target="_blank" rel="noopener">
+                        <h5 class="mb-3 text-muted"><strong>Good Wood Show EP1 - Kais from Okay Bears: "Doing good can make money!"</strong></h5>
+                      </a>
+                      <p class="text-muted mb-0">
+                        The Good Wood Show is back! In the relaunch episode, Mindfolk sits down with Kai, founder of the iconic NFT project OKAY
+                        Bears, to dive deep into the power of purpose-driven communities. With the bold belief that “doing good can make money,”
+                        Kai shares insights on building meaningful impact through NFTs, the future of Web3, and how giving back isn’t just
+                        noble — it’s sustainable.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </section>
+
+    <section id="staking" class="py-5 staking-section">
+      <div class="container my-5">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="fw-bold text-center mb-3 text-white staking-title">Mindfolk Validator</h2>
+            <p class="text-muted text-center small col-lg-8 mx-auto mb-4 px-2">
+              Connect your wallet and stake SOL below. Vote account, FAQ, and the full guide live on
+              <a class="validator-stake-sol-link" href="stake-solana.html">Stake SOL with Mindfolk Validator</a>.
+            </p>
+          </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+          <div class="col-lg-8 col-xl-7">
+            <div class="staking-card rounded-4 shadow-lg">
+              <div class="validator-callout text-white mb-4 text-center">
+                <p class="mb-0 validator-description">
+                  Mindfolk runs a performance-optimized Solana validator with 24/7 monitoring, geo-redundant infrastructure, and a community-first commission. Staking with us supports decentralization while routing rewards back to the Mindfolk ecosystem.
+                </p>
+              </div>
+              <div class="staking-toggle" role="tablist" aria-label="Select staking mode">
+                <button type="button" class="staking-toggle-btn active" data-mode="native" aria-selected="true">Native Staking</button>
+                <button type="button" class="staking-toggle-btn staking-toggle-btn-disabled" data-mode="liquid" aria-selected="false" disabled title="Liquid staking coming soon">Liquid Staking</button>
+              </div>
+              <div class="staking-panel active" data-panel="native" data-apy="0.07" data-token-symbol="SOL" data-reward-symbol="SOL">
+                <form class="staking-form needs-validation" novalidate>
+                  <div class="d-flex flex-wrap justify-content-end align-items-center mb-2 gap-2 staking-balance-row">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                      <div class="staking-balance text-muted text-end" data-wallet-balance hidden>Balance: -- SOL</div>
+                      <div class="d-flex flex-wrap gap-2 quick-amounts">
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.25">25%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.5">50%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="0.75">75%</button>
+                        <button type="button" class="btn btn-outline-warning btn-sm" data-quick-amount="1">Max</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group input-group-lg mb-2 staking-amount-input-group">
+                    <input
+                      type="number"
+                      class="form-control bg-transparent text-white border-0 text-end staking-amount-input"
+                      id="nativeAmount"
+                      name="nativeAmount"
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      inputmode="decimal"
+                      aria-describedby="nativeAmountHelp"
+                    />
+                    <span class="input-group-text bg-transparent text-white border-0 pe-0">SOL</span>
+                  </div>
+                  <div class="text-end mb-3">
+                    <small class="text-muted" data-usd-conversion>≈ $0.00</small>
+                  </div>
+                  <button type="submit" class="btn btn-light btn-lg w-100 mb-4" disabled data-submit-stake>Stake SOL</button>
+                  <div class="staking-panel-header text-center mb-4">
+                    <h2 class="h6 mb-1 text-warning">Stake SOL with the Mindfolk Validator</h2>
+                    <p class="text-warning mb-0">Stake directly with our validator. Rewards compound automatically every epoch.</p>
+                    <div class="alert alert-info alert-sm mt-3 mb-0 p-2" style="font-size: 0.7rem; background: rgba(13, 110, 253, 0.1); border: 1px solid rgba(13, 110, 253, 0.3); color: rgba(255, 255, 255, 0.8);">
+                      <strong>Note:</strong> Each stake creates a new stake account (Solana requirement). You'll see multiple stake accounts in your wallet - this is normal. Each requires a one-time rent fee (~0.00228 SOL).
+                    </div>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="text-muted">You stake</span>
+                      <strong class="text-white" data-summary-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2" data-rent-fee style="display: none;">
+                      <span class="text-muted" style="font-size: 0.85rem;">Rent fee (one-time)</span>
+                      <strong class="text-muted" style="font-size: 0.85rem;" data-rent-amount>~0.00228 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2" data-total-cost style="display: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem; margin-top: 0.5rem;">
+                      <span class="text-muted">Total from wallet</span>
+                      <strong class="text-warning" data-total-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Projected yearly rewards</span>
+                      <strong class="text-warning" data-summary-reward>0 SOL</strong>
+                    </div>
+                  </div>
+                  <div class="staking-feedback mb-3" data-feedback role="status" aria-live="polite"></div>
+                  <button type="button" class="btn btn-warning btn-lg w-100 mb-2" data-connect-wallet>Connect Wallet</button>
+                  <button type="button" class="btn btn-outline-light btn-lg w-100 mb-2 d-none" data-disconnect-wallet>Disconnect</button>
+                </form>
+                <!-- Unstaking Section -->
+                <div class="unstaking-section mt-4 pt-4 border-top border-secondary" data-unstaking-section style="display: none;">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h6 mb-0 text-warning">Your Staked SOL</h3>
+                    <button type="button" class="btn btn-sm btn-outline-warning" data-refresh-stakes title="Refresh staking information">
+                      <i class="fa-solid fa-rotate"></i>
+                    </button>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Total Staked</span>
+                      <strong class="text-warning" data-total-staked>0 SOL</strong>
+                    </div>
+                  </div>
+                  <div class="unstaking-feedback mb-3" data-unstaking-feedback role="status" aria-live="polite"></div>
+                  <button type="button" class="btn btn-outline-warning btn-lg w-100" disabled data-unstake-btn>Unstake All</button>
+                  <p class="text-muted small text-center mt-2 mb-0">Unstaking requires deactivation (1-2 epochs) before withdrawal.</p>
+                </div>
+              </div>
+              <div class="staking-panel" data-panel="liquid" data-apy="0.09" data-token-symbol="SOL" data-reward-symbol="mindSOL">
+                <div class="staking-panel-header">
+                  <h2 class="h5 mb-2 text-white">Mint mindSOL</h2>
+                  <p class="text-muted mb-0">Receive mindSOL—Mindfolk’s liquid staking token—that accrues rewards while staying transferable. Ideal for DeFi strategies.</p>
+                </div>
+                <form class="staking-form needs-validation" novalidate>
+                  <label for="liquidAmount" class="form-label text-uppercase small text-muted">Amount (SOL)</label>
+                  <div class="input-group input-group-lg mb-3">
+                    <span class="input-group-text bg-transparent text-white border-0 ps-0">
+                      <i class="fa-solid fa-droplet"></i>
+                    </span>
+                    <input
+                      type="number"
+                      class="form-control bg-transparent text-white border-0"
+                      id="liquidAmount"
+                      name="liquidAmount"
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      inputmode="decimal"
+                      aria-describedby="liquidAmountHelp"
+                    />
+                    <span class="input-group-text bg-transparent text-white border-0 pe-0">SOL</span>
+                  </div>
+                  <div class="staking-summary rounded-4 p-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="text-muted">You deposit</span>
+                      <strong class="text-white" data-summary-amount>0 SOL</strong>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">You receive</span>
+                      <strong class="text-warning" data-summary-reward>0.000 mindSOL</strong>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-light btn-lg w-100 mb-2" disabled data-connect-wallet>Connect Wallet</button>
+                  <p class="text-muted small text-center mb-0">mindSOL liquid staking will unlock once the pool is configured.</p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="links" class="text-white text-center text-lg-start footer-dark py-5">
+      <div class="container my-5">
+        <div class="row align-items-start">
+          <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+            <div class="d-flex align-items-center mb-3">
+              <img src="img/mfwhite.png" alt="Mindfolk Logo" style="max-height: 50px; width: auto; margin-right: 15px;" loading="lazy" />
+              <h4 class="text-uppercase mb-0">
+                <span class="hipeless-sub text-warning"> — Life after Renaissance</span>
+              </h4>
+            </div>
+            <p class="mb-3">
+              Mindfolk is a community-driven NFT project on Solana. Together we build, create, and shape the future of this collection. Chop Chop!
+              <br> <br><a href="https://raydium.io/swap/?inputMint=sol&outputMint=674PmuiDtgKx3uKuJ1B16f9m5L84eFvNwj3xDMvHcbo7" class="text-white" target="_blank" rel="noopener">Buy/Swap <span class="text-warning text-decoration-underline">$WOOD</span> on Raydium</a>
+            </p>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <h5 class="mb-0 w-100 text-center text-warning fw-bold">Links</h5>
+            <hr class="text center text-warning">
+            <div class="row">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <ul class="list-unstyled mb-0">
+                  <li><a href="https://d1srupt.store/mindfolk/" class="text-white" target="_blank" rel="noopener">Mindfolk Merch</a></li>
+                  <li><a href="https://magiceden.io/marketplace/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — Magic Eden</a></li>
+                  <li><a href="https://www.tensor.trade/trade/mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — Tensor</a></li>
+                  <li><a href="https://discord.gg/A9z9QRYRHu" class="text-white" target="_blank" rel="noopener">Mindfolk — Discord</a></li>
+                  <li><a href="stake-solana.html" class="text-white">Stake SOL with Mindfolk Validator</a></li>
+                  <li><a href="https://www.gotmlabz.io/nftstake/mindfolk" class="text-white" target="_blank" rel="noopener">NFT staking</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-unstyled mb-0">
+                  <li><a href="https://magiceden.io/marketplace/mindlings" class="text-white" target="_blank" rel="noopener">Mindlings — Magic Eden</a></li>
+                  <li><a href="https://www.tensor.trade/trade/mindlings" class="text-white" target="_blank" rel="noopener">Mindlings — Tensor</a></li>
+                  <li><a href="https://x.com/the_mindfolk" class="text-white" target="_blank" rel="noopener">Mindfolk — X</a></li>
+                  <li><a href="https://raydium.io/swap/?inputMint=sol&outputMint=674PmuiDtgKx3uKuJ1B16f9m5L84eFvNwj3xDMvHcbo7" class="text-white" target="_blank" rel="noopener">$WOOD — Raydium</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center pt-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2026 Mindfolk Community. All Rights Reserved.
+      </div>
+    </footer>
+
+    <script src="js/mdb.umd.min.js"></script>
+    <script
+      id="solana-web3-script"
+      src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"
+      onerror="this.onerror=null;this.src='https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js';"
+    ></script>
+    <script src="js/staking-preview.js"></script>
+
+    <script>
+      (function () {
+        const OFFSET = 100;
+        const NAV_IDS = ['top','history','revival','goodwood','staking','links'];
+        const ALL_IDS = ['top','history','mindfolk-streak','revival','goodwood','staking','links'];
+
+        const sectionsAll = ALL_IDS.map(id => document.getElementById(id)).filter(Boolean);
+        const navLinks = Array.from(document.querySelectorAll('#navbarSupportedContent .nav-link'))
+          .filter(a => NAV_IDS.includes((a.getAttribute('href')||'').replace('#','')));
+
+        function setActive(id) {
+          navLinks.forEach(a => {
+            const match = a.getAttribute('href') === '#' + id;
+            a.classList.toggle('active', match);
+            if (match) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+          });
+        }
+
+        let layoutAll = [];
+        function recompute() {
+          layoutAll = sectionsAll.map(sec => {
+            const top = sec.offsetTop;
+            const height = sec.offsetHeight || 1;
+            return { id: sec.id, top, bottom: top + height };
+          }).sort((a,b) => a.top - b.top);
+        }
+
+        function nearestNavForY(y) {
+          let candidate = NAV_IDS[0];
+          for (const id of NAV_IDS) {
+            const sec = layoutAll.find(s => s.id === id);
+            if (sec && y >= sec.top) candidate = id; else break;
+          }
+          return candidate;
+        }
+
+        function onScroll() {
+          const y = window.scrollY + OFFSET;
+          let current = layoutAll[0]?.id;
+          for (const s of layoutAll) {
+            if (y >= s.top && y < s.bottom) { current = s.id; break; }
+          }
+          const currentForNav = NAV_IDS.includes(current) ? current : nearestNavForY(y);
+          if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2)) {
+            setActive('links');
+          } else {
+            setActive(currentForNav);
+          }
+        }
+
+        recompute();
+        window.addEventListener('resize', () => { recompute(); onScroll(); }, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        navLinks.forEach(a => {
+          a.addEventListener('click', (e) => {
+            const id = (a.getAttribute('href')||'').slice(1);
+            const el = document.getElementById(id);
+            if (!el) return;
+            e.preventDefault();
+            setActive(id);
+            const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+            const navEl = document.getElementById('navbarSupportedContent');
+            if (navEl && navEl.classList.contains('show')) {
+              try {
+                if (window.mdb?.Collapse) new mdb.Collapse(navEl).hide();
+                else navEl.classList.remove('show');
+              } catch (_) { navEl.classList.remove('show'); }
+            }
+          });
+        });
+
+        setActive('top');
+        onScroll();
+      })();
+    </script>
+
+    <script>
+      (function () {
+        const titleEl = document.getElementById('type-title');
+        const subEl   = document.getElementById('type-sub');
+
+        if (!titleEl || !subEl) return;
+
+        const titleText = "MINDFOLK";
+        const subText   = "A new chapter begins. Rebuilding. Rebranding. Rising stronger.";
+
+        function type(el, text, speed = 80) {
+          return new Promise(resolve => {
+            el.textContent = "";
+            let i = 0;
+            const tick = () => {
+              el.textContent = text.slice(0, i++);
+              if (i <= text.length) { setTimeout(tick, speed); }
+              else { el.classList.add('done'); resolve(); }
+            };
+            tick();
+          });
+        }
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (prefersReduced) {
+          titleEl.textContent = titleText;
+          subEl.textContent = subText;
+          titleEl.classList.add('done');
+          subEl.classList.add('done');
+        } else {
+          type(titleEl, titleText, 125)
+            .then(() => new Promise(r => setTimeout(r, 300)))
+            .then(() => type(subEl, subText, 45));
+        }
+      })();
+    </script>
+    <script>
+      (function () {
+        const nav = document.querySelector('.navbar');           // your <nav class="navbar ... navbar-scroll">
+        const onScroll = () => {
+          const scrolled = window.scrollY > 10;                  // threshold
+          if (scrolled) nav.classList.add('navbar-scrolled');
+          else nav.classList.remove('navbar-scrolled');
+        };
+        onScroll();                                              // set initial state
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+    <script>
+(function () {
+  const nav = document.querySelector('.navbar');
+  const logo = document.getElementById('nav-logo');
+
+  let currentLogo = "img/mfwhite.png";
+
+  function swapLogo(newSrc) {
+    if (logo.src.includes(newSrc)) return; // already set
+    logo.classList.add("fading");
+    setTimeout(() => {
+      logo.src = newSrc;
+      logo.classList.remove("fading");
+    }, 200); // match CSS duration
+  }
+
+  function onScroll() {
+    if (window.scrollY > 10) {
+      nav.classList.add("navbar-scrolled");
+      swapLogo("img/mfblack.png");
+    } else {
+      nav.classList.remove("navbar-scrolled");
+      swapLogo("img/mfwhite.png");
+    }
+  }
+
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();
+</script>
+<script>
+(() => {
+  // The sections in the order you want highlighted
+  const SECTIONS = ['top','history','revival','goodwood','staking','links'];
+
+  // Map section id -> corresponding <a> in the navbar
+  const linkMap = new Map(
+    SECTIONS.map(id => [id, document.querySelector(`.navbar a.nav-link[href="#${id}"]`)])
+  );
+
+  // Remove any that don't exist (keeps things robust)
+  for (const [id, a] of [...linkMap]) {
+    if (!document.getElementById(id) || !a) linkMap.delete(id);
+  }
+
+  function setActive(id) {
+    linkMap.forEach(a => a && a.classList.remove('active'));
+    const a = linkMap.get(id);
+    if (a) {
+      a.classList.add('active');
+      a.setAttribute('aria-current','page');
+    }
+  }
+
+  // Highlight the section that occupies the middle of the viewport
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    const id = visible.target.id;
+    if (linkMap.has(id)) setActive(id);
+  }, {
+    root: null,
+    // “Activation zone” = middle strip of the screen
+    rootMargin: '-30% 0px -50% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  });
+
+  // Observe the sections we care about
+  linkMap.forEach((_a, id) => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+
+  // Make clicks feel instant + smooth scroll with fixed nav offset
+  const OFFSET = 100;
+  document.querySelectorAll('.navbar a.nav-link[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      setActive(id);
+      const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Close mobile menu if open
+      const navEl = document.getElementById('navbarSupportedContent');
+      if (navEl && navEl.classList.contains('show')) {
+        try {
+          if (window.mdb?.Collapse) new mdb.Collapse(navEl).hide();
+          else navEl.classList.remove('show');
+        } catch (_) { navEl.classList.remove('show'); }
+      }
+    });
+  });
+
+  // If landing mid-page, set initial active correctly
+  const firstInView = SECTIONS.find(id => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
+  });
+  if (firstInView) setActive(firstInView);
+})();
+</script>
+    <!-- Wallet Selection Modal -->
+    <div class="wallet-modal" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+      <div class="wallet-modal-dialog">
+        <div class="wallet-modal-content">
+          <div class="wallet-modal-header">
+            <h5 class="wallet-modal-title" id="walletModalLabel">Connect a wallet</h5>
+            <button type="button" class="wallet-modal-close" aria-label="Close">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+          <div class="wallet-modal-body">
+            <p class="wallet-modal-subtitle">Select a wallet to connect to Mindfolk Staking</p>
+            <div class="wallet-grid" id="walletGrid">
+              <!-- Wallet options will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wallet-modal-backdrop" id="walletModalBackdrop"></div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal" style="display: none;">
+      <div class="success-modal-content">
+        <div class="success-modal-icon">
+          <i class="fa-solid fa-check-circle"></i>
+        </div>
+        <h3 class="success-modal-title">SUCCESS!</h3>
+        <p class="success-modal-message" id="successModalMessage">SOL Staked with Mindfolk Validator</p>
+        <button type="button" class="btn btn-warning btn-lg mt-3" id="successModalClose">Close</button>
+      </div>
+    </div>
+    <div class="success-modal-backdrop" id="successModalBackdrop" style="display: none;"></div>
+
+  </body>
+</html>
