@@ -1,0 +1,2005 @@
+/* =========================================
+   Mindfolk Staking Preview Styles
+   -----------------------------------------
+   Isolated styling for the prototype UI so
+   the production site remains untouched.
+========================================= */
+
+:root {
+  --staking-bg: #0f1729;
+  --staking-card-bg: rgba(20, 27, 43, 0.9);
+  --staking-border: rgba(255, 255, 255, 0.08);
+  --staking-glow: rgba(255, 193, 7, 0.35);
+  --staking-text-muted: #9ca6bf;
+}
+
+.staking-section,
+.section-validator-gradient {
+  background: linear-gradient(135deg, #f7a823 0%, #f15c0d 100%);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.staking-section::before,
+.section-validator-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), transparent 45%),
+              radial-gradient(circle at bottom right, rgba(17, 17, 17, 0.15), transparent 55%);
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.section-validator-gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
+.staking-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.staking-section .staking-preview-badge {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.staking-section .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Homepage validator blurb: black link on orange gradient (link-warning was low contrast) */
+.staking-section a.validator-stake-sol-link {
+  color: #111 !important;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.staking-section a.validator-stake-sol-link:hover,
+.staking-section a.validator-stake-sol-link:focus {
+  color: #000 !important;
+}
+
+/* Live RPC snapshot (stake-solana.html) */
+.validator-chain-stats .validator-progress {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.validator-chain-stats .validator-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(255, 193, 7, 0.95), rgba(255, 255, 255, 0.65));
+  border-radius: 999px;
+  transition: width 0.45s ease;
+}
+
+/* Full validator dashboard (stake-solana.html — stake-solana-validator.js) */
+.validator-dashboard-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.75rem 1.25rem;
+}
+
+.validator-dashboard-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.15rem;
+}
+
+.validator-dashboard-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffc107;
+}
+
+.validator-dashboard-epoch-progress {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.validator-dashboard-epoch-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(255, 193, 7, 0.95), rgba(255, 255, 255, 0.65));
+  border-radius: 999px;
+  transition: width 0.45s ease;
+}
+
+.validator-distribution-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.validator-distribution-layout--compact {
+  gap: 0.85rem 1rem;
+}
+
+@media (max-width: 991px) {
+  .validator-distribution-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.validator-dist-table-wrap {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.validator-dist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.validator-dist-table th,
+.validator-dist-table td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.validator-dist-table th {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.validator-dist-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.validator-dist-table td.num,
+.validator-dist-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.validator-dist-table tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+  background: rgba(255, 193, 7, 0.08);
+  color: #ffc107;
+}
+
+.validator-chart-wrap {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+body.stake-solana-page .validator-distribution-layout--compact {
+  align-items: start;
+}
+
+body.stake-solana-page .staking-summary .validator-chart-wrap {
+  max-width: 100%;
+  margin: 0;
+  margin-top: -0.65rem;
+  align-self: start;
+  padding-top: 0;
+  padding-left: 0.35rem;
+  line-height: 0;
+}
+
+body.stake-solana-page .staking-summary .validator-chart-wrap canvas {
+  display: block;
+}
+
+@media (min-width: 992px) {
+  body.stake-solana-page .staking-summary .validator-chart-wrap {
+    padding-left: 0.75rem;
+  }
+}
+
+.validator-stake-status {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.validator-stake-status.error {
+  color: #ff8a80;
+}
+
+.staking-section .staking-title {
+  color: #fff;
+}
+
+.staking-section .staking-card {
+  box-shadow: 0 20px 45px rgba(17, 17, 17, 0.35);
+}
+
+.staking-heading {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  letter-spacing: 0.06em;
+}
+
+.staking-title {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.staking-card {
+  background: linear-gradient(135deg, rgba(17, 25, 40, 0.95), rgba(10, 14, 26, 0.9));
+  border: 1px solid var(--staking-border);
+  padding: clamp(1.35rem, 1.8vw, 2rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.staking-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at top left, rgba(255, 193, 7, 0.12), transparent 65%);
+  opacity: 0.8;
+  pointer-events: none;
+  transform: rotate(8deg);
+}
+
+.staking-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  pointer-events: none;
+}
+
+.staking-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+[data-connect-wallet].shake {
+  animation: staking-shake 0.6s ease;
+}
+
+.staking-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: rgba(17, 24, 39, 0.8);
+  border-radius: 999px;
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--staking-border);
+}
+
+.staking-toggle-btn {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--staking-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  padding: 0.55rem 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.staking-toggle-btn:hover,
+.staking-toggle-btn:focus-visible {
+  color: #ffc107;
+  outline: none;
+}
+
+.staking-toggle-btn.active {
+  background: linear-gradient(135deg, #ffc107, #ff9f0d);
+  color: #111;
+  box-shadow: 0 8px 18px -10px var(--staking-glow);
+}
+
+.staking-toggle-btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.staking-toggle-btn-disabled:hover,
+.staking-toggle-btn-disabled:focus-visible {
+  color: var(--staking-text-muted) !important;
+}
+
+.staking-panel {
+  display: none;
+  animation: fadeUp 300ms ease forwards;
+}
+
+.staking-panel.active {
+  display: block;
+}
+
+.staking-panel-header h2 {
+  font-weight: 700;
+}
+
+.staking-panel-header p {
+  color: var(--staking-text-muted);
+}
+
+.staking-form .input-group-text {
+  font-weight: 600;
+}
+
+.staking-form .form-control {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.staking-form .form-control.staking-amount-input {
+  border: none;
+  border-radius: 18px 0 0 18px;
+  padding-right: 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: #ffc107;
+}
+
+.staking-amount-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.staking-amount-input:focus {
+  color: #ffe082;
+  background: transparent;
+}
+
+.staking-amount-input-group {
+  border: 1px solid rgba(255, 193, 7, 0.45);
+  border-radius: 20px;
+  background: rgba(17, 24, 39, 0.65);
+  box-shadow: 0 12px 30px -18px rgba(17, 17, 17, 0.65);
+  padding: 0.35rem 0.95rem 0.35rem 1rem;
+  gap: 0.5rem;
+}
+
+.staking-amount-input-group:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.18);
+}
+
+.staking-amount-input-group .input-group-text {
+  border: none;
+  color: #ffc107;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  background: transparent;
+  padding-right: 0;
+}
+
+[data-usd-conversion] {
+  color: rgba(255, 255, 255, 0.65) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+[data-wallet-selector] {
+  margin-bottom: 1rem;
+}
+
+[data-wallet-selector] .form-label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+[data-wallet-selector] .form-select {
+  background-color: rgba(17, 24, 39, 0.85) !important;
+  border: 1px solid rgba(255, 193, 7, 0.3) !important;
+  color: #fff !important;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+[data-wallet-selector] .form-select:focus {
+  border-color: rgba(255, 193, 7, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15) !important;
+  background-color: rgba(17, 24, 39, 0.95) !important;
+}
+
+[data-wallet-selector] .form-select option {
+  background-color: #1a1f2e;
+  color: #fff;
+}
+
+[data-wallet-selector] .form-select option:disabled {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+/* Wallet Modal Styles */
+.wallet-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.wallet-modal.wallet-modal-show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.wallet-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wallet-modal-backdrop.wallet-modal-backdrop-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wallet-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 1rem;
+  z-index: 9999;
+  transform: scale(0.95) translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.wallet-modal.wallet-modal-show .wallet-modal-dialog {
+  transform: scale(1) translateY(0);
+}
+
+.wallet-modal-content {
+  background: linear-gradient(135deg, rgba(17, 25, 40, 0.98), rgba(10, 14, 26, 0.98));
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+}
+
+.wallet-modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 193, 7, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+.wallet-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.wallet-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.wallet-modal-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.wallet-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.wallet-modal-body {
+  padding: 1.5rem 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.wallet-modal-subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.wallet-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.wallet-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+  position: relative;
+}
+
+.wallet-option:hover:not(.wallet-option-disabled) {
+  background: rgba(17, 24, 39, 0.9);
+  border-color: rgba(255, 193, 7, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.wallet-option:active:not(.wallet-option-disabled) {
+  transform: translateY(0);
+}
+
+.wallet-option-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(17, 24, 39, 0.4);
+}
+
+.wallet-option-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.wallet-option-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  padding: 4px;
+  background: transparent;
+}
+
+.wallet-option-icon-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.wallet-option-icon i {
+  font-size: 1.5rem;
+}
+
+.wallet-option-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.wallet-option-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.01em;
+}
+
+.wallet-option-status {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.wallet-option-arrow {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.wallet-option:hover:not(.wallet-option-disabled) .wallet-option-arrow {
+  color: #ffc107;
+  transform: translateX(4px);
+}
+
+@media (max-width: 576px) {
+  .wallet-modal-dialog {
+    max-width: calc(100% - 2rem);
+    margin: 1rem;
+  }
+  
+  .wallet-modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .wallet-modal-body {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .wallet-modal-title {
+    font-size: 1.25rem;
+  }
+  
+  .wallet-option {
+    padding: 0.875rem 1rem;
+  }
+  
+  .wallet-option-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Wallet Indicator in Navbar */
+.wallet-indicator {
+  padding: 0.4rem 0.75rem;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.wallet-indicator:hover {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.wallet-indicator-info {
+  min-width: 0;
+}
+
+.wallet-indicator-name {
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wallet-indicator-balance {
+  color: #ffc107;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.navbar-scrolled .wallet-indicator {
+  background: #000;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-scrolled .wallet-indicator-name {
+  color: #fff;
+}
+
+.navbar-scrolled .wallet-indicator-balance {
+  color: #ffc107;
+}
+
+/* Stake SOL Button - Bigger and Bolder Text */
+[data-submit-stake] {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Success Modal Styles */
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.success-modal.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.success-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.success-modal-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.success-modal-content {
+  background: linear-gradient(135deg, rgba(17, 25, 40, 0.98), rgba(10, 14, 26, 0.98));
+  border: 2px solid #ffc107;
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 193, 7, 0.3);
+  position: relative;
+  z-index: 10001;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9) translateY(-20px);
+  transition: transform 0.3s ease;
+  animation: successPulse 0.6s ease forwards;
+}
+
+.success-modal.show .success-modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.success-modal-icon {
+  font-size: 5rem;
+  color: #ffc107;
+  margin-bottom: 1rem;
+  animation: successBounce 0.6s ease;
+}
+
+.success-modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffc107;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.success-modal-message {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0;
+  line-height: 1.6;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  padding: 0 0.5rem;
+  text-align: center;
+}
+
+.success-modal-message div {
+  margin-bottom: 0.75rem;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-size: 0.9rem;
+}
+
+.success-modal-message div:last-child {
+  margin-bottom: 0;
+}
+
+.success-modal-message a {
+  color: #ffc107;
+  text-decoration: underline;
+  word-break: break-word;
+  display: inline-block;
+  max-width: 100%;
+  font-size: 0.85rem;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translateY(0);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes successBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 991px) {
+  .wallet-indicator {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .success-modal-content {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+  }
+  
+  .success-modal-icon {
+    font-size: 4rem;
+  }
+  
+  .success-modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .success-modal-message {
+    font-size: 1rem;
+  }
+}
+
+.staking-amount-input {
+  -moz-appearance: textfield;
+}
+
+.staking-amount-input::-webkit-outer-spin-button,
+.staking-amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.staking-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end !important;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.staking-balance-row .staking-balance {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.staking-balance-row .quick-amounts {
+  margin-bottom: 0;
+  flex: 0 0 auto;
+}
+
+.staking-balance-row .quick-amounts .btn {
+  border-color: rgba(255, 193, 7, 0.65);
+}
+
+.staking-form .form-control:focus {
+  border-color: #ffc107;
+  box-shadow: none;
+}
+
+.staking-summary {
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.95rem;
+}
+
+.staking-summary strong {
+  letter-spacing: 0.03em;
+}
+
+.staking-summary .text-warning {
+  color: #ffc107 !important;
+}
+
+.quick-amounts .btn {
+  border-radius: 12px;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.staking-note {
+  color: var(--staking-text-muted);
+}
+
+.staking-feedback {
+  min-height: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.staking-feedback--info {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.staking-feedback--success {
+  color: #9ef8d6;
+}
+
+.staking-feedback--error {
+  color: #ffd1d1;
+}
+
+.staking-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 193, 7, 0.12);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.35);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.staking-preview-badge i {
+  font-size: 0.95em;
+}
+
+.validator-callout {
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  color: #ffc107;
+  font-weight: 500;
+}
+
+.validator-callout .validator-description {
+  color: #ffc107;
+}
+
+.staking-faq {
+  background: rgba(10, 13, 23, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: clamp(1.35rem, 2vw, 2rem);
+}
+
+.staking-faq h3 {
+  font-family: 'dirty_brushregular', cursive;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  color: #ffc107;
+  letter-spacing: 0.05em;
+}
+
+.staking-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.staking-steps li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.staking-steps li span.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 193, 7, 0.18);
+  color: #ffc107;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.staking-steps li p {
+  margin: 0;
+  color: var(--staking-text-muted);
+  font-size: 0.92rem;
+}
+
+.staking-legal {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 1.5rem;
+}
+
+/* -----------------------------------------------------------------
+   stake-solana.html only: white page background, dark body text.
+   Dark panels (.staking-summary, .staking-card, .staking-faq, etc.)
+   keep light text on slate shells + frosted white inner tiles.
+------------------------------------------------------------------ */
+/* Fixed navbar (same as index): clear content below bar; py-5 top is 3rem */
+body.stake-solana-page main.staking-section {
+  padding-top: calc(3rem + 3.75rem) !important;
+}
+
+/* Slightly softer bar than pure white (matches prior stake page inline style) */
+body.stake-solana-page .navbar.navbar-scrolled {
+  background-color: #f5f5f5;
+}
+
+/* In-page nav anchors: offset so headings aren’t hidden under fixed navbar */
+body.stake-solana-page #staking,
+body.stake-solana-page #validator-stats {
+  scroll-margin-top: 5.5rem;
+}
+
+body.stake-solana-page {
+  /* Slate shell (original staking-summary) + lighter frosted tiles (validator stat cards) */
+  --solana-panel-bg: rgba(17, 24, 39, 0.82);
+  --solana-panel-border: 1px solid rgba(255, 255, 255, 0.12);
+  --solana-panel-tile-bg: rgba(255, 255, 255, 0.08);
+  --solana-panel-tile-border: rgba(255, 255, 255, 0.14);
+  /* Same as staking card (.rounded-4 / BS5 ~1rem) — all panels use this */
+  --stake-solana-panel-radius: 1rem;
+  /* Matches former gap: hero .mb-2 → staking card */
+  --stake-solana-panel-gap: 0.5rem;
+}
+
+/* Unified corner radius (stake panel / rounded-4) */
+body.stake-solana-page .stake-solana-panel-stack > .staking-summary,
+body.stake-solana-page .stake-solana-panel-stack .staking-card-elegant,
+body.stake-solana-page .stake-solana-panel-stack .staking-howto-compact,
+body.stake-solana-page .stake-solana-panel-stack .staking-seo-faq,
+body.stake-solana-page .stake-solana-panel-stack .validator-stats-surface,
+body.stake-solana-page .stake-solana-panel-stack .validator-stat-tile,
+body.stake-solana-page .stake-solana-panel-stack .validator-dist-table-wrap,
+body.stake-solana-page .staking-mode-card,
+body.stake-solana-page .staking-detail-list,
+body.stake-solana-page .staking-info-callout,
+body.stake-solana-page .staking-amount-input-group-elegant,
+body.stake-solana-page .staking-steps-compact li {
+  border-radius: var(--stake-solana-panel-radius) !important;
+}
+
+body.stake-solana-page .staking-summary {
+  background: var(--solana-panel-bg);
+  border: var(--solana-panel-border);
+}
+
+/* Content column width (+20% vs prior step; mobile stays full row) */
+body.stake-solana-page .stake-solana-content-col {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 576px) {
+  body.stake-solana-page .stake-solana-content-col {
+    width: 72%;
+    max-width: 72%;
+  }
+}
+
+@media (min-width: 992px) {
+  body.stake-solana-page .stake-solana-content-col {
+    width: 60%;
+    max-width: 60%;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.stake-solana-page .stake-solana-content-col {
+    width: 54%;
+    max-width: 54%;
+  }
+}
+
+body.stake-solana-page .stake-solana-panel-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--stake-solana-panel-gap);
+  width: 100%;
+}
+
+body.stake-solana-page .stake-solana-panel-stack > #staking {
+  width: 100%;
+}
+
+/* Outer shells: same slate + soft lift as pre-brown era (.staking-card-elegant sets its own shadow) */
+body.stake-solana-page .stake-solana-panel-stack > .staking-summary,
+body.stake-solana-page .stake-solana-panel-stack .staking-howto-compact,
+body.stake-solana-page .stake-solana-panel-stack .staking-seo-faq,
+body.stake-solana-page .stake-solana-panel-stack .validator-stats-surface {
+  box-shadow: 0 10px 36px rgba(15, 23, 42, 0.14);
+}
+
+/* Shared section titles (same caps / size / yellow as “How to stake”) */
+body.stake-solana-page .stake-solana-section-title {
+  font-family: inherit !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffc107 !important;
+  line-height: 1.35;
+}
+
+body.stake-solana-page .staking-section,
+body.stake-solana-page .section-validator-gradient {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+body.stake-solana-page .staking-section::before,
+body.stake-solana-page .section-validator-gradient::before {
+  display: none;
+}
+
+body.stake-solana-page .staking-section .staking-title {
+  color: #1a1a1a !important;
+}
+
+body.stake-solana-page .staking-section .text-muted {
+  color: rgba(0, 0, 0, 0.58) !important;
+}
+
+body.stake-solana-page .staking-section .staking-preview-badge {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1a1a;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.stake-solana-page .stake-solana-breadcrumb {
+  --mdb-breadcrumb-divider-color: rgba(0, 0, 0, 0.35);
+}
+
+body.stake-solana-page .validator-stake-status {
+  color: rgba(0, 0, 0, 0.62);
+}
+
+body.stake-solana-page .validator-stake-status.error {
+  color: #b71c1c;
+}
+
+/* Dark panel shells — keep existing light / amber typography */
+body.stake-solana-page .staking-summary,
+body.stake-solana-page .staking-card,
+body.stake-solana-page .staking-faq,
+body.stake-solana-page .validator-callout {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+body.stake-solana-page .staking-summary .text-muted,
+body.stake-solana-page .staking-card .text-muted,
+body.stake-solana-page .staking-faq .text-muted,
+body.stake-solana-page .staking-seo-faq .text-muted,
+body.stake-solana-page .validator-callout .text-muted {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+body.stake-solana-page .staking-summary .text-white,
+body.stake-solana-page .staking-card .text-white,
+body.stake-solana-page .staking-faq .text-white,
+body.stake-solana-page .staking-seo-faq .text-white,
+body.stake-solana-page .validator-callout .text-white {
+  color: #fff !important;
+}
+
+/* Headings use utility classes (.text-white, .text-warning) or inherit panel color */
+
+body.stake-solana-page .staking-summary code.text-warning,
+body.stake-solana-page .staking-card code.text-warning {
+  color: #ffc107 !important;
+}
+
+body.stake-solana-page .validator-dashboard-label {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+body.stake-solana-page .validator-dashboard-value {
+  color: #ffc107;
+}
+
+body.stake-solana-page .validator-dist-table th {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.stake-solana-page .validator-dist-table td {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.stake-solana-page .validator-dist-table-wrap {
+  border-color: var(--solana-panel-tile-border);
+}
+
+/* Compact delegator table (stake-solana.html) */
+body.stake-solana-page .staking-summary .validator-dist-table {
+  font-size: 0.72rem;
+}
+
+body.stake-solana-page .staking-summary .validator-dist-table th,
+body.stake-solana-page .staking-summary .validator-dist-table td {
+  padding: 0.26rem 0.4rem;
+  line-height: 1.22;
+  vertical-align: middle;
+}
+
+body.stake-solana-page .staking-summary .validator-dist-table th {
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+body.stake-solana-page .staking-seo-faq {
+  background: var(--solana-panel-bg);
+  border: var(--solana-panel-border);
+  padding: clamp(1.1rem, 2vw, 1.5rem) clamp(1.6rem, 5vw, 3rem);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+body.stake-solana-page .staking-seo-faq .fw-bold.text-warning {
+  color: #ffc107 !important;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+body.stake-solana-page .staking-seo-faq .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+body.stake-solana-page .staking-seo-faq code {
+  font-size: 0.68rem;
+}
+
+/* On-chain stats (stake-solana — same panel shell as validator hero) */
+body.stake-solana-page .validator-stats-surface {
+  background: var(--solana-panel-bg);
+  border: var(--solana-panel-border);
+  padding: 1.15rem 1.25rem 1.25rem;
+}
+
+body.stake-solana-page .validator-stats-surface .stake-solana-section-title {
+  margin-bottom: 1rem;
+}
+
+body.stake-solana-page .validator-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.25rem, 1fr));
+  gap: 0.85rem 1rem;
+  align-items: stretch;
+}
+
+body.stake-solana-page .validator-stat-tile {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--solana-panel-tile-bg);
+  border: 1px solid var(--solana-panel-tile-border);
+  padding: 0.95rem 1.05rem;
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.stake-solana-page .validator-stat-tile--active-stake .validator-stat-value {
+  color: #ffc107 !important;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch .validator-stat-epoch-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem 0.65rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch .validator-stat-value--epoch-num {
+  flex: 0 0 auto;
+  line-height: 1.1;
+  align-self: center;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch .validator-stat-epoch-side {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  justify-content: center;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch .validator-stat-epoch-countdown {
+  text-align: right;
+  line-height: 1.2;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch .validator-dashboard-epoch-progress--tile {
+  margin-top: 0;
+  width: 70%;
+  max-width: 100%;
+  margin-left: auto;
+}
+
+body.stake-solana-page .validator-stat-tile--epoch > .validator-stat-epoch-inline {
+  margin-top: auto;
+}
+
+body.stake-solana-page .validator-stat-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+body.stake-solana-page .validator-stat-value--inline {
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+body.stake-solana-page .validator-stat-trend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 7px;
+  font-size: 0.6rem;
+  flex-shrink: 0;
+}
+
+body.stake-solana-page .validator-stat-trend--down {
+  color: #ff9800;
+  background: rgba(255, 152, 0, 0.18);
+}
+
+body.stake-solana-page .validator-stat-trend--up {
+  color: #66bb6a;
+  background: rgba(102, 187, 106, 0.2);
+}
+
+body.stake-solana-page .validator-stat-epoch-countdown {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+}
+
+body.stake-solana-page .validator-stat-value--compact {
+  font-size: 0.9rem;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+body.stake-solana-page .validator-stat-value--bond {
+  color: #66bb6a !important;
+}
+
+body.stake-solana-page .validator-dashboard-epoch-progress--tile {
+  height: 4px;
+  margin-top: 0.12rem;
+}
+
+body.stake-solana-page .validator-stat-tile--wide {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 576px) {
+  body.stake-solana-page .validator-stat-tile--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 992px) {
+  body.stake-solana-page .validator-stat-tile--wide {
+    grid-column: span 3;
+  }
+}
+
+body.stake-solana-page .validator-stat-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 0.4rem;
+}
+
+body.stake-solana-page .validator-stat-value {
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+body.stake-solana-page .validator-stat-tile > .validator-stat-value,
+body.stake-solana-page .validator-stat-tile > .validator-stat-value-row {
+  margin-top: auto;
+}
+
+body.stake-solana-page .validator-stat-tile--apy .validator-stat-value {
+  color: #00d180;
+}
+
+body.stake-solana-page .validator-stat-value--leader {
+  font-size: 1.05rem;
+}
+
+body.stake-solana-page .stat-slots-muted {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+body.stake-solana-page .stat-slots-good {
+  color: #00d180;
+}
+
+body.stake-solana-page .stat-slots-accent {
+  color: #b39ddb;
+}
+
+body.stake-solana-page .stat-slots-sep {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 600;
+}
+
+body.stake-solana-page .validator-stat-hint {
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.35;
+}
+
+@media (max-width: 992px) {
+  .staking-card {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .staking-card {
+    padding: 1.5rem;
+  }
+
+  .staking-toggle {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .staking-toggle-btn {
+    width: 100%;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes staking-shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+/* —— Elegant staking layout (stake-solana.html) —— */
+body.stake-solana-page .staking-summary.validator-hero-panel {
+  border: var(--solana-panel-border);
+}
+
+body.stake-solana-page .validator-hero-panel__name {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+body.stake-solana-page .validator-hero-panel__meta {
+  font-size: 0.78rem;
+}
+
+body.stake-solana-page .validator-hero-panel__location {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+body.stake-solana-page .validator-hero-panel__addr {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 0.78rem;
+}
+
+body.stake-solana-page .validator-hero-panel__addr:hover {
+  color: #ffc107 !important;
+}
+
+body.stake-solana-page .validator-hero-panel__copy-btn {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.42);
+  padding: 0.12rem 0.25rem;
+  line-height: 1;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+body.stake-solana-page .validator-hero-panel__copy-btn:hover,
+body.stake-solana-page .validator-hero-panel__copy-btn:focus-visible {
+  color: #ffc107;
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+
+body.stake-solana-page .validator-hero-panel__desc {
+  line-height: 1.5;
+  max-width: 48rem;
+}
+
+body.stake-solana-page .validator-callout-elegant__tagline {
+  font-size: clamp(0.78rem, 1.2vw, 0.85rem);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.65) !important;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.stake-solana-page .staking-card-elegant {
+  padding: clamp(1.25rem, 2.2vw, 1.85rem) clamp(1.35rem, 3vw, 2.35rem);
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 0.875rem;
+  background: var(--solana-panel-bg) !important;
+  border: var(--solana-panel-border);
+  box-shadow: 0 10px 36px rgba(15, 23, 42, 0.14);
+}
+
+body.stake-solana-page .staking-card-elegant::before,
+body.stake-solana-page .staking-card-elegant::after {
+  display: none;
+}
+
+body.stake-solana-page .validator-callout-elegant .validator-description {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+body.stake-solana-page .staking-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 576px) {
+  body.stake-solana-page .staking-mode-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+body.stake-solana-page .staking-mode-card {
+  position: relative;
+  border: 1px solid var(--solana-panel-tile-border);
+  background: var(--solana-panel-tile-bg);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.stake-solana-page .staking-mode-card:has(.staking-toggle-btn.active) {
+  border-color: rgba(255, 193, 7, 0.65);
+  box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.2);
+}
+
+body.stake-solana-page .staking-mode-card--disabled {
+  opacity: 0.55;
+}
+
+body.stake-solana-page .staking-mode-card .staking-toggle-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  min-height: 100%;
+  border-radius: 12px;
+  padding: 0.85rem 1rem 0.95rem;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-shadow: none !important;
+  position: relative;
+}
+
+body.stake-solana-page .staking-mode-card .staking-toggle-btn.active {
+  background: rgba(255, 193, 7, 0.08) !important;
+  color: #fff;
+}
+
+body.stake-solana-page .staking-mode-card__check {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffc107, #ff9f0d);
+  color: #111;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+body.stake-solana-page .staking-mode-card .staking-toggle-btn.active .staking-mode-card__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body.stake-solana-page .staking-mode-card__title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+body.stake-solana-page .staking-mode-card__desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+body.stake-solana-page .staking-mode-card__meta {
+  font-size: 0.68rem;
+  color: rgba(255, 193, 7, 0.75);
+  display: block;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+body.stake-solana-page .staking-panel-header-elegant__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+body.stake-solana-page .staking-panel-header-elegant__sub {
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+body.stake-solana-page .staking-info-callout {
+  font-size: 0.7rem !important;
+  line-height: 1.45;
+  background: rgba(13, 110, 253, 0.12) !important;
+  border: 1px solid rgba(13, 110, 253, 0.28) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+body.stake-solana-page .staking-label-caps {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+body.stake-solana-page .staking-amount-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+body.stake-solana-page .staking-amount-toolbar__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.65rem;
+}
+
+body.stake-solana-page .staking-balance-inline {
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+body.stake-solana-page .quick-amounts-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+body.stake-solana-page .btn-quick-pill {
+  padding: 0.28rem 0.55rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 193, 7, 0.35);
+  color: #ffc107;
+  background: rgba(255, 193, 7, 0.06);
+  line-height: 1.2;
+}
+
+body.stake-solana-page .btn-quick-pill:hover {
+  background: rgba(255, 193, 7, 0.14);
+  color: #ffe082;
+}
+
+body.stake-solana-page .staking-amount-input-group-elegant {
+  padding: 0.45rem 1rem 0.45rem 1.1rem;
+}
+
+body.stake-solana-page .staking-amount-input-group-elegant .staking-amount-input {
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem) !important;
+  font-weight: 700;
+}
+
+body.stake-solana-page .staking-sol-badge {
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem) !important;
+}
+
+body.stake-solana-page .staking-amount-input--liquid {
+  font-size: clamp(1rem, 2vw, 1.25rem) !important;
+  text-align: end;
+}
+
+body.stake-solana-page .staking-usd-line {
+  font-size: 0.75rem !important;
+}
+
+body.stake-solana-page .staking-detail-list {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.stake-solana-page .staking-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+body.stake-solana-page .staking-detail-row:last-child,
+body.stake-solana-page .staking-detail-row--last {
+  border-bottom: none;
+}
+
+body.stake-solana-page .staking-detail-row__left {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(255, 255, 255, 0.65);
+  min-width: 0;
+}
+
+body.stake-solana-page .staking-detail-row__icon {
+  width: 1rem;
+  text-align: center;
+  color: rgba(255, 193, 7, 0.55);
+  flex-shrink: 0;
+}
+
+body.stake-solana-page .staking-detail-row__val {
+  font-size: 0.78rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+body.stake-solana-page .btn-stake-primary {
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.65rem 1rem;
+}
+
+body.stake-solana-page .btn-connect-elegant {
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.7rem 1rem;
+}
+
+body.stake-solana-page .staking-form-elegant .staking-feedback {
+  font-size: 0.78rem;
+}
+
+body.stake-solana-page .unstaking-section-elegant {
+  padding-top: 0.25rem;
+}
+
+/* Compact “How to stake” — smaller type, full width with staking card */
+body.stake-solana-page .staking-howto-compact {
+  padding: 0.75rem 0.9rem 0.95rem;
+  background: var(--solana-panel-bg);
+  border: var(--solana-panel-border);
+}
+
+body.stake-solana-page .staking-steps-compact {
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  body.stake-solana-page .staking-steps-compact {
+    /* Narrower columns 1 & 3; wider center (more copy in step 2) */
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.36fr) minmax(0, 0.82fr);
+    gap: 0.6rem;
+    align-items: stretch;
+  }
+}
+
+body.stake-solana-page .staking-steps-compact li {
+  padding: 0.45rem 0.55rem;
+  margin: 0;
+  background: var(--solana-panel-tile-bg);
+  border: 1px solid var(--solana-panel-tile-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.stake-solana-page .staking-steps-compact li:nth-child(2) {
+  padding-top: 0.5rem;
+  padding-bottom: 0.52rem;
+}
+
+body.stake-solana-page .staking-steps-compact li:nth-child(2) p {
+  line-height: 1.38;
+}
+
+body.stake-solana-page .staking-steps-compact li span.step-number {
+  width: 22px;
+  height: 22px;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+body.stake-solana-page .staking-steps-compact li p {
+  font-size: 0.7rem;
+  line-height: 1.32;
+}
+
+/* Liquid swap: match FAQ / stats title rhythm; constrain intro line length */
+body.stake-solana-page .liquid-swap-intro__sub {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+body.stake-solana-page .liquid-swap-footnote {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Jupiter Plugin: full panel width; height follows widget (avoid fixed min-height grey band) */
+body.stake-solana-page .staking-jupiter-embed {
+  min-height: 0;
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  z-index: 3;
+  border-radius: var(--stake-solana-panel-radius, 12px);
+  overflow: visible;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--solana-panel-tile-border, rgba(255, 255, 255, 0.08));
+}
+
+/* Jupiter mounts here; stretch host so integrated UI can use full column width */
+body.stake-solana-page .staking-jupiter-embed #jupiter-plugin-instance {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* Token search / dropdowns render inside the plugin; .staking-card { overflow: hidden } clips them and the UI can look blank */
+body.stake-solana-page .staking-card-elegant:has([data-panel="liquid"].active) {
+  overflow: visible;
+}
+
+body.stake-solana-page .staking-panel[data-panel="liquid"].active {
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+
+body.stake-solana-page {
+  --jupiter-plugin-primary: 255, 193, 7;
+  --jupiter-plugin-warning: 255, 193, 7;
+}
