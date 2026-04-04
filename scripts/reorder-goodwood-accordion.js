@@ -1,5 +1,5 @@
 /**
- * Reorders Good Wood Show accordion: EP8 (top, open) … EP1 (bottom).
+ * Reorders Good Wood Show accordion: EP9 (top, open) … EP1 (bottom).
  * Run from site root: node scripts/reorder-goodwood-accordion.js
  */
 const fs = require("fs");
@@ -25,8 +25,8 @@ inner = inner.replace(
 
 const delim = /\n\n          <div class="accordion-item">\n/;
 const blocks = inner.split(delim);
-if (blocks.length !== 8) {
-  throw new Error(`Expected 8 accordion blocks, got ${blocks.length}`);
+if (blocks.length !== 9) {
+  throw new Error(`Expected 9 accordion blocks, got ${blocks.length}`);
 }
 const items = blocks.map((b, i) =>
   i === 0 ? b : "\n\n          <div class=\"accordion-item\">\n" + b
@@ -41,8 +41,10 @@ const names = [
   "Six",
   "Seven",
   "Eight",
+  "Nine",
 ];
 const fromSuffix = [
+  "Nine",
   "Eight",
   "Seven",
   "Six",
@@ -95,4 +97,4 @@ newInner = newInner.replace(
 
 const out = html.slice(0, afterOpen) + newInner + html.slice(iClose);
 fs.writeFileSync(file, out, "utf8");
-console.log("OK: EP8 … EP1 (EP8 open).");
+console.log("OK: EP9 … EP1 (EP9 open).");

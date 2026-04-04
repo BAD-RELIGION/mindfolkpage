@@ -1,4 +1,5 @@
 const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
+const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
 
 (() => {
   const MAX_ATTEMPTS = 60;
@@ -93,11 +94,6 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
           if (window.backpack?.solana) return window.backpack.solana;
           if (window.solana?.isBackpack) return window.solana;
           return null;
-        case 'magicEden':
-          // Magic Eden injects as window.magicEden.solana or window.solana with isMagicEden
-          if (window.magicEden?.solana) return window.magicEden.solana;
-          if (window.solana?.isMagicEden) return window.solana;
-          return null;
         default:
           return null;
       }
@@ -108,7 +104,6 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       if (getWalletProvider('phantom')) available.push('phantom');
       if (getWalletProvider('solflare')) available.push('solflare');
       if (getWalletProvider('backpack')) available.push('backpack');
-      if (getWalletProvider('magicEden')) available.push('magicEden');
       return available;
     }
 
@@ -169,6 +164,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
     };
 
     const APY_NATIVE = parseFloat(nativePanel.dataset.apy || '0');
+    const liquidPanel = stakingSection.querySelector('[data-panel="liquid"]');
 
     function formatSol(value, decimals = 4) {
       if (!Number.isFinite(value) || value <= 0) return '0';
@@ -306,8 +302,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       const names = {
         'phantom': 'Phantom',
         'solflare': 'Solflare',
-        'backpack': 'Backpack',
-        'magicEden': 'Magic Eden'
+        'backpack': 'Backpack'
       };
       return names[walletName] || walletName.charAt(0).toUpperCase() + walletName.slice(1).replace(/([A-Z])/g, ' $1');
     }
@@ -316,8 +311,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       const icons = {
         'phantom': 'fa-solid fa-ghost',
         'solflare': 'fa-solid fa-sun',
-        'backpack': 'fa-solid fa-bag-shopping',
-        'magicEden': 'fa-solid fa-gem'
+        'backpack': 'fa-solid fa-bag-shopping'
       };
       return icons[walletName] || 'fa-solid fa-wallet';
     }
@@ -327,8 +321,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       const logos = {
         'phantom': 'img/wallets/phantom.png',
         'solflare': 'img/wallets/solflare.png',
-        'backpack': 'img/wallets/backpack.png',
-        'magicEden': 'img/wallets/magiceden.png'
+        'backpack': 'img/wallets/backpack.png'
       };
       return logos[walletName] || 'img/wallets/default.png';
     }
@@ -375,8 +368,7 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
       const wallets = [
         { id: 'phantom', name: 'Phantom', color: '#AB9FF2' },
         { id: 'solflare', name: 'Solflare', color: '#FFB800' },
-        { id: 'backpack', name: 'Backpack', color: '#FF6B35' },
-        { id: 'magicEden', name: 'Magic Eden', color: '#00D4FF' }
+        { id: 'backpack', name: 'Backpack', color: '#FF6B35' }
       ];
       
       const available = detectAvailableWallets();
@@ -466,7 +458,10 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
         updateQuickButtons();
         const sol = lamports / web3.LAMPORTS_PER_SOL;
         balanceEl.hidden = false;
-        balanceEl.textContent = `Balance: ${formatSol(sol, 4)} SOL`;
+        const balanceText = balanceEl.querySelector('.staking-balance__text');
+        const balStr = `Balance: ${formatSol(sol, 4)} SOL`;
+        if (balanceText) balanceText.textContent = balStr;
+        else balanceEl.textContent = balStr;
         updateWalletIndicator();
         // Refresh stake accounts asynchronously without blocking
         refreshStakeAccounts().catch(err => {
@@ -774,7 +769,9 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
 
     function resetBalanceDisplay() {
       balanceEl.hidden = true;
-      balanceEl.textContent = 'Balance: -- SOL';
+      const balanceText = balanceEl.querySelector('.staking-balance__text');
+      if (balanceText) balanceText.textContent = 'Balance: -- SOL';
+      else balanceEl.textContent = 'Balance: -- SOL';
       updateQuickButtons();
     }
 
@@ -1231,6 +1228,14 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
           if (numInput) numInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
       });
+
+      if (targetMode === 'liquid') {
+        requestAnimationFrame(() => {
+          if (typeof window.initMindfolkJupiterSwapIfNeeded === 'function') {
+            window.initMindfolkJupiterSwapIfNeeded();
+          }
+        });
+      }
     }
 
     toggleButtons.forEach((btn) => {
@@ -1241,6 +1246,35 @@ const VALIDATOR_VOTE_ACCOUNT = 'MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB';
     });
 
     activatePanel('native');
+
+    if (liquidPanel) {
+      const copyMintBtn = liquidPanel.querySelector('[data-copy-mindsol-mint]');
+      const liquidFeedback = liquidPanel.querySelector('[data-liquid-feedback]');
+
+      function setLiquidFeedback(message, type = 'info') {
+        if (!liquidFeedback) return;
+        liquidFeedback.textContent = '';
+        liquidFeedback.className = 'staking-feedback mb-2';
+        if (!message) {
+          liquidFeedback.hidden = true;
+          return;
+        }
+        liquidFeedback.hidden = false;
+        liquidFeedback.textContent = message;
+        liquidFeedback.classList.add(`staking-feedback--${type}`);
+      }
+
+      copyMintBtn?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(MINDSOL_MINT);
+          setLiquidFeedback('Mint address copied.', 'success');
+          const tid = window.setTimeout(() => setLiquidFeedback(''), 2200);
+          STATE.activeTimeouts.push(tid);
+        } catch (e) {
+          setLiquidFeedback('Could not copy automatically—select the mint address and copy manually.', 'error');
+        }
+      });
+    }
 
     // Fetch SOL price from CoinGecko
     async function fetchSolPrice() {
