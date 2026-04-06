@@ -76,8 +76,8 @@
   let distributionChart = null;
   let refreshTimer = null;
 
-  /** Same default as staking-preview.js / former validator-stats.js when CONFIG unset. */
-  const DEFAULT_HELIUS_API_KEY = '393d535c-31f8-4316-bc07-6f6bb8ae1cdf';
+  /** Optional: set via window.CONFIG.HELIUS_API_KEY or localStorage('helius_api_key'). */
+  const DEFAULT_HELIUS_API_KEY = '';
 
   function heliusRpcUrl() {
     const key =
@@ -85,7 +85,7 @@
       (typeof localStorage !== 'undefined' && localStorage.getItem('helius_api_key')) ||
       DEFAULT_HELIUS_API_KEY;
     const trimmed = (key || '').trim();
-    if (trimmed) return `https://mainnet.helius-rpc.com/?api-key=${trimmed}`;
+    if (trimmed) return `https://mainnet.helius-rpc.com/?api-key=${encodeURIComponent(trimmed)}`;
     return null;
   }
 
@@ -94,6 +94,8 @@
     const h = heliusRpcUrl();
     if (h) list.push(h);
     list.push('https://api.mainnet-beta.solana.com');
+
+
     return list;
   }
 
@@ -479,6 +481,10 @@
     if (!canvas || typeof Chart === 'undefined') return;
 
     const compact = document.body && document.body.classList.contains('stake-solana-page');
+    const getLegendColor = () => {
+      const theme = document.body && document.body.getAttribute('data-theme');
+      return theme === 'light' ? 'rgba(17,24,39,0.75)' : 'rgba(255,255,255,0.9)';
+    };
     const labels = rows.map((r) => r.label);
     const data = rows.map((r) => r.lamports / 1e9);
     const colors = rows.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]);
@@ -521,7 +527,7 @@
             align: compact ? 'start' : 'center',
             fullSize: compact ? false : true,
             labels: {
-              color: 'rgba(255,255,255,0.9)',
+              color: getLegendColor(),
               boxWidth: compact ? 14 : 12,
               padding: compact ? 6 : 10,
               font: { size: compact ? 12 : 11 },
@@ -540,6 +546,16 @@
         },
       },
     });
+
+    try {
+      const obs = new MutationObserver(() => {
+        if (!distributionChart) return;
+        const next = getLegendColor();
+        distributionChart.options.plugins.legend.labels.color = next;
+        distributionChart.update('none');
+      });
+      obs.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    } catch (e) {}
   }
 
   async function loadDistribution() {

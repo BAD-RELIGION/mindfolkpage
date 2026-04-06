@@ -112,7 +112,9 @@
     return {
       containerStyles: {
         width: '100%',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        minHeight: 0,
+        height: 'auto'
       }
     };
   }

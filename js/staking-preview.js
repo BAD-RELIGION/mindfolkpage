@@ -67,12 +67,26 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     const stakingSection = document.getElementById('staking');
     if (!stakingSection) return;
 
-    // SECURITY: Use Helius RPC for all operations (more reliable, avoids 403 errors)
-    const HELIUS_API_KEY = '393d535c-31f8-4316-bc07-6f6bb8ae1cdf';
-    const HELIUS_RPC = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`;
-    
-    // Connection for all operations (uses Helius - more reliable, avoids public RPC 403 errors)
-    const writeConnection = new web3.Connection(HELIUS_RPC, 'confirmed');
+    function getHeliusRpcUrl() {
+      try {
+        const k =
+          (typeof window !== 'undefined' && window.CONFIG && window.CONFIG.HELIUS_API_KEY) ||
+          (typeof localStorage !== 'undefined' && localStorage.getItem('helius_api_key')) ||
+          '';
+        const trimmed = String(k || '').trim();
+        if (!trimmed) return null;
+        return `https://mainnet.helius-rpc.com/?api-key=${encodeURIComponent(trimmed)}`;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    const HELIUS_RPC = getHeliusRpcUrl();
+    const WRITE_RPC = HELIUS_RPC || 'https://api.mainnet-beta.solana.com';
+
+
+    // Connection for all operations (Helius if configured; otherwise public RPC)
+    const writeConnection = new web3.Connection(WRITE_RPC, 'confirmed');
 
     // Wallet detection
     function getWalletProvider(walletName) {
@@ -116,10 +130,10 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     const amountInput = nativePanel.querySelector('#nativeAmount');
     const quickButtons = Array.from(nativePanel.querySelectorAll('[data-quick-amount]'));
     const balanceEl = nativePanel.querySelector('[data-wallet-balance]');
-    const connectButton = nativePanel.querySelector('[data-connect-wallet]');
-    const disconnectButton = nativePanel.querySelector('[data-disconnect-wallet]');
+    const connectButton = stakingSection.querySelector('[data-connect-wallet]');
+    const disconnectButton = stakingSection.querySelector('[data-disconnect-wallet]');
     const submitButton = nativePanel.querySelector('[data-submit-stake]');
-    const feedbackEl = nativePanel.querySelector('[data-feedback]');
+    const feedbackEl = stakingSection.querySelector('[data-feedback]');
     const summaryAmountEl = nativePanel.querySelector('[data-summary-amount]');
     const summaryRewardEl = nativePanel.querySelector('[data-summary-reward]');
     const rentFeeEl = nativePanel.querySelector('[data-rent-fee]');
@@ -176,7 +190,8 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
 
     function setFeedback(message, type = 'info') {
       feedbackEl.textContent = '';
-      feedbackEl.className = 'staking-feedback mb-3';
+      const inWalletStrip = Boolean(feedbackEl.closest('.staking-wallet-strip'));
+      feedbackEl.className = inWalletStrip ? 'staking-feedback mb-0' : 'staking-feedback mb-3';
       if (!message) return;
       feedbackEl.textContent = message;
       feedbackEl.classList.add(`staking-feedback--${type}`);
@@ -271,20 +286,23 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     }
 
     function updateConnectButton() {
+      const walletStrip = connectButton.closest('.staking-wallet-strip');
       connectButton.classList.remove('btn-warning', 'btn-outline-light', 'btn-secondary');
       disconnectButton.classList.add('d-none');
-      
+      walletStrip?.classList.remove('staking-wallet-strip--connected');
+
       if (STATE.wallet) {
         const walletName = getWalletDisplayName(STATE.currentWalletName || '');
         const shortKey = STATE.wallet.toBase58();
-        connectButton.textContent = `Connected: ${shortKey.slice(0, 4)}…${shortKey.slice(-4)}`;
+        connectButton.textContent = `Wallet: ${shortKey.slice(0, 4)}…${shortKey.slice(-4)}`;
         connectButton.disabled = STATE.connecting;
         connectButton.classList.add('btn-outline-light');
         disconnectButton.classList.remove('d-none');
         disconnectButton.disabled = STATE.connecting;
+        walletStrip?.classList.add('staking-wallet-strip--connected');
         return;
       }
-      
+
       if (STATE.connecting) {
         const walletName = getWalletDisplayName(STATE.currentWalletName || '');
         connectButton.textContent = `Connecting ${walletName}…`;
@@ -292,7 +310,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         connectButton.classList.add('btn-warning');
         return;
       }
-      
+
       connectButton.textContent = 'Connect Wallet';
       connectButton.disabled = false;
       connectButton.classList.add('btn-warning');
@@ -1119,7 +1137,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           showSuccessModal(`SOL Staked with Mindfolk Validator!\n\nAmount:\n${formatSol(amount, 4)} SOL\n\nValidator:\n${VALIDATOR_VOTE_ACCOUNT}\n\nStake Account:\n${stakeAccount.publicKey.toString()}\n\nView on Solscan:\n<a href="${solscanUrl}" target="_blank" rel="noopener noreferrer">${solscanUrl}</a>`);
           
           // Show success feedback
-          setFeedback(`✅ Transaction confirmed! Validator: ${VALIDATOR_VOTE_ACCOUNT}\nStake Account: ${stakeAccount.publicKey.toString()}\nView: ${solscanUrl}`, 'success');
+          setFeedback('✅ Transaction confirmed!', 'success');
           
           // Clear input and update UI
           amountInput.value = '';
@@ -1127,14 +1145,14 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           await refreshBalance();
           
           // Wait a few seconds before refreshing stake accounts (they need time to be indexed)
-          setFeedback(`✅ Transaction confirmed! Refreshing staked balance...`, 'success');
+          setFeedback('✅ Transaction confirmed!', 'success');
           setTimeout(async () => {
             try {
               await refreshStakeAccounts();
-              setFeedback(`✅ Transaction confirmed! Your staked SOL should now be visible.`, 'success');
+              setFeedback('✅ Transaction confirmed!', 'success');
             } catch (err) {
               console.warn('Failed to refresh stake accounts after staking:', err);
-              setFeedback(`✅ Transaction confirmed! If staked balance doesn't appear, click "Refresh Stakes" button.`, 'success');
+              setFeedback('✅ Transaction confirmed!', 'success');
             }
           }, 3000); // Wait 3 seconds for indexing
         }
@@ -1228,6 +1246,11 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           if (numInput) numInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
       });
+
+      stakingSection.setAttribute('data-staking-mode', targetMode);
+      if (targetMode === 'native') {
+        updateConnectButton();
+      }
 
       if (targetMode === 'liquid') {
         requestAnimationFrame(() => {
