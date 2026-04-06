@@ -1,0 +1,11 @@
+Contact: mailto:[YOUR-EMAIL-HERE]
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://[YOUR-DOMAIN]/.well-known/security.txt
+
+# Mindfolk Validator - Solana Staking Service
+# Validator Address: MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB
+# This is a legitimate Solana validator staking service
+
+
+

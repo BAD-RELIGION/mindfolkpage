@@ -149,13 +149,21 @@
     el.classList.remove('validator-stat-trend--down', 'validator-stat-trend--up', 'd-none');
     if (direction === 'down') {
       el.classList.add('validator-stat-trend--down');
-      el.innerHTML = '<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+      el.replaceChildren();
+      const i = document.createElement('i');
+      i.className = 'fa-solid fa-chevron-down';
+      i.setAttribute('aria-hidden', 'true');
+      el.appendChild(i);
     } else if (direction === 'up') {
       el.classList.add('validator-stat-trend--up');
-      el.innerHTML = '<i class="fa-solid fa-chevron-up" aria-hidden="true"></i>';
+      el.replaceChildren();
+      const i = document.createElement('i');
+      i.className = 'fa-solid fa-chevron-up';
+      i.setAttribute('aria-hidden', 'true');
+      el.appendChild(i);
     } else {
       el.classList.add('d-none');
-      el.innerHTML = '';
+      el.replaceChildren();
     }
   }
 
@@ -455,19 +463,34 @@
     tbody.replaceChildren();
     for (const r of rows) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${escapeHtml(r.label)}</td>
-        <td class="num">${formatSol(r.lamports)} SOL</td>
-        <td class="num">${r.pct.toFixed(2)}%</td>`;
+      const tdLabel = document.createElement('td');
+      tdLabel.textContent = r.label;
+      const tdStake = document.createElement('td');
+      tdStake.className = 'num';
+      tdStake.textContent = `${formatSol(r.lamports)} SOL`;
+      const tdPct = document.createElement('td');
+      tdPct.className = 'num';
+      tdPct.textContent = `${r.pct.toFixed(2)}%`;
+      tr.appendChild(tdLabel);
+      tr.appendChild(tdStake);
+      tr.appendChild(tdPct);
       tbody.appendChild(tr);
     }
 
-    tfoot.innerHTML = `
-      <tr>
-        <td>Total</td>
-        <td class="num">${formatSol(totalLamports)} SOL</td>
-        <td class="num">100%</td>
-      </tr>`;
+    tfoot.replaceChildren();
+    const trFoot = document.createElement('tr');
+    const tdTotal = document.createElement('td');
+    tdTotal.textContent = 'Total';
+    const tdTotalStake = document.createElement('td');
+    tdTotalStake.className = 'num';
+    tdTotalStake.textContent = `${formatSol(totalLamports)} SOL`;
+    const tdTotalPct = document.createElement('td');
+    tdTotalPct.className = 'num';
+    tdTotalPct.textContent = '100%';
+    trFoot.appendChild(tdTotal);
+    trFoot.appendChild(tdTotalStake);
+    trFoot.appendChild(tdTotalPct);
+    tfoot.appendChild(trFoot);
   }
 
   function escapeHtml(s) {

@@ -141,10 +141,10 @@ h3 {
   text-underline-offset: 0.25rem;
 }
 
-/* index.html primary nav: section links in caps (icons row unchanged) */
+/* index.html primary nav: section links */
 .mindfolk-main-nav .navbar-nav.me-auto .nav-link {
-  text-transform: uppercase;
-  letter-spacing: 0.055em;
+  text-transform: none;
+  letter-spacing: 0.02em;
   font-weight: 600;
 }
 

@@ -31,7 +31,7 @@
       content="Native SOL staking, mindSOL swap (Jupiter), vote account, wallets, validator stats, and staking FAQ—all on one page."
     />
     <meta name="twitter:image" content="https://mindfolk.xyz/img/og-mindfolk-staking.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https: wss:;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https: wss:;" />
     <title>Stake SOL with Mindfolk Validator</title>
     <script type="application/ld+json">
       {
@@ -203,7 +203,6 @@
                     height="72"
                     class="validator-hero-panel__logo rounded-circle"
                     style="width: 72px; height: 72px; object-fit: contain"
-                    onerror="this.style.display='none'"
                   />
                 </div>
                 <div class="flex-grow-1 min-w-0 text-start">
@@ -747,52 +746,13 @@
     </footer>
 
     <script src="js/mdb.umd.min.js"></script>
-    <script
-      id="solana-web3-script"
-      src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"
-      onerror="this.onerror=null;this.src='https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js';"
-    ></script>
+    <script src="js/solana-web3-loader.js"></script>
     <script src="js/config.js"></script>
     <script src="js/staking-preview.js"></script>
     <script src="js/mindsol-jupiter-swap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/stake-solana-validator.js"></script>
-    <script>
-      (function () {
-        var STORAGE_KEY = 'mindfolkTheme';
-        var track = document.querySelector('[data-theme-toggle]');
-        if (!track) return;
-
-        function applyTheme(theme) {
-          document.body.setAttribute('data-theme', theme);
-          track.setAttribute('aria-checked', String(theme !== 'light'));
-        }
-
-        var saved = null;
-        try {
-          saved = localStorage.getItem(STORAGE_KEY);
-        } catch (e) {}
-
-        applyTheme(saved === 'light' ? 'light' : 'dark');
-
-        track.addEventListener('click', function () {
-          var next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-          applyTheme(next);
-          try {
-            localStorage.setItem(STORAGE_KEY, next);
-          } catch (e) {}
-        });
-
-        // Make the (i) tooltip usable on touch devices
-        document.addEventListener('click', function (e) {
-          var trigger = e.target && e.target.closest ? e.target.closest('[data-howto-trigger]') : null;
-          if (!trigger) return;
-          var wrap = trigger.parentElement;
-          if (!wrap) return;
-          wrap.classList.toggle('is-open');
-        });
-      })();
-    </script>
+    <script src="js/stake-solana-runtime.js"></script>
 
 
     <div class="wallet-modal" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">

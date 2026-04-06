@@ -381,7 +381,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     
     function populateWalletOptions() {
       if (!walletGrid) return;
-      walletGrid.innerHTML = '';
+      walletGrid.replaceChildren();
       
       const wallets = [
         { id: 'phantom', name: 'Phantom', color: '#AB9FF2' },
@@ -413,7 +413,10 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         const fallbackDiv = document.createElement('div');
         fallbackDiv.className = 'wallet-option-icon-fallback';
         fallbackDiv.style.cssText = 'display: none; background: linear-gradient(135deg, ' + wallet.color + '22, ' + wallet.color + '11); width: 100%; height: 100%; align-items: center; justify-content: center; border-radius: 12px;';
-        fallbackDiv.innerHTML = '<i class="' + getWalletIcon(wallet.id) + '" style="color: ' + wallet.color + ';"></i>';
+        const fallbackIcon = document.createElement('i');
+        fallbackIcon.className = getWalletIcon(wallet.id);
+        fallbackIcon.style.color = wallet.color;
+        fallbackDiv.appendChild(fallbackIcon);
         
         const iconDiv = document.createElement('div');
         iconDiv.className = 'wallet-option-icon';
@@ -422,10 +425,14 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         
         const contentDiv = document.createElement('div');
         contentDiv.className = 'wallet-option-content';
-        contentDiv.innerHTML = `
-          <div class="wallet-option-name">${wallet.name}</div>
-          <div class="wallet-option-status">${isAvailable ? 'Detected' : 'Not installed'}</div>
-        `;
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'wallet-option-name';
+        nameDiv.textContent = wallet.name;
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'wallet-option-status';
+        statusDiv.textContent = isAvailable ? 'Detected' : 'Not installed';
+        contentDiv.appendChild(nameDiv);
+        contentDiv.appendChild(statusDiv);
         
         walletCard.appendChild(iconDiv);
         walletCard.appendChild(contentDiv);
@@ -1504,15 +1511,19 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     function showSuccessModal(message) {
       if (!successModal || !successModalBackdrop || !successModalMessage) return;
       
-      // Handle line breaks in message and preserve HTML (like links)
-      successModalMessage.innerHTML = message.split('\n').map(line => {
-        if (line.trim() === '') return '<br>';
-        // If line contains HTML tags, wrap in div to maintain centering
-        if (line.includes('<a ') || line.includes('</a>')) {
-          return `<div>${line}</div>`;
+      // Render as text-only to avoid HTML injection.
+      // If you need links, pass them separately and construct DOM nodes explicitly.
+      successModalMessage.replaceChildren();
+      const lines = String(message || '').split('\n');
+      for (const line of lines) {
+        if (line.trim() === '') {
+          successModalMessage.appendChild(document.createElement('br'));
+          continue;
         }
-        return `<div>${line}</div>`;
-      }).join('');
+        const row = document.createElement('div');
+        row.textContent = line;
+        successModalMessage.appendChild(row);
+      }
       
       successModal.style.display = 'flex';
       successModalBackdrop.style.display = 'block';
