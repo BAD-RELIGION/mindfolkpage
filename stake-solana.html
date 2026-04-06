@@ -31,7 +31,7 @@
       content="Native SOL staking, mindSOL swap (Jupiter), vote account, wallets, validator stats, and staking FAQ—all on one page."
     />
     <meta name="twitter:image" content="https://mindfolk.xyz/img/og-mindfolk-staking.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' http://127.0.0.1:7829 https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https: wss:;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https: wss:;" />
     <title>Stake SOL with Mindfolk Validator</title>
     <script type="application/ld+json">
       {
@@ -127,7 +127,7 @@
     <link rel="stylesheet" href="css/mdb.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bust cache after deploy: live site had an old ~19KB staking.css without body.stake-solana-page rules -->
-    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260204" />
+    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260403l" />
     <link rel="stylesheet" href="fonts/stylesheet.css" />
     <!-- Jupiter Plugin loader (defers until parsed); data-preload warms the main app bundle per Jupiter docs -->
     <script src="https://plugin.jup.ag/plugin-v1.js" data-preload defer></script>
@@ -141,7 +141,8 @@
     <nav class="navbar navbar-expand-lg fixed-top navbar-scroll navbar-scrolled" data-mdb-navbar-init>
       <div class="container">
         <a class="navbar-brand mf-logo" href="index.html">
-          <img src="img/mfblack.png" alt="Mindfolk" style="height: 36px; width: auto" />
+          <img src="img/mindfolk-logo-white.png" alt="Mindfolk" class="mf-logo-img mf-logo-img--dark" style="height: 36px; width: auto" />
+          <img src="img/mfblack.png" alt="" class="mf-logo-img mf-logo-img--light" style="height: 36px; width: auto" aria-hidden="true" />
         </a>
         <button
           class="navbar-toggler"
@@ -155,6 +156,15 @@
           <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="stakeNav">
+          <div class="navbar-nav stake-nav-center mx-auto">
+            <div class="stake-theme-switch" aria-label="Theme">
+              <i class="fa-solid fa-sun stake-theme-switch__icon" aria-hidden="true"></i>
+              <button type="button" class="stake-theme-switch__track" data-theme-toggle aria-label="Toggle theme" role="switch" aria-checked="true">
+                <span class="stake-theme-switch__thumb" aria-hidden="true"></span>
+              </button>
+              <i class="fa-solid fa-moon stake-theme-switch__icon" aria-hidden="true"></i>
+            </div>
+          </div>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="index.html">Home</a>
@@ -248,18 +258,17 @@
               </div>
             </div>
 
-            <section id="staking" class="pt-0">
-              <div class="staking-card staking-card-elegant rounded-4 shadow-lg">
-                      <div class="validator-callout validator-callout-elegant text-white mb-3 text-center">
-                        <p class="stake-solana-section-title validator-callout-elegant__headline mb-2">Stake SOL with the Mindfolk Validator</p>
-                        <p class="validator-callout-elegant__tagline text-muted small mb-3">
-                          Stake directly with our validator. Rewards compound automatically every epoch.
-                        </p>
+            <section id="staking" class="pt-0" data-staking-mode="native">
+              <div class="staking-card staking-card-elegant stake-solana-intro-card rounded-4 shadow-lg">
+                      <div class="stake-solana-panel-intro text-white text-center mb-0">
+                        <p class="stake-solana-section-title mb-2">Stake SOL with the Mindfolk Validator</p>
                         <p class="mb-0 validator-description">
-                          Mindfolk runs a performance-optimized Solana validator with 24/7 monitoring, geo-redundant infrastructure, and a community-first commission. Staking with us supports decentralization while routing rewards back to the Mindfolk ecosystem.
+                          Staking your SOL with Mindfolk is a simple way to earn rewards while supporting a more open and decentralized Solana network. As an independent validator, your stake helps distribute power more evenly — which is essential for the long-term health of Solana and our community. We run everything reliably behind the scenes so your rewards grow automatically over time. By staking with us, you’re not just earning — you’re helping build a stronger and more community-driven Solana.
                         </p>
                       </div>
+              </div>
 
+              <div class="staking-card staking-card-elegant stake-solana-stake-panel rounded-4 shadow-lg">
                       <div class="staking-mode-grid" role="tablist" aria-label="Select staking mode">
                           <div class="staking-mode-card">
                             <button
@@ -282,19 +291,45 @@
                             >
                               <span class="staking-mode-card__check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
                               <span class="staking-mode-card__title">Liquid staking</span>
-                              <span class="staking-mode-card__desc">Swap tokens for mindSOL (liquid staking).</span>
+                              <span class="staking-mode-card__desc">Swap tokens for mindSOL</span>
                             </button>
                           </div>
                         </div>
 
                         <div class="staking-panel active" data-panel="native" data-apy="0.07" data-token-symbol="SOL" data-reward-symbol="SOL">
-                          <form class="staking-form staking-form-elegant needs-validation" novalidate>
-                            <div class="staking-panel-header staking-panel-header-elegant text-start mb-3">
-                              <div class="staking-info-callout alert alert-info mb-0 py-2 px-3" role="note">
-                                <strong>Note:</strong> Each stake creates a new stake account (Solana requirement). You'll see multiple stake accounts in your wallet — this is normal. Each requires a one-time rent fee (~0.00228 SOL).
+                          <div class="staking-howto-compact staking-howto-inline staking-panel-howto text-white mb-3 mb-md-4">
+                            <div class="staking-howto-bar">
+                              <h3 class="staking-howto-title mb-0">How to stake sol</h3>
+                              <button type="button" class="staking-info-icon" data-howto-trigger aria-label="Detailed info">
+                                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                              </button>
+                              <div class="staking-howto-tooltip" role="tooltip" aria-hidden="true">
+                                <ul class="staking-steps staking-steps-compact staking-howto-tooltip__list mb-0">
+                                  <li>
+                                    <span class="step-number">1</span>
+                                    <p>Click connect wallet and select your Solana wallet from the dropdown menu.</p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">2</span>
+                                    <p>
+                                      Select or type the amount of SOL to stake. Track the stake account, rewards, and cooldown status right from the panel.
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">3</span>
+                                    <p>
+                                      Click <strong class="text-warning">STAKE SOL</strong> (we create and delegate a new stake account directly to the Mindfolk validator).
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">4</span>
+                                    <p>Review the wallet pop-up carefully and confirm the transaction.</p>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
-
+                          </div>
+                          <form class="staking-form staking-form-elegant needs-validation" novalidate>
                             <div class="staking-amount-shell mb-3">
                               <div class="staking-amount-toolbar">
                                 <span class="staking-label-caps">Amount</span>
@@ -330,6 +365,18 @@
                               </div>
                             </div>
 
+                            <button type="submit" class="btn btn-light btn-stake-primary w-100 mb-3" disabled data-submit-stake>Stake SOL</button>
+
+                            <div class="staking-wallet-strip staking-wallet-strip--in-form mb-3" aria-hidden="false">
+                              <div class="staking-wallet-strip__status-row">
+                                <button type="button" class="btn btn-warning btn-connect-elegant staking-wallet-strip__connect-btn w-100 text-uppercase fw-bold" data-connect-wallet>Connect Wallet</button>
+                                <div class="staking-wallet-strip__feedback-col">
+                                  <div class="staking-feedback mb-0" data-feedback role="status" aria-live="polite"></div>
+                                </div>
+                                <button type="button" class="btn staking-wallet-strip__disconnect d-none text-uppercase fw-bold" data-disconnect-wallet>Disconnect</button>
+                              </div>
+                            </div>
+
                             <div class="staking-detail-list mb-3">
                               <div class="staking-detail-row">
                                 <span class="staking-detail-row__left">
@@ -361,10 +408,11 @@
                               </div>
                             </div>
 
-                            <button type="submit" class="btn btn-light btn-stake-primary w-100 mb-2" disabled data-submit-stake>Stake SOL</button>
-                            <div class="staking-feedback mb-3" data-feedback role="status" aria-live="polite"></div>
-                            <button type="button" class="btn btn-warning btn-connect-elegant w-100 mb-2" data-connect-wallet>Connect Wallet</button>
-                            <button type="button" class="btn btn-outline-light w-100 mb-0 d-none" data-disconnect-wallet>Disconnect</button>
+                            <div class="staking-panel-header staking-panel-header-elegant text-start mt-1 mb-0">
+                              <div class="staking-info-callout alert alert-info mb-0 py-2 px-3" role="note">
+                                <strong>Note:</strong> Each stake creates a new stake account (Solana requirement). You'll see multiple stake accounts in your wallet — this is normal. Each requires a one-time rent fee (~0.00228 SOL).
+                              </div>
+                            </div>
                           </form>
                           <div
                             class="unstaking-section unstaking-section-elegant mt-4 pt-4 border-top border-secondary"
@@ -393,11 +441,38 @@
                         </div>
 
                         <div class="staking-panel" data-panel="liquid" data-apy="0.0536" data-token-symbol="SOL" data-reward-symbol="mindSOL" aria-hidden="true">
-                          <div class="liquid-swap-intro text-center mb-3">
-                            <h3 class="stake-solana-section-title mb-2">Swap for mindSOL</h3>
-                            <p class="text-muted small mb-0 liquid-swap-intro__sub">
-                              mindSOL is Mindfolk’s liquid staking token—tradeable while rewards accrue. Use the swap below to trade SOL or any Jupiter-supported token into mindSOL.
-                            </p>
+                          <div class="liquid-swap-intro staking-panel-howto staking-howto-compact staking-howto-inline text-white mb-3 mb-md-4">
+                            <div class="staking-howto-bar">
+                              <h3 class="staking-howto-title mb-0">
+                                How to swap for
+                                <span class="mindsol-wordmark" aria-label="mindSOL">
+                                  <span class="mindsol-wordmark__mind">mind</span><span class="mindsol-wordmark__sol">SOL</span>
+                                </span>
+                              </h3>
+                              <button type="button" class="staking-info-icon" data-howto-trigger aria-label="Detailed info">
+                                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                              </button>
+                              <div class="staking-howto-tooltip" role="tooltip" aria-hidden="true">
+                                <ul class="staking-steps staking-steps-compact staking-howto-tooltip__list mb-0">
+                                  <li>
+                                    <span class="step-number">1</span>
+                                    <p>Click connect wallet in the panel below and select your Solana wallet from the dropdown menu.</p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">2</span>
+                                    <p>Select SOL token or any Jupiter-supported token to swap for mindSOL.</p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">3</span>
+                                    <p>Type the amount and click <strong class="text-warning">SWAP</strong>.</p>
+                                  </li>
+                                  <li>
+                                    <span class="step-number">4</span>
+                                    <p class="mb-0">Review and confirm the transaction in-wallet.</p>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
                           <div
                             id="mindSOL-jupiter-plugin"
@@ -412,8 +487,12 @@
                           >
                             Open swap in popup
                           </button>
-                          <div class="staking-feedback mb-2" data-liquid-feedback role="status" aria-live="polite" hidden></div>
-                          <p class="text-muted small text-center mb-2 mb-md-1 d-flex flex-wrap align-items-center justify-content-center gap-2">
+                          <div class="staking-feedback mb-1" data-liquid-feedback role="status" aria-live="polite" hidden></div>
+                          <p class="text-muted small text-center mb-2 liquid-swap-intro__lead">
+                            mindSOL is Mindfolk’s liquid staking token—tradeable while rewards accrue.
+                            <a class="link-warning text-decoration-none ms-2" href="#staking-faq">Read FAQ</a>
+                          </p>
+                          <p class="text-muted small text-center mb-2 d-flex flex-wrap align-items-center justify-content-center gap-2">
                             <span class="mb-0">mindSOL mint:</span>
                             <code class="text-warning small user-select-all mb-0">MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD</code>
                             <button
@@ -432,76 +511,105 @@
                               rel="noopener noreferrer"
                             >Solscan</a>
                           </p>
-                          <p class="text-muted small text-center mb-0 liquid-swap-footnote">
+                          <p class="text-muted text-center mb-0 liquid-swap-footnote liquid-swap-footnote--fine">
                             Swaps use third-party liquidity; slippage and fees apply. Always verify token mints and amounts before signing.
                             Quotes, routing, and transactions are handled by
                             <a class="link-warning" href="https://www.jup.ag/" target="_blank" rel="noopener noreferrer">Jupiter</a>.
-                            Connect your wallet inside the widget when prompted. The <strong class="text-warning">You receive</strong> side is fixed to mindSOL; choose any token to pay with on the other side.
                           </p>
                         </div>
               </div>
             </section>
 
-            <div class="staking-faq staking-howto-compact text-white">
-                      <h3 class="stake-solana-section-title staking-howto-compact__title mb-2 mb-md-3">How to Stake SOL with Mindfolk</h3>
-                      <ul class="staking-steps staking-steps-compact">
-                        <li>
-                          <span class="step-number">1</span>
-                          <p>Select and connect a Solana wallet (Phantom, Solflare, or Backpack) from the dropdown menu.</p>
-                        </li>
-                        <li>
-                          <span class="step-number">2</span>
-                          <p>Select the amount to stake. For native staking, we create and delegate a new stake account directly to the Mindfolk validator. For mindSOL, open <strong class="text-warning">Liquid staking</strong> and swap with Jupiter in the embedded widget.</p>
-                        </li>
-                        <li>
-                          <span class="step-number">3</span>
-                          <p>Confirm the transaction in-wallet and track the stake account, rewards, and cooldown status right from this panel.</p>
-                        </li>
-                      </ul>
-                    </div>
-            <div class="staking-seo-faq text-white">
+            <div class="staking-seo-faq text-white" id="staking-faq">
                       <h3 class="stake-solana-section-title mb-4">Staking FAQ</h3>
                       <div class="vstack gap-4 text-start">
                         <div>
-                          <p class="fw-bold text-warning mb-1">How do I stake SOL with the Mindfolk validator?</p>
+                          <p class="fw-bold text-warning mb-1">What is staking?</p>
                           <p class="text-muted mb-0">
-                            Connect a Solana wallet from the staking panel (Phantom, Solflare, or Backpack), enter the amount of SOL, and confirm the transaction in your wallet. Native staking creates and delegates a stake account to the Mindfolk validator; rewards compound automatically each epoch.
+                            Staking is how Solana stays secure. You “delegate” your SOL to a validator, which increases that validator’s voting weight and helps the network confirm blocks. Your SOL still belongs to you (it stays in your wallet under a stake account), but it becomes subject to Solana’s staking rules: activation, earning rewards each epoch, and cooldown when you unstake.
+                            Rewards are variable (not guaranteed): they change with network inflation, total stake, validator performance, and validator commission.
                           </p>
                         </div>
                         <div>
-                          <p class="fw-bold text-warning mb-1">Which Solana wallets are supported?</p>
+                          <p class="fw-bold text-warning mb-1">What is a validator?</p>
                           <p class="text-muted mb-0">
-                            You can connect Phantom, Solflare, or Backpack using the wallet menu on this page.
+                            A validator is a server that runs Solana software. It votes on the correct chain (“timely votes”), produces blocks when selected, and broadcasts data to other validators. Validators earn rewards for doing this reliably.
+                            When you stake, you’re choosing which validator to support with your delegation—this affects decentralization and (slightly) your returns depending on commission and performance.
                           </p>
                         </div>
                         <div>
                           <p class="fw-bold text-warning mb-1">What is native (direct) staking?</p>
                           <p class="text-muted mb-0">
-                            Native staking means you delegate SOL straight to a validator’s vote account through Solana’s stake program. Your SOL sits in one or more stake accounts, rewards accrue each epoch, and there is no separate “receipt” token—your position is on-chain staking until you deactivate. Unstaking starts a cooldown (typically about one to two epochs) before SOL returns to your wallet. This page’s <strong class="text-warning">Native staking</strong> mode follows that model: you delegate directly to the Mindfolk validator.
+                            Native staking is Solana’s built-in staking. Your wallet creates a dedicated on-chain “stake account” and delegates it to a validator’s vote account.
+                            - Your SOL doesn’t leave Solana or get wrapped into another token.
+                            - Rewards accrue per epoch once your stake is active.
+                            - To unstake, you deactivate the stake account (cooldown), then withdraw back to your main SOL balance.
+                            Note: Solana requires a small one-time rent deposit for each new stake account (your wallet will show this at confirmation).
                           </p>
                         </div>
                         <div>
                           <p class="fw-bold text-warning mb-1">What is liquid staking?</p>
                           <p class="text-muted mb-0">
-                            Liquid staking protocols pool participants’ SOL, delegate it to validators (often many), and mint a receipt token that represents your share. Mindfolk’s token is <strong class="text-warning">mindSOL</strong>: you can swap or use mindSOL in DeFi while earning staking-like yield, without waiting through a full native unstaking cooldown to move capital. Trade-offs can include smart-contract and protocol risk, and mindSOL’s market price can drift from SOL (“depeg” risk). On this page, <strong class="text-warning">Liquid staking</strong> uses <a class="link-warning" href="https://www.jup.ag/" target="_blank" rel="noopener noreferrer">Jupiter</a> so you can swap SOL or other supported tokens into mindSOL in-browser, with the receive side fixed to the official mindSOL mint.
+                            Liquid staking gives you a token (an LST) that represents staked SOL. Instead of holding a stake account, you hold a transferable token that is designed to increase in value relative to SOL as rewards accrue.
+                            Mindfolk’s LST is <strong class="text-warning">mindSOL</strong>. Liquid staking is useful if you want staking rewards but still want the ability to trade, lend, or use the position in DeFi.
                           </p>
                         </div>
                         <div>
-                          <p class="fw-bold text-warning mb-1">What is the Mindfolk validator vote account address?</p>
+                          <p class="fw-bold text-warning mb-1">What do I earn?</p>
                           <p class="text-muted mb-0">
-                            Vote account: <code class="text-warning">MFLKX9vSfWXa4ZcVVpp4GF64ZbNUiX9EjSqtqNMdFXB</code>. Always verify the validator identity in your wallet before you sign any transaction.
+                            You earn SOL staking rewards (paid by the protocol). Returns are usually expressed as APY, but it’s not a fixed rate:
+                            - Network conditions change (inflation schedule, total stake, fee/tip dynamics).
+                            - Your validator’s performance and commission matter.
+                            You’ll typically see rewards “compound” automatically because your stake account balance increases over time.
                           </p>
                         </div>
                         <div>
-                          <p class="fw-bold text-warning mb-1">How does unstaking work?</p>
+                          <p class="fw-bold text-warning mb-1">What’s validator commission and how does it affect rewards?</p>
                           <p class="text-muted mb-0">
-                            Unstaking deactivates your stake. Funds typically unlock after about one to two epochs before you can withdraw them to your wallet.
+                            Commission is the percentage of rewards the validator keeps to cover costs (hardware, bandwidth, monitoring, engineering, ops). The rest is distributed to delegators.
+                            All else equal, a higher commission means lower net rewards for delegators—but performance matters too (a low-commission validator that misses votes can still underperform).
                           </p>
                         </div>
                         <div>
-                          <p class="fw-bold text-warning mb-1">Are balances and APY on this page always live on-chain data?</p>
+                          <p class="fw-bold text-warning mb-1">When do rewards start? (activation / next epoch)</p>
                           <p class="text-muted mb-0">
-                            The staking panel may use mock balances and placeholder APY figures during testing. On launch, these values are intended to be powered by on-chain data and real-time validator information.
+                            Solana staking changes at epoch boundaries. After you delegate, your stake usually enters <em>activating</em> (warm-up). It becomes <em>active</em> around the next epoch boundary, and rewards generally begin once it’s active.
+                            If you stake right before an epoch flips, activation can feel fast; if you stake just after an epoch begins, you may wait close to a full epoch.
+                          </p>
+                        </div>
+                        <div>
+                          <p class="fw-bold text-warning mb-1">How long does unstaking take? (deactivation / cooldown)</p>
+                          <p class="text-muted mb-0">
+                            Unstaking is also epoch-based and happens in two steps:
+                            - <strong>Deactivate</strong>: your stake enters <em>deactivating</em> (cooldown) and stops earning after it fully deactivates.
+                            - <strong>Withdraw</strong>: once the stake is <em>inactive</em>, you withdraw it back to your main SOL balance.
+                            Deactivation typically takes about 1–2 epochs depending on timing.
+                          </p>
+                        </div>
+                        <div>
+                          <p class="fw-bold text-warning mb-1">What are the risks? (price risk for LSTs, smart contract risk, depeg risk, phishing)</p>
+                          <p class="text-muted mb-0">
+                            Risks depend on what you choose:
+                            - <strong>Native staking</strong>: the main risk is choosing a poor validator (downtime / missed votes) which can reduce rewards. Your SOL is still controlled by your wallet under Solana’s staking program.
+                            - <strong>Liquid staking</strong>: adds protocol and market risks. If the liquid staking protocol has a bug/exploit, funds could be impacted. Also, the LST can trade above/below SOL (often called “depeg” risk), especially in stressed markets.
+                            - <strong>Phishing / fake sites</strong>: the biggest real-world risk. Always verify the domain (`mindfolk.xyz`), verify addresses/mints (e.g., on Solscan), and read wallet transaction prompts before approving.
+                          </p>
+                        </div>
+                        <div>
+                          <p class="fw-bold text-warning mb-1">Why is my stake “activating/deactivating”?</p>
+                          <p class="text-muted mb-0">
+                            These are normal Solana staking states:
+                            - <strong>Activating</strong> (warm-up): your stake is queued to become active at an epoch boundary.
+                            - <strong>Active</strong>: earning rewards.
+                            - <strong>Deactivating</strong> (cooldown): you requested unstake; it will become inactive at an epoch boundary.
+                            - <strong>Inactive</strong>: not earning rewards; ready to withdraw.
+                          </p>
+                        </div>
+                        <div>
+                          <p class="fw-bold text-warning mb-1">How do I withdraw after deactivating?</p>
+                          <p class="text-muted mb-0">
+                            Once your stake account shows <strong>inactive</strong>, open your wallet’s staking section and choose <strong>Withdraw</strong> (wording differs by wallet). That moves SOL from the stake account back into your main SOL balance.
+                            If you don’t see withdraw yet, it’s usually because the stake is still <em>deactivating</em> and hasn’t reached <em>inactive</em>.
                           </p>
                         </div>
                       </div>
@@ -625,7 +733,7 @@
       </div>
     </main>
 
-    <footer class="text-white text-center footer-dark py-4" style="background: #000">
+    <footer class="text-white text-center footer-dark py-4">
       <div class="container">
         <p class="mb-2 small text-muted">
           <a class="link-warning text-decoration-none" href="index.html">mindfolk.xyz</a>
@@ -644,100 +752,48 @@
       src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"
       onerror="this.onerror=null;this.src='https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js';"
     ></script>
+    <script src="js/config.js"></script>
     <script src="js/staking-preview.js"></script>
     <script src="js/mindsol-jupiter-swap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/stake-solana-validator.js"></script>
-
-    <!-- #region agent log layout deploy debug -->
     <script>
       (function () {
-        if (location.search.indexOf('debugLayout=1') < 0) return;
-        function send(payload) {
-          var body = JSON.stringify(
-            Object.assign({ sessionId: 'b6006c', timestamp: Date.now(), runId: 'pre-fix' }, payload)
-          );
-          console.warn('[layout-debug]', body);
-          fetch('http://127.0.0.1:7829/ingest/65c757dd-344c-42c0-a50a-1af5f12e6b39', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': 'b6006c' },
-            body: body,
-          }).catch(function () {});
+        var STORAGE_KEY = 'mindfolkTheme';
+        var track = document.querySelector('[data-theme-toggle]');
+        if (!track) return;
+
+        function applyTheme(theme) {
+          document.body.setAttribute('data-theme', theme);
+          track.setAttribute('aria-checked', String(theme !== 'light'));
         }
-        function run() {
-          var bodyEl = document.body;
-          var mainEl = document.querySelector('main.staking-section');
-          var linkEl = document.querySelector('link[href*="staking.css"]');
-          var sheets = [];
+
+        var saved = null;
+        try {
+          saved = localStorage.getItem(STORAGE_KEY);
+        } catch (e) {}
+
+        applyTheme(saved === 'light' ? 'light' : 'dark');
+
+        track.addEventListener('click', function () {
+          var next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          applyTheme(next);
           try {
-            for (var i = 0; i < document.styleSheets.length; i++) {
-              var s = document.styleSheets[i];
-              sheets.push({ href: s.href || '', disabled: !!s.disabled });
-            }
-          } catch (e) {
-            sheets.push({ err: String(e) });
-          }
-          var bg = mainEl
-            ? getComputedStyle(mainEl).backgroundColor + ' / ' + getComputedStyle(mainEl).backgroundImage
-            : null;
-          send({
-            hypothesisId: 'H2',
-            location: 'stake-solana.html:debug',
-            message: 'body.className',
-            data: { className: bodyEl ? bodyEl.className : null },
-          });
-          send({
-            hypothesisId: 'H3',
-            location: 'stake-solana.html:debug',
-            message: 'location + link href',
-            data: {
-              href: location.href,
-              pathname: location.pathname,
-              stakingLinkResolved: linkEl ? linkEl.href : null,
-            },
-          });
-          send({
-            hypothesisId: 'H4',
-            location: 'stake-solana.html:debug',
-            message: 'computed main background',
-            data: { bg: bg },
-          });
-          send({
-            hypothesisId: 'H1',
-            location: 'stake-solana.html:debug',
-            message: 'document.styleSheets',
-            data: { sheets: sheets },
-          });
-          fetch(linkEl ? linkEl.href : 'css/staking.css', { cache: 'no-store' })
-            .then(function (r) {
-              return r.text().then(function (t) {
-                send({
-                  hypothesisId: 'H1',
-                  location: 'stake-solana.html:debug',
-                  message: 'staking.css fetch (same URL as link)',
-                  data: {
-                    ok: r.ok,
-                    status: r.status,
-                    length: t.length,
-                    hasBodyStakeSolanaPage: t.indexOf('body.stake-solana-page') >= 0,
-                  },
-                });
-              });
-            })
-            .catch(function (e) {
-              send({
-                hypothesisId: 'H1',
-                location: 'stake-solana.html:debug',
-                message: 'staking.css fetch error',
-                data: { err: String(e) },
-              });
-            });
-        }
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
-        else run();
+            localStorage.setItem(STORAGE_KEY, next);
+          } catch (e) {}
+        });
+
+        // Make the (i) tooltip usable on touch devices
+        document.addEventListener('click', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('[data-howto-trigger]') : null;
+          if (!trigger) return;
+          var wrap = trigger.parentElement;
+          if (!wrap) return;
+          wrap.classList.toggle('is-open');
+        });
       })();
     </script>
-    <!-- #endregion -->
+
 
     <div class="wallet-modal" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
       <div class="wallet-modal-dialog">

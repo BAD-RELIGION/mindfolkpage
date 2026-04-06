@@ -85,7 +85,7 @@
 
     <header>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll" data-mdb-navbar-init>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll mindfolk-main-nav" data-mdb-navbar-init>
       <div class="container">
         <a class="navbar-brand mf-logo" href="index.html">
   <img id="nav-logo" src="img/mfwhite.png" alt="MF Logo" />
@@ -103,12 +103,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
-            <li class="nav-item"><a class="nav-link" href="#revival">Revival</a></li>
-            <li class="nav-item"><a class="nav-link" href="#goodwood">The Good Wood Show</a></li>
-            <li class="nav-item"><a class="nav-link" href="#staking">Validator</a></li>
-            <li class="nav-item"><a class="nav-link" href="#links">Official Links</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#top">home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#history">history</a></li>
+            <li class="nav-item"><a class="nav-link" href="#revival">revival</a></li>
+            <li class="nav-item"><a class="nav-link" href="#goodwood">the good wood show</a></li>
+            <li class="nav-item"><a class="nav-link" href="#staking">stake sol</a></li>
+            <li class="nav-item"><a class="nav-link" href="#links">official links</a></li>
           </ul>
           <ul class="navbar-nav d-flex flex-row align-items-center">
             <li class="nav-item me-1">
@@ -910,6 +910,7 @@
       src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"
       onerror="this.onerror=null;this.src='https://unpkg.com/@solana/web3.js@1.98.4/lib/index.iife.min.js';"
     ></script>
+    <script src="js/config.js"></script>
     <script src="js/staking-preview.js"></script>
 
     <script>
@@ -1067,84 +1068,6 @@
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
-})();
-</script>
-<script>
-(() => {
-  // The sections in the order you want highlighted
-  const SECTIONS = ['top','history','revival','goodwood','staking','links'];
-
-  // Map section id -> corresponding <a> in the navbar
-  const linkMap = new Map(
-    SECTIONS.map(id => [id, document.querySelector(`.navbar a.nav-link[href="#${id}"]`)])
-  );
-
-  // Remove any that don't exist (keeps things robust)
-  for (const [id, a] of [...linkMap]) {
-    if (!document.getElementById(id) || !a) linkMap.delete(id);
-  }
-
-  function setActive(id) {
-    linkMap.forEach(a => a && a.classList.remove('active'));
-    const a = linkMap.get(id);
-    if (a) {
-      a.classList.add('active');
-      a.setAttribute('aria-current','page');
-    }
-  }
-
-  // Highlight the section that occupies the middle of the viewport
-  const io = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!visible) return;
-    const id = visible.target.id;
-    if (linkMap.has(id)) setActive(id);
-  }, {
-    root: null,
-    // “Activation zone” = middle strip of the screen
-    rootMargin: '-30% 0px -50% 0px',
-    threshold: [0, 0.25, 0.5, 0.75, 1]
-  });
-
-  // Observe the sections we care about
-  linkMap.forEach((_a, id) => {
-    const el = document.getElementById(id);
-    if (el) io.observe(el);
-  });
-
-  // Make clicks feel instant + smooth scroll with fixed nav offset
-  const OFFSET = 100;
-  document.querySelectorAll('.navbar a.nav-link[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if (!el) return;
-      e.preventDefault();
-      setActive(id);
-      const y = el.getBoundingClientRect().top + window.pageYOffset - OFFSET + 1;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-
-      // Close mobile menu if open
-      const navEl = document.getElementById('navbarSupportedContent');
-      if (navEl && navEl.classList.contains('show')) {
-        try {
-          if (window.mdb?.Collapse) new mdb.Collapse(navEl).hide();
-          else navEl.classList.remove('show');
-        } catch (_) { navEl.classList.remove('show'); }
-      }
-    });
-  });
-
-  // If landing mid-page, set initial active correctly
-  const firstInView = SECTIONS.find(id => {
-    const el = document.getElementById(id);
-    if (!el) return false;
-    const r = el.getBoundingClientRect();
-    return r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
-  });
-  if (firstInView) setActive(firstInView);
 })();
 </script>
     <!-- Wallet Selection Modal -->
