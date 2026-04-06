@@ -141,6 +141,20 @@ h3 {
   text-underline-offset: 0.25rem;
 }
 
+/* index.html primary nav: section links in caps (icons row unchanged) */
+.mindfolk-main-nav .navbar-nav.me-auto .nav-link {
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .mindfolk-main-nav .navbar-nav.me-auto .nav-link {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* Logo fade helper */
 #nav-logo { transition: opacity .3s ease; }
 #nav-logo.fading { opacity: 0; }
