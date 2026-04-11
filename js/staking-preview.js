@@ -1214,9 +1214,32 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         
         let signature;
         try {
-          // Preferred path for MWA + most wallet adapters:
-          // let adapter handle wallet signature while we provide local stake signer.
-          if (typeof STATE.currentProvider.sendTransaction === 'function') {
+          // Solana Mobile Wallet Adapter overrides sendTransaction and calls
+          // transaction.serialize() with no options before SignAndSend / sign flows.
+          // Web3.js defaults require every signature slot to be filled, so multi-signer
+          // stake txs (fee payer + new stake account) fail with "Missing signature…"
+          // unless we partial-sign locally and serialize with relaxed verification so
+          // the wallet can add the remaining signature(s). The adapter also ignores
+          // BaseSignerWalletAdapter's `options.signers` merge.
+          if (useEsmWeb3) {
+            transaction.partialSign(stakeAccount);
+            const origSerialize = transaction.serialize.bind(transaction);
+            transaction.serialize = (config) =>
+              origSerialize({
+                requireAllSignatures: false,
+                verifySignatures: false,
+                ...(config && typeof config === 'object' ? config : {})
+              });
+            try {
+              signature = await STATE.currentProvider.sendTransaction(transaction, txConn, {
+                skipPreflight: false,
+                preflightCommitment: 'confirmed',
+                maxRetries: 0
+              });
+            } finally {
+              transaction.serialize = origSerialize;
+            }
+          } else if (typeof STATE.currentProvider.sendTransaction === 'function') {
             signature = await STATE.currentProvider.sendTransaction(transaction, txConn, {
               signers: [stakeAccount],
               skipPreflight: false,
