@@ -2807,7 +2807,8 @@ body.stake-solana-page .liquid-swap-footnote--fine .link-warning {
 
 /* Jupiter Plugin: full panel width; no extra dark band under the widget */
 body.stake-solana-page .staking-jupiter-embed {
-  min-height: 0;
+  /* Enough vertical room so the in-widget “Select token” sheet is not collapsed on mobile */
+  min-height: clamp(380px, 58vh, 720px);
   height: auto;
   width: 100%;
   max-width: 100%;
@@ -2825,11 +2826,21 @@ body.stake-solana-page .staking-jupiter-embed {
 body.stake-solana-page .staking-jupiter-embed #jupiter-plugin-instance {
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 0 !important;
+  min-height: clamp(380px, 58vh, 720px) !important;
   height: auto !important;
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+@media (min-width: 992px) {
+  body.stake-solana-page .staking-jupiter-embed {
+    min-height: 420px;
+  }
+
+  body.stake-solana-page .staking-jupiter-embed #jupiter-plugin-instance {
+    min-height: 420px !important;
+  }
 }
 
 /* Token search / dropdowns render inside the plugin; .staking-card { overflow: hidden } clips them and the UI can look blank */

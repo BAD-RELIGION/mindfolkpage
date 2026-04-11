@@ -14,6 +14,27 @@
   let swapInitialized = false;
   let postInitWatchScheduled = false;
 
+  function destroyMindfolkJupiterSwap() {
+    const host = document.getElementById(TARGET_ID);
+    if (host) {
+      host.innerHTML = '';
+    }
+    const orphan = document.getElementById(JUPITER_INSTANCE_ID);
+    if (orphan && orphan.parentElement) {
+      orphan.parentElement.removeChild(orphan);
+    }
+    swapInitialized = false;
+    postInitWatchScheduled = false;
+  }
+
+  function restartMindfolkJupiterSwap() {
+    destroyMindfolkJupiterSwap();
+    liquidFeedback('Reloading swap…', 'info');
+    window.requestAnimationFrame(function () {
+      tryInit(0);
+    });
+  }
+
   function jupiterFormProps() {
     return {
       initialOutputMint: MINDSOL_MINT,
@@ -113,7 +134,6 @@
       containerStyles: {
         width: '100%',
         maxWidth: '100%',
-        minHeight: 0,
         height: 'auto'
       }
     };
@@ -126,7 +146,8 @@
     st.setAttribute('data-mindfolk-jupiter-wide', '1');
     st.textContent =
       '[class*="360px"]{max-width:100%!important;width:100%!important;}' +
-      ':host{display:block!important;width:100%!important;height:auto!important;min-height:0!important;}';
+      /* Do not set min-height:0 on :host — on mobile flex layouts it collapses the token picker sheet */
+      ':host{display:block!important;width:100%!important;height:auto!important;}';
     shadowRoot.prepend(st);
   }
 
@@ -216,12 +237,16 @@
     tryInit(0);
   };
 
+  window.restartMindfolkJupiterSwap = restartMindfolkJupiterSwap;
+
   function hookLiquidPanelObserver() {
     const liquid = document.querySelector('[data-panel="liquid"]');
     if (!liquid) return;
     const mo = new MutationObserver(() => {
       if (liquid.classList.contains('active')) {
         window.initMindfolkJupiterSwapIfNeeded();
+      } else {
+        destroyMindfolkJupiterSwap();
       }
     });
     mo.observe(liquid, { attributes: true, attributeFilter: ['class'] });
@@ -229,6 +254,9 @@
 
   function onReady() {
     modalFallbackBtn()?.addEventListener('click', openJupiterModalSwap);
+    document.querySelector('[data-jupiter-restart]')?.addEventListener('click', function () {
+      restartMindfolkJupiterSwap();
+    });
     hookLiquidPanelObserver();
     if (document.querySelector('[data-panel="liquid"]')?.classList.contains('active')) {
       window.initMindfolkJupiterSwapIfNeeded();

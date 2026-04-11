@@ -128,7 +128,7 @@
     <link rel="stylesheet" href="css/mdb.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bust cache after deploy: live site had an old ~19KB staking.css without body.stake-solana-page rules -->
-    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260403l" />
+    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260414" />
     <link rel="stylesheet" href="fonts/stylesheet.css" />
     <!-- Jupiter Plugin loader (defers until parsed); data-preload warms the main app bundle per Jupiter docs -->
     <script src="https://plugin.jup.ag/plugin-v1.js" data-preload defer></script>
@@ -482,6 +482,14 @@
                           ></div>
                           <button
                             type="button"
+                            class="btn btn-link text-warning text-decoration-none small py-0 mb-2 px-0"
+                            data-jupiter-restart
+                            title="Use after disconnecting in Jupiter if Connect stops responding. You can also switch to Native staking and back."
+                          >
+                            Reload swap widget
+                          </button>
+                          <button
+                            type="button"
                             class="btn btn-outline-warning btn-connect-elegant w-100 mb-2 d-none"
                             data-jupiter-modal-fallback
                           >
@@ -750,7 +758,7 @@
     <script src="js/solana-web3-loader.js"></script>
     <script src="js/config.js"></script>
     <script src="js/staking-preview.js?v=20260413"></script>
-    <script src="js/mindsol-jupiter-swap.js"></script>
+    <script src="js/mindsol-jupiter-swap.js?v=20260414"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/stake-solana-validator.js"></script>
     <script src="js/stake-solana-runtime.js"></script>
