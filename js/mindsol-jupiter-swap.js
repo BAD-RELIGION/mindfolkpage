@@ -68,6 +68,18 @@
     btn.classList.toggle('d-none', !show);
   }
 
+  function renderInlineExternalCta(reasonText) {
+    const host = document.getElementById(TARGET_ID);
+    if (!host) return;
+    host.innerHTML =
+      `<div style="display:flex;align-items:center;justify-content:center;min-height:220px;padding:1rem;">` +
+      `<a href="${EXTERNAL_SWAP_URL}" target="_blank" rel="noopener noreferrer" ` +
+      `class="btn btn-outline-warning btn-connect-elegant w-100" style="max-width:420px;">Open Jupiter swap</a>` +
+      `</div>`;
+    setModalFallbackVisible(false);
+    liquidFeedback(reasonText || 'Inline swap is unavailable in this browser. Opening Jupiter in a new tab is recommended.', 'warning');
+  }
+
   function isWalletPublicKeyRuntimeErrorMessage(msg) {
     if (!msg) return false;
     const m = String(msg).toLowerCase();
@@ -78,11 +90,7 @@
     // Inline plugin can fail on some embedded Android wallet browsers (notably Seeker webview)
     // when wallet-standard account info is parsed as a PublicKey.
     swapInitialized = true;
-    setModalFallbackVisible(true);
-    liquidFeedback(
-      'Inline swap is not stable in this browser wallet. Use "Open swap in popup" below.',
-      'warning'
-    );
+    renderInlineExternalCta('Inline swap is not stable in this browser wallet. Use Jupiter in a new tab.');
   }
 
   function bindRuntimeErrorFallbackOnce() {
@@ -119,19 +127,29 @@
     postInitWatchScheduled = true;
 
     let n = 0;
+    let seenRenderedAtLeastOnce = false;
     function tick() {
-      if (jupiterSeemsRendered()) {
+      const rendered = jupiterSeemsRendered();
+      if (rendered) {
+        seenRenderedAtLeastOnce = true;
+      }
+
+      // Seeker symptom: widget appears briefly then disappears.
+      if (seenRenderedAtLeastOnce && !rendered) {
+        swapInitialized = true;
+        renderInlineExternalCta('Inline swap crashed in this browser. Use Jupiter in a new tab.');
+        return;
+      }
+
+      if (rendered && n > 4) {
         liquidFeedback('');
         setModalFallbackVisible(false);
         return;
       }
       n += 1;
       if (n >= POLL_MAX) {
-        liquidFeedback(
-          'The inline swap did not finish loading. Try "Open swap in popup", or allow plugin.jup.ag and *.jup.ag.',
-          'error'
-        );
-        setModalFallbackVisible(true);
+        swapInitialized = true;
+        renderInlineExternalCta('Inline swap did not finish loading. Open Jupiter in a new tab.');
         return;
       }
       window.setTimeout(tick, POLL_MS);
@@ -146,13 +164,13 @@
 
   function openJupiterModalSwap() {
     if (isSeekerBrowser()) {
-      window.open(EXTERNAL_SWAP_URL, '_blank', 'noopener,noreferrer');
+      window.location.href = EXTERNAL_SWAP_URL;
       liquidFeedback('Opening Jupiter in a new tab for Seeker compatibility.', 'info');
       return;
     }
 
     if (!window.Jupiter?.init) {
-      window.open(EXTERNAL_SWAP_URL, '_blank', 'noopener,noreferrer');
+      window.location.href = EXTERNAL_SWAP_URL;
       liquidFeedback('Inline swap loader unavailable. Opened Jupiter in a new tab.', 'warning');
       return;
     }
@@ -176,8 +194,7 @@
 
     if (isSeekerBrowser()) {
       swapInitialized = true;
-      setModalFallbackVisible(true);
-      liquidFeedback('Seeker browser uses external Jupiter swap for best stability.', 'info');
+      renderInlineExternalCta('Seeker browser uses external Jupiter swap for best stability.');
       return true;
     }
 
