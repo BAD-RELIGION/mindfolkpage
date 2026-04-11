@@ -10,6 +10,7 @@
 
   let swapInitialized = false;
   let postInitWatchScheduled = false;
+  let runtimeHandlerBound = false;
 
   function jupiterFormProps() {
     return {
@@ -55,6 +56,44 @@
     const btn = modalFallbackBtn();
     if (!btn) return;
     btn.classList.toggle('d-none', !show);
+  }
+
+  function isWalletPublicKeyRuntimeErrorMessage(msg) {
+    if (!msg) return false;
+    const m = String(msg).toLowerCase();
+    return m.includes('walletpublickeyerror') || m.includes('invalid public key input');
+  }
+
+  function handleRuntimeWalletKeyError() {
+    // Inline plugin can fail on some embedded Android wallet browsers (notably Seeker webview)
+    // when wallet-standard account info is parsed as a PublicKey.
+    swapInitialized = true;
+    setModalFallbackVisible(true);
+    liquidFeedback(
+      'Inline swap is not stable in this browser wallet. Use "Open swap in popup" below.',
+      'warning'
+    );
+  }
+
+  function bindRuntimeErrorFallbackOnce() {
+    if (runtimeHandlerBound) return;
+    runtimeHandlerBound = true;
+
+    window.addEventListener('error', function onJupiterRuntimeError(event) {
+      const msg = event?.error?.message || event?.message || '';
+      if (isWalletPublicKeyRuntimeErrorMessage(msg)) {
+        handleRuntimeWalletKeyError();
+      }
+    });
+
+    window.addEventListener('unhandledrejection', function onJupiterUnhandledRejection(event) {
+      const reason = event?.reason;
+      const msg =
+        (reason && (reason.message || reason.toString && reason.toString())) || '';
+      if (isWalletPublicKeyRuntimeErrorMessage(msg)) {
+        handleRuntimeWalletKeyError();
+      }
+    });
   }
 
   function jupiterSeemsRendered() {
@@ -168,6 +207,7 @@
   }
 
   function onReady() {
+    bindRuntimeErrorFallbackOnce();
     modalFallbackBtn()?.addEventListener('click', openJupiterModalSwap);
     hookLiquidPanelObserver();
     if (document.querySelector('[data-panel="liquid"]')?.classList.contains('active')) {
