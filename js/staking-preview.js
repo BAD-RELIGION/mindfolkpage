@@ -89,8 +89,22 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     const writeConnection = new web3.Connection(WRITE_RPC, 'confirmed');
 
     // Wallet detection
+    function isSolanaMobileEnvironment() {
+      try {
+        return (
+          typeof window !== 'undefined' &&
+          window.isSecureContext === true &&
+          /android/i.test(navigator.userAgent || '')
+        );
+      } catch (_) {
+        return false;
+      }
+    }
+
     function getWalletProvider(walletName) {
       switch (walletName) {
+        case 'solanaMobile':
+          return null;
         case 'phantom':
           // Phantom injects as window.solana with isPhantom flag
           if (window.solana?.isPhantom) return window.solana;
@@ -115,6 +129,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
 
     function detectAvailableWallets() {
       const available = [];
+      if (isSolanaMobileEnvironment()) available.push('solanaMobile');
       if (getWalletProvider('phantom')) available.push('phantom');
       if (getWalletProvider('solflare')) available.push('solflare');
       if (getWalletProvider('backpack')) available.push('backpack');
@@ -318,18 +333,20 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     
     function getWalletDisplayName(walletName) {
       const names = {
-        'phantom': 'Phantom',
-        'solflare': 'Solflare',
-        'backpack': 'Backpack'
+        phantom: 'Phantom',
+        solflare: 'Solflare',
+        backpack: 'Backpack',
+        solanaMobile: 'Solana Mobile Adapter'
       };
       return names[walletName] || walletName.charAt(0).toUpperCase() + walletName.slice(1).replace(/([A-Z])/g, ' $1');
     }
     
     function getWalletIcon(walletName) {
       const icons = {
-        'phantom': 'fa-solid fa-ghost',
-        'solflare': 'fa-solid fa-sun',
-        'backpack': 'fa-solid fa-bag-shopping'
+        phantom: 'fa-solid fa-ghost',
+        solflare: 'fa-solid fa-sun',
+        backpack: 'fa-solid fa-bag-shopping',
+        solanaMobile: 'fa-brands fa-android'
       };
       return icons[walletName] || 'fa-solid fa-wallet';
     }
@@ -337,9 +354,10 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     function getWalletLogoUrl(walletName) {
       // Using placeholder paths - user can replace with actual logo files
       const logos = {
-        'phantom': 'img/wallets/phantom.png',
-        'solflare': 'img/wallets/solflare.png',
-        'backpack': 'img/wallets/backpack.png'
+        phantom: 'img/wallets/phantom.png',
+        solflare: 'img/wallets/solflare.png',
+        backpack: 'img/wallets/backpack.png',
+        solanaMobile: 'img/mindfolk-validator-logo.png'
       };
       return logos[walletName] || 'img/wallets/default.png';
     }
@@ -383,11 +401,15 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       if (!walletGrid) return;
       walletGrid.replaceChildren();
       
-      const wallets = [
+      const wallets = [];
+      if (isSolanaMobileEnvironment()) {
+        wallets.push({ id: 'solanaMobile', name: 'Solana Mobile Adapter', color: '#14F195' });
+      }
+      wallets.push(
         { id: 'phantom', name: 'Phantom', color: '#AB9FF2' },
         { id: 'solflare', name: 'Solflare', color: '#FFB800' },
         { id: 'backpack', name: 'Backpack', color: '#FF6B35' }
-      ];
+      );
       
       const available = detectAvailableWallets();
       
@@ -430,7 +452,11 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         nameDiv.textContent = wallet.name;
         const statusDiv = document.createElement('div');
         statusDiv.className = 'wallet-option-status';
-        statusDiv.textContent = isAvailable ? 'Detected' : 'Not installed';
+        statusDiv.textContent = isAvailable
+          ? wallet.id === 'solanaMobile'
+            ? 'Android / Seeker'
+            : 'Detected'
+          : 'Not installed';
         contentDiv.appendChild(nameDiv);
         contentDiv.appendChild(statusDiv);
         
@@ -842,10 +868,85 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       STATE.listenersBound = true;
     }
 
+    async function connectSolanaMobileWalletInner() {
+      const mod = await import('https://esm.sh/@solana-mobile/wallet-adapter-mobile@2.2.7?target=es2022');
+      const {
+        SolanaMobileWalletAdapter,
+        createDefaultAuthorizationResultCache,
+        createDefaultAddressSelector
+      } = mod;
+
+      const adapter = new SolanaMobileWalletAdapter({
+        cluster: 'mainnet-beta',
+        appIdentity: {
+          name: 'Mindfolk',
+          uri: window.location.origin,
+          icon: new URL('/img/mindfolk-validator-logo.png', window.location.href).toString()
+        },
+        authorizationResultCache: createDefaultAuthorizationResultCache(),
+        addressSelector: createDefaultAddressSelector(),
+        onWalletNotFound: async () => {
+          console.warn('[Mindfolk] MWA: no wallet app responded (association).');
+        }
+      });
+
+      STATE.currentProvider = adapter;
+      await adapter.connect();
+
+      for (let i = 0; i < 600; i++) {
+        if (adapter.publicKey) {
+          STATE.wallet = new web3.PublicKey(adapter.publicKey.toString());
+          bindProviderEvents();
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 100));
+      }
+      throw new Error('Wallet did not provide a public key in time.');
+    }
+
     async function connectWallet() {
       const selectedWallet = STATE.currentWalletName || '';
       if (!selectedWallet) {
         openWalletModal();
+        return;
+      }
+
+      if (selectedWallet === 'solanaMobile') {
+        if (STATE.wallet || STATE.connecting) return;
+        if (!isSolanaMobileEnvironment()) {
+          setFeedback('Solana Mobile Adapter is only available on Android over HTTPS.', 'error');
+          return;
+        }
+        STATE.connecting = true;
+        updateConnectButton();
+        try {
+          await connectSolanaMobileWalletInner();
+          refreshBalance().catch((err) => {
+            console.warn('Balance refresh failed (non-blocking):', err);
+            setFeedback('Wallet connected, but unable to fetch balance. Please refresh.', 'warning');
+          });
+          refreshStakeAccounts().catch((err) => {
+            console.warn('Stake accounts refresh failed (non-blocking):', err);
+          });
+          updateWalletIndicator();
+          setFeedback(`${getWalletDisplayName('solanaMobile')} connected.`, 'success');
+        } catch (err) {
+          if (err?.code === 4001) {
+            setFeedback('Wallet connection cancelled.', 'error');
+          } else {
+            console.error('Solana Mobile connect error', err);
+            setFeedback(err?.message || 'Failed to connect with Solana Mobile Adapter.', 'error');
+          }
+          STATE.currentProvider = null;
+          STATE.currentWalletName = null;
+          STATE.wallet = null;
+          STATE.listenersBound = false;
+        } finally {
+          STATE.connecting = false;
+          updateConnectButton();
+          updateQuickButtons();
+          updateSubmitState();
+        }
         return;
       }
       
