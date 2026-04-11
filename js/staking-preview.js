@@ -84,6 +84,17 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     const HELIUS_RPC = getHeliusRpcUrl();
     const WRITE_RPC = HELIUS_RPC || 'https://api.mainnet-beta.solana.com';
 
+    // Same @solana/web3.js build the MWA stack resolves (see connectSolanaMobileWalletInner deps).
+    // Building stake txs with the page IIFE web3 while the adapter signs an esm-bundled Transaction
+    // often yields "Missing signature" / verify failures.
+    let esmWeb3ForMobile = null;
+    async function loadEsmWeb3ForMobile() {
+      if (esmWeb3ForMobile) return esmWeb3ForMobile;
+      const mod = await import('https://esm.sh/@solana/web3.js@1.98.4');
+      const w = mod.default && typeof mod.default.Transaction === 'function' ? mod.default : mod;
+      esmWeb3ForMobile = w;
+      return esmWeb3ForMobile;
+    }
 
     // Connection for all operations (Helius if configured; otherwise public RPC)
     const writeConnection = new web3.Connection(WRITE_RPC, 'confirmed');
@@ -1127,12 +1138,16 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       }
 
       const lamports = Math.round(amount * web3.LAMPORTS_PER_SOL);
-      
+
+      const useEsmWeb3 = STATE.currentWalletName === 'solanaMobile';
+      const w3tx = useEsmWeb3 ? await loadEsmWeb3ForMobile() : web3;
+      const walletPub = new w3tx.PublicKey(STATE.wallet.toBase58());
+
       // NOTE: Solana requires a new stake account for each staking transaction.
       // You cannot directly "add" SOL to an existing stake account.
       // Each stake account requires a one-time rent fee (~0.00228 SOL).
       // This is the standard Solana staking approach - multiple stake accounts are normal.
-      const stakeAccount = web3.Keypair.generate();
+      const stakeAccount = w3tx.Keypair.generate();
 
       STATE.submitting = true;
       submitButton.disabled = true;
@@ -1140,8 +1155,10 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       amountInput.disabled = true;
 
       try {
+        const txConn = useEsmWeb3 ? new w3tx.Connection(WRITE_RPC, 'confirmed') : writeConnection;
+
         // Use Helius for rent calculation (avoids 403 errors from public RPC)
-        const rentExemptLamports = await writeConnection.getMinimumBalanceForRentExemption(web3.StakeProgram.space, 'confirmed');
+        const rentExemptLamports = await txConn.getMinimumBalanceForRentExemption(w3tx.StakeProgram.space, 'confirmed');
         const totalLamports = rentExemptLamports + lamports;
 
         if (STATE.balanceLamports < totalLamports) {
@@ -1150,37 +1167,37 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           return;
         }
 
-        const createAccountIx = web3.SystemProgram.createAccount({
-          fromPubkey: STATE.wallet,
+        const createAccountIx = w3tx.SystemProgram.createAccount({
+          fromPubkey: walletPub,
           newAccountPubkey: stakeAccount.publicKey,
           lamports: totalLamports,
-          space: web3.StakeProgram.space,
-          programId: web3.StakeProgram.programId
+          space: w3tx.StakeProgram.space,
+          programId: w3tx.StakeProgram.programId
         });
 
-        const authorized = new web3.Authorized(STATE.wallet, STATE.wallet);
-        const lockup = new web3.Lockup(0, 0, STATE.wallet);
+        const authorized = new w3tx.Authorized(walletPub, walletPub);
+        const lockup = new w3tx.Lockup(0, 0, walletPub);
 
-        const initStakeIx = web3.StakeProgram.initialize({
+        const initStakeIx = w3tx.StakeProgram.initialize({
           stakePubkey: stakeAccount.publicKey,
           authorized,
           lockup
         });
 
         // SECURITY: Verify validator address before creating transaction
-        const validatorPubkey = new web3.PublicKey(VALIDATOR_VOTE_ACCOUNT);
+        const validatorPubkey = new w3tx.PublicKey(VALIDATOR_VOTE_ACCOUNT);
         if (!validatorPubkey) {
           throw new Error('Invalid validator address');
         }
         
-        const delegateIx = web3.StakeProgram.delegate({
+        const delegateIx = w3tx.StakeProgram.delegate({
           stakePubkey: stakeAccount.publicKey,
-          authorizedPubkey: STATE.wallet,
+          authorizedPubkey: walletPub,
           votePubkey: validatorPubkey
         });
 
-        const transaction = new web3.Transaction().add(createAccountIx, initStakeIx, delegateIx);
-        transaction.feePayer = STATE.wallet;
+        const transaction = new w3tx.Transaction().add(createAccountIx, initStakeIx, delegateIx);
+        transaction.feePayer = walletPub;
         
         // SECURITY: Log transaction details for user verification (visible in console)
         console.log('%c=== TRANSACTION SECURITY CHECK ===', 'color: #ffc107; font-weight: bold; font-size: 14px;');
@@ -1192,7 +1209,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         console.log('%c=== VERIFY IN YOUR WALLET BEFORE SIGNING ===', 'color: #ffc107; font-weight: bold; font-size: 14px;');
 
         // Get fresh blockhash right before signing (minimizes expiration risk)
-        const latestBlockhash = await writeConnection.getLatestBlockhash('finalized');
+        const latestBlockhash = await txConn.getLatestBlockhash('finalized');
         transaction.recentBlockhash = latestBlockhash.blockhash;
         
         let signature;
@@ -1200,7 +1217,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           // Preferred path for MWA + most wallet adapters:
           // let adapter handle wallet signature while we provide local stake signer.
           if (typeof STATE.currentProvider.sendTransaction === 'function') {
-            signature = await STATE.currentProvider.sendTransaction(transaction, writeConnection, {
+            signature = await STATE.currentProvider.sendTransaction(transaction, txConn, {
               signers: [stakeAccount],
               skipPreflight: false,
               preflightCommitment: 'confirmed',
@@ -1213,7 +1230,8 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
             if (typeof signedTx.partialSign === 'function') {
               signedTx.partialSign(stakeAccount);
             }
-            signature = await writeConnection.sendRawTransaction(signedTx.serialize(), {
+            const rawConn = useEsmWeb3 ? txConn : writeConnection;
+            signature = await rawConn.sendRawTransaction(signedTx.serialize(), {
               skipPreflight: false,
               maxRetries: 0
             });
