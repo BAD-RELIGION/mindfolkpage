@@ -99,6 +99,49 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
     // Connection for all operations (Helius if configured; otherwise public RPC)
     const writeConnection = new web3.Connection(WRITE_RPC, 'confirmed');
 
+    /**
+     * Solana Mobile Wallet Adapter returns the tx signature as base64 (`btoa` of 64 raw bytes).
+     * JSON-RPC (`getSignatureStatuses`, `confirmTransaction`) expects standard base58.
+     */
+    function encodeBytesBase58(bytes) {
+      const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+      if (!bytes || bytes.length === 0) return '';
+      const digits = [0];
+      for (let i = 0; i < bytes.length; i++) {
+        let carry = bytes[i] & 0xff;
+        for (let j = 0; j < digits.length; j++) {
+          carry += digits[j] << 8;
+          digits[j] = carry % 58;
+          carry = Math.floor(carry / 58);
+        }
+        while (carry) {
+          digits.push(carry % 58);
+          carry = Math.floor(carry / 58);
+        }
+      }
+      let zeros = 0;
+      while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
+      let out = '';
+      for (let z = 0; z < zeros; z++) out += ALPHABET[0];
+      for (let i = digits.length - 1; i >= 0; i--) out += ALPHABET[digits[i]];
+      return out;
+    }
+
+    function normalizeMwTransactionSignatureForRpc(sig) {
+      if (!sig || typeof sig !== 'string') return sig;
+      const s = sig.trim();
+      if (/^[1-9A-HJ-NP-Za-km-z]{64,100}$/.test(s) && !/[+/=]/.test(s)) return s;
+      try {
+        const bin = atob(s);
+        if (bin.length !== 64) return s;
+        const u8 = new Uint8Array(64);
+        for (let i = 0; i < 64; i++) u8[i] = bin.charCodeAt(i);
+        return encodeBytesBase58(u8);
+      } catch {
+        return s;
+      }
+    }
+
     // Wallet detection
     function isSolanaMobileEnvironment() {
       try {
@@ -1263,7 +1306,9 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
           console.error('Failed to send transaction:', sendError);
           throw new Error(`Failed to send transaction: ${sendError.message || 'Unknown error'}`);
         }
-        
+
+        signature = normalizeMwTransactionSignatureForRpc(signature);
+
         // Validate signature before proceeding
         if (!signature || typeof signature !== 'string' || signature.length < 32) {
           throw new Error('Invalid transaction signature received');
@@ -1274,53 +1319,67 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         // Show feedback that transaction was sent
         setFeedback(`Transaction sent! Confirming... (this usually takes 5-15 seconds)`, 'info');
         
-        // Use efficient polling with adaptive intervals for faster confirmation
-        // Poll more frequently at first (every 500ms), then slow down (every 1s)
-        // This is more reliable than confirmTransaction which can timeout
         let confirmed = false;
         let transactionFailed = false;
         let errorMessage = null;
-        const maxAttempts = 30; // Check for up to ~20 seconds (10 fast + 20 slow)
-        let attempt = 0;
-        
-        // Poll for confirmation with adaptive intervals
-        while (attempt < maxAttempts && !confirmed && !transactionFailed) {
-          try {
-            // Check status - don't use searchTransactionHistory initially (faster)
-            // Only use it if we haven't found it after a few attempts
-            const useSearch = attempt > 5;
-            const status = await writeConnection.getSignatureStatus(signature, useSearch ? { searchTransactionHistory: true } : undefined);
-            
-            if (status?.value?.err) {
-              // Transaction failed
-              transactionFailed = true;
-              errorMessage = status.value.err.toString();
-              break;
-            }
-            
-            // Check if confirmed (accept processed, confirmed, or finalized)
-            const confirmationStatus = status?.value?.confirmationStatus;
-            if (confirmationStatus === 'processed' || confirmationStatus === 'confirmed' || confirmationStatus === 'finalized') {
-              confirmed = true;
-              break;
-            }
-            
-            // Update feedback every 3 seconds
-            if (attempt > 0 && attempt % 6 === 0) {
-              setFeedback(`Transaction sent! Still confirming... (${Math.floor(attempt / 2)} seconds)`, 'info');
-            }
-          } catch (statusError) {
-            // If status check fails, continue polling (transaction might still be processing)
-            // Only log after a few attempts to avoid console spam
-            if (attempt > 3) {
-              console.warn('Status check error (non-critical):', statusError);
-            }
+
+        // Prefer blockheight-bound confirm (fast + correct once signature is base58 for RPC).
+        try {
+          const confirmResponse = await writeConnection.confirmTransaction(
+            {
+              signature,
+              blockhash: latestBlockhash.blockhash,
+              lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
+            },
+            'confirmed'
+          );
+          if (confirmResponse?.value?.err) {
+            transactionFailed = true;
+            errorMessage = confirmResponse.value.err.toString();
+          } else {
+            confirmed = true;
           }
-          
-          // Use faster polling for first 10 attempts (500ms), then slower (1s)
-          const delay = attempt < 10 ? 500 : 1000;
-          await new Promise(resolve => setTimeout(resolve, delay));
-          attempt++;
+        } catch (confirmErr) {
+          console.warn('confirmTransaction did not resolve in time, polling signature status:', confirmErr);
+          const maxAttempts = 30;
+          let attempt = 0;
+          while (attempt < maxAttempts && !confirmed && !transactionFailed) {
+            try {
+              const useSearch = attempt > 5;
+              const status = await writeConnection.getSignatureStatus(
+                signature,
+                useSearch ? { searchTransactionHistory: true } : undefined
+              );
+
+              if (status?.value?.err) {
+                transactionFailed = true;
+                errorMessage = status.value.err.toString();
+                break;
+              }
+
+              const confirmationStatus = status?.value?.confirmationStatus;
+              if (
+                confirmationStatus === 'processed' ||
+                confirmationStatus === 'confirmed' ||
+                confirmationStatus === 'finalized'
+              ) {
+                confirmed = true;
+                break;
+              }
+
+              if (attempt > 0 && attempt % 6 === 0) {
+                setFeedback(`Transaction sent! Still confirming... (${Math.floor(attempt / 2)} seconds)`, 'info');
+              }
+            } catch (statusError) {
+              if (attempt > 3) {
+                console.warn('Status check error (non-critical):', statusError);
+              }
+            }
+
+            const delay = attempt < 10 ? 500 : 1000;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            attempt++;
+          }
         }
         
         // If still not confirmed after polling, do a final check
