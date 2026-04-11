@@ -357,7 +357,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         phantom: 'img/wallets/phantom.png',
         solflare: 'img/wallets/solflare.png',
         backpack: 'img/wallets/backpack.png',
-        solanaMobile: 'img/mindfolk-validator-logo.png'
+        solanaMobile: 'img/wallets/solana-mobile-adapter.png'
       };
       return logos[walletName] || 'img/wallets/default.png';
     }
@@ -868,40 +868,110 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       STATE.listenersBound = true;
     }
 
-    async function connectSolanaMobileWalletInner() {
-      const mod = await import('https://esm.sh/@solana-mobile/wallet-adapter-mobile@2.2.7?target=es2022');
-      const {
-        SolanaMobileWalletAdapter,
-        createDefaultAuthorizationResultCache,
-        createDefaultAddressSelector
-      } = mod;
+    function mwaErrorChainCode(err, depth = 0) {
+      if (!err || depth > 6) return '';
+      const c = err.code;
+      if (typeof c === 'string' && c.startsWith('ERROR_')) return c;
+      return mwaErrorChainCode(err.cause, depth + 1);
+    }
 
-      const adapter = new SolanaMobileWalletAdapter({
-        cluster: 'mainnet-beta',
+    function mwaConnectFailureMessage(err) {
+      const msg = String(err?.message || '');
+      const code = mwaErrorChainCode(err);
+      const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+      const looksWebView = /\bwv\b|; wv\)/i.test(ua);
+
+      if (code === 'ERROR_WALLET_NOT_FOUND' || /ERROR_WALLET_NOT_FOUND|wallet not found/i.test(msg)) {
+        return 'Mobile Wallet Adapter could not open a wallet on this device. Open this site in Chrome (not an in-app browser), keep HTTPS, and allow Local network access if Android asks.';
+      }
+      if (code === 'ERROR_BROWSER_NOT_SUPPORTED' || looksWebView) {
+        return 'This browser cannot use Mobile Wallet Adapter. Open the same URL in Chrome on Android.';
+      }
+      if (code === 'ERROR_LOOPBACK_ACCESS_BLOCKED' || /loopback|local network/i.test(msg)) {
+        return 'Chrome blocked local loopback access to your wallet. Allow local network access and try again.';
+      }
+      if (/timed out|timeout/i.test(msg)) {
+        return 'Wallet connection timed out. If a wallet sheet opened, approve it there; otherwise retry in Chrome.';
+      }
+      if (/public key/i.test(msg)) {
+        return 'Wallet connected but did not expose an account. Close wallet app and retry.';
+      }
+      return msg || 'Solana Mobile Adapter connection failed.';
+    }
+
+    async function connectSolanaMobileWalletInner() {
+      const mobileMod = await import(
+        'https://esm.sh/@solana-mobile/wallet-adapter-mobile@2.2.7?deps=@solana/web3.js@1.98.4,@solana/wallet-adapter-base@0.9.27,@solana-mobile/mobile-wallet-adapter-protocol@2.2.7,@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.2.7'
+      );
+      const baseMod = await import(
+        'https://esm.sh/@solana/wallet-adapter-base@0.9.27?deps=@solana/web3.js@1.98.4'
+      );
+
+      const Adapter = mobileMod.SolanaMobileWalletAdapter || mobileMod.default;
+      const createDefaultAddressSelector = mobileMod.createDefaultAddressSelector;
+      const createDefaultAuthorizationResultCache = mobileMod.createDefaultAuthorizationResultCache;
+      const { WalletAdapterNetwork } = baseMod;
+
+      if (!Adapter || typeof Adapter !== 'function' || !createDefaultAddressSelector) {
+        throw new Error('Could not load Solana Mobile Adapter modules.');
+      }
+
+      const adapter = new Adapter({
+        addressSelector: createDefaultAddressSelector(),
         appIdentity: {
           name: 'Mindfolk',
-          uri: window.location.origin,
-          icon: new URL('/img/mindfolk-validator-logo.png', window.location.href).toString()
+          uri: window.location.origin
         },
         authorizationResultCache: createDefaultAuthorizationResultCache(),
-        addressSelector: createDefaultAddressSelector(),
+        cluster: WalletAdapterNetwork.Mainnet,
         onWalletNotFound: async () => {
-          console.warn('[Mindfolk] MWA: no wallet app responded (association).');
+          console.warn('[MWA] onWalletNotFound (no responding wallet). UA:', navigator.userAgent);
         }
       });
 
-      STATE.currentProvider = adapter;
-      await adapter.connect();
+      // wallet-adapter-mobile 2.2.x: connect() can resolve before selected account is published.
+      const publicKey = await new Promise((resolve, reject) => {
+        const timeoutMs = 120000;
+        let timer = setTimeout(() => {
+          cleanup();
+          reject(new Error('Timed out waiting for wallet public key'));
+        }, timeoutMs);
 
-      for (let i = 0; i < 600; i++) {
-        if (adapter.publicKey) {
-          STATE.wallet = new web3.PublicKey(adapter.publicKey.toString());
-          bindProviderEvents();
-          return;
+        function cleanup() {
+          if (timer) clearTimeout(timer);
+          timer = null;
+          if (typeof adapter.off === 'function') adapter.off('connect', onConnect);
+          else if (typeof adapter.removeListener === 'function') adapter.removeListener('connect', onConnect);
         }
-        await new Promise((r) => setTimeout(r, 100));
-      }
-      throw new Error('Wallet did not provide a public key in time.');
+
+        function onConnect() {
+          const k = adapter.publicKey;
+          if (!k) return;
+          cleanup();
+          resolve(k);
+        }
+
+        if (typeof adapter.on === 'function') adapter.on('connect', onConnect);
+
+        (async () => {
+          try {
+            await adapter.connect();
+            if (adapter.publicKey) {
+              cleanup();
+              resolve(adapter.publicKey);
+            }
+          } catch (err) {
+            cleanup();
+            reject(err);
+          }
+        })();
+      });
+
+      if (!publicKey) throw new Error('Wallet did not provide a public key.');
+      STATE.currentProvider = adapter;
+      STATE.wallet = new web3.PublicKey(publicKey.toString());
+      STATE.listenersBound = false;
+      bindProviderEvents();
     }
 
     async function connectWallet() {
@@ -935,7 +1005,7 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
             setFeedback('Wallet connection cancelled.', 'error');
           } else {
             console.error('Solana Mobile connect error', err);
-            setFeedback(err?.message || 'Failed to connect with Solana Mobile Adapter.', 'error');
+            setFeedback(mwaConnectFailureMessage(err), 'error');
           }
           STATE.currentProvider = null;
           STATE.currentWalletName = null;
