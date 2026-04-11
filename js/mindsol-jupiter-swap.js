@@ -42,7 +42,15 @@
   function isSeekerBrowser() {
     try {
       const ua = (navigator.userAgent || '').toLowerCase();
-      return ua.includes('seeker') || ua.includes('solana mobile') || ua.includes('solanamobile');
+      // Explicit Seeker / Solana Mobile UA strings
+      if (ua.includes('seeker') || ua.includes('solana mobile') || ua.includes('solanamobile')) return true;
+      // Any Android secure-context that used MWA to connect is treated the same way —
+      // the Jupiter plugin fails identically on Seeker Chrome because its UA is plain Android Chrome.
+      if (/android/i.test(navigator.userAgent || '') && window.isSecureContext === true) {
+        // Check if the wallet was connected via MWA (staking-preview.js sets this flag after connect)
+        if (window.__mwWalletConnected === true) return true;
+      }
+      return false;
     } catch (_) {
       return false;
     }
@@ -233,8 +241,40 @@
     window.setTimeout(() => tryInit(attempt + 1), 50);
   }
 
+  function isValidSolanaPublicKey(key) {
+    if (!key) return false;
+    try {
+      // A valid base58 Solana public key is 32–44 characters
+      const s = typeof key === 'string' ? key : key.toString();
+      if (!s || s.length < 32 || s.length > 44) return false;
+      // If @solana/web3.js is loaded, use it for a definitive check
+      if (window.solanaWeb3 && typeof window.solanaWeb3.PublicKey === 'function') {
+        new window.solanaWeb3.PublicKey(s);
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   window.initMindfolkJupiterSwapIfNeeded = function initMindfolkJupiterSwapIfNeeded() {
     if (!document.getElementById(TARGET_ID) || swapInitialized) return;
+
+    // On MWA/Android connections the public key may not be valid yet at the moment the
+    // liquid panel is activated. Guard against passing a bad key into Jupiter's SwapContext.
+    if (window.__mwWalletConnected === true && !isValidSolanaPublicKey(window.__mwWalletPublicKey)) {
+      // Wait for the walletReady event dispatched by staking-preview.js after the key is confirmed
+      if (!window.__jupiterWalletReadyPending) {
+        window.__jupiterWalletReadyPending = true;
+        window.addEventListener('walletReady', function onWalletReady() {
+          window.__jupiterWalletReadyPending = false;
+          window.removeEventListener('walletReady', onWalletReady);
+          tryInit(0);
+        }, { once: true });
+      }
+      return;
+    }
+
     tryInit(0);
   };
 

@@ -887,6 +887,8 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         STATE.balanceLamports = 0;
         STATE.currentProvider = null;
         STATE.currentWalletName = null;
+        window.__mwWalletConnected = false;
+        window.__mwWalletPublicKey = null;
         updateConnectButton();
         updateWalletIndicator();
         resetBalanceDisplay();
@@ -1026,6 +1028,12 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       STATE.wallet = new web3.PublicKey(publicKey.toString());
       STATE.listenersBound = false;
       bindProviderEvents();
+
+      // Signal to mindsol-jupiter-swap.js that MWA connected with a valid key.
+      // This lets the Jupiter widget guard against reading the publicKey too early on Seeker/Android.
+      window.__mwWalletConnected = true;
+      window.__mwWalletPublicKey = STATE.wallet.toBase58();
+      window.dispatchEvent(new CustomEvent('walletReady', { detail: { publicKey: window.__mwWalletPublicKey } }));
     }
 
     async function connectWallet() {
