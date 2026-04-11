@@ -146,8 +146,11 @@
     st.setAttribute('data-mindfolk-jupiter-wide', '1');
     st.textContent =
       '[class*="360px"]{max-width:100%!important;width:100%!important;}' +
-      /* Do not set min-height:0 on :host — on mobile flex layouts it collapses the token picker sheet */
-      ':host{display:block!important;width:100%!important;height:auto!important;}';
+      ':host{display:flex!important;flex-direction:column!important;width:100%!important;height:auto!important;min-height:min(72vh,820px)!important;}' +
+      /* Jupiter uses flex + min-h-0 / h-full; in integrated mode that can collapse the token list to ~0px */
+      '[class*="min-h-0"]{min-height:min(44vh,420px)!important;}' +
+      '[class*="h-full"]{min-height:min(52vh,480px)!important;}' +
+      '[class*="flex-col"]{min-height:min(56vh,520px)!important;}';
     shadowRoot.prepend(st);
   }
 
