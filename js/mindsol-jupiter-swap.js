@@ -7,6 +7,7 @@
   const TARGET_ID = 'mindSOL-jupiter-plugin';
   const POLL_MS = 200;
   const POLL_MAX = 16;
+  const EXTERNAL_SWAP_URL = `https://jup.ag/swap/SOL-${MINDSOL_MINT}`;
 
   let swapInitialized = false;
   let postInitWatchScheduled = false;
@@ -35,6 +36,15 @@
 
   function modalFallbackBtn() {
     return document.querySelector('[data-jupiter-modal-fallback]');
+  }
+
+  function isSeekerBrowser() {
+    try {
+      const ua = (navigator.userAgent || '').toLowerCase();
+      return ua.includes('seeker') || ua.includes('solana mobile') || ua.includes('solanamobile');
+    } catch (_) {
+      return false;
+    }
   }
 
   function liquidFeedback(message, type) {
@@ -135,8 +145,15 @@
   }
 
   function openJupiterModalSwap() {
+    if (isSeekerBrowser()) {
+      window.open(EXTERNAL_SWAP_URL, '_blank', 'noopener,noreferrer');
+      liquidFeedback('Opening Jupiter in a new tab for Seeker compatibility.', 'info');
+      return;
+    }
+
     if (!window.Jupiter?.init) {
-      liquidFeedback('Jupiter script is not loaded yet. Wait a moment and try again.', 'error');
+      window.open(EXTERNAL_SWAP_URL, '_blank', 'noopener,noreferrer');
+      liquidFeedback('Inline swap loader unavailable. Opened Jupiter in a new tab.', 'warning');
       return;
     }
     try {
@@ -156,6 +173,14 @@
   function runInit() {
     const host = document.getElementById(TARGET_ID);
     if (!host || swapInitialized || !window.Jupiter?.init) return false;
+
+    if (isSeekerBrowser()) {
+      swapInitialized = true;
+      setModalFallbackVisible(true);
+      liquidFeedback('Seeker browser uses external Jupiter swap for best stability.', 'info');
+      return true;
+    }
+
     try {
       postInitWatchScheduled = false;
       setModalFallbackVisible(false);
@@ -208,7 +233,12 @@
 
   function onReady() {
     bindRuntimeErrorFallbackOnce();
-    modalFallbackBtn()?.addEventListener('click', openJupiterModalSwap);
+    const fallbackBtn = modalFallbackBtn();
+    if (isSeekerBrowser() && fallbackBtn) {
+      fallbackBtn.textContent = 'Open Jupiter swap';
+      fallbackBtn.classList.remove('d-none');
+    }
+    fallbackBtn?.addEventListener('click', openJupiterModalSwap);
     hookLiquidPanelObserver();
     if (document.querySelector('[data-panel="liquid"]')?.classList.contains('active')) {
       window.initMindfolkJupiterSwapIfNeeded();
