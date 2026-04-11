@@ -1585,28 +1585,52 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       });
     }
 
-    // Fetch SOL price from CoinGecko
+    // SOL / USD for summary line. CoinGecko rate-limits heavily (429) from shared IPs; cache + slow refresh.
+    const SOL_USD_CACHE_KEY = 'mf_sol_usd_v';
+    const SOL_USD_CACHE_TS_KEY = 'mf_sol_usd_ts';
+    const COINGECKO_URL = 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd';
+    const CACHE_TTL_MS = 30 * 60 * 1000;
+    const REFRESH_MS = 10 * 60 * 1000;
+
     async function fetchSolPrice() {
       try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd', {
+        const cachedAt = parseInt(sessionStorage.getItem(SOL_USD_CACHE_TS_KEY) || '0', 10);
+        const cached = sessionStorage.getItem(SOL_USD_CACHE_KEY);
+        if (cached && Date.now() - cachedAt < CACHE_TTL_MS) {
+          const n = parseFloat(cached);
+          if (Number.isFinite(n) && n > 0) {
+            STATE.solPriceUsd = n;
+            updateSummary();
+            return;
+          }
+        }
+
+        const response = await fetch(COINGECKO_URL, {
           method: 'GET',
-          headers: { 'Accept': 'application/json' }
+          headers: { Accept: 'application/json' }
         });
-        if (!response.ok) throw new Error('Price fetch failed');
+        if (response.status === 429) {
+          return;
+        }
+        if (!response.ok) {
+          return;
+        }
         const data = await response.json();
         if (data?.solana?.usd) {
           STATE.solPriceUsd = data.solana.usd;
-          updateSummary(); // Update display with current price
+          try {
+            sessionStorage.setItem(SOL_USD_CACHE_KEY, String(STATE.solPriceUsd));
+            sessionStorage.setItem(SOL_USD_CACHE_TS_KEY, String(Date.now()));
+          } catch (_) {}
+          updateSummary();
         }
-      } catch (err) {
-        console.warn('Failed to fetch SOL price:', err);
-        // Silently fail - USD conversion just won't show
+      } catch (_) {
+        // USD line omitted on failure — not user-blocking
       }
     }
 
-    // Fetch price on init and refresh every 60 seconds
     fetchSolPrice();
-    STATE.priceIntervalId = setInterval(fetchSolPrice, 60000);
+    STATE.priceIntervalId = setInterval(fetchSolPrice, REFRESH_MS);
 
     quickButtons.forEach((btn) => {
       btn.addEventListener('click', () => {

@@ -6,7 +6,8 @@
   const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
   const TARGET_ID = 'mindSOL-jupiter-plugin';
   const POLL_MS = 200;
-  const POLL_MAX = 16;
+  const POLL_MAX = 45;
+  const RENDER_GONE_STREAK = 8;
   const EXTERNAL_SWAP_URL = `https://jup.ag/swap/SOL-${MINDSOL_MINT}`;
 
   let swapInitialized = false;
@@ -106,8 +107,9 @@
 
     window.addEventListener('unhandledrejection', function onJupiterUnhandledRejection(event) {
       const reason = event?.reason;
-      const msg =
-        (reason && (reason.message || reason.toString && reason.toString())) || '';
+      let msg = '';
+      if (reason && typeof reason === 'object' && reason.message) msg = String(reason.message);
+      else if (reason && typeof reason.toString === 'function') msg = String(reason.toString());
       if (isWalletPublicKeyRuntimeErrorMessage(msg)) {
         handleRuntimeWalletKeyError();
       }
@@ -118,6 +120,8 @@
     const host = document.getElementById(TARGET_ID);
     if (!host) return false;
     if (host.children.length > 0) return true;
+    if (host.shadowRoot && host.shadowRoot.children.length > 0) return true;
+    if (host.querySelector('iframe')) return true;
     const text = host.textContent?.trim() || '';
     return text.length > 24;
   }
@@ -128,14 +132,17 @@
 
     let n = 0;
     let seenRenderedAtLeastOnce = false;
+    let goneStreak = 0;
     function tick() {
       const rendered = jupiterSeemsRendered();
       if (rendered) {
         seenRenderedAtLeastOnce = true;
+        goneStreak = 0;
+      } else if (seenRenderedAtLeastOnce) {
+        goneStreak += 1;
       }
 
-      // Seeker symptom: widget appears briefly then disappears.
-      if (seenRenderedAtLeastOnce && !rendered) {
+      if (seenRenderedAtLeastOnce && !rendered && goneStreak >= RENDER_GONE_STREAK) {
         swapInitialized = true;
         renderInlineExternalCta('Inline swap crashed in this browser. Use Jupiter in a new tab.');
         return;
@@ -191,12 +198,6 @@
   function runInit() {
     const host = document.getElementById(TARGET_ID);
     if (!host || swapInitialized || !window.Jupiter?.init) return false;
-
-    if (isSeekerBrowser()) {
-      swapInitialized = true;
-      renderInlineExternalCta('Seeker browser uses external Jupiter swap for best stability.');
-      return true;
-    }
 
     try {
       postInitWatchScheduled = false;
