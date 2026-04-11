@@ -1195,12 +1195,17 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
         const latestBlockhash = await writeConnection.getLatestBlockhash('finalized');
         transaction.recentBlockhash = latestBlockhash.blockhash;
         
-        // SECURITY: Phantom wallet must sign first to avoid Lighthouse security warnings
-        // Following Phantom's recommended signing order for multi-signer transactions
+        // Multi-signer safety: sign with local keypair first, then wallet signer.
+        // Some MWA wallets (Seeker/Android) can drop/ignore missing co-signer slots
+        // when asked to sign first, which causes "Missing signature for public key(s)".
+        transaction.partialSign(stakeAccount);
+
         const signedTx = await STATE.currentProvider.signTransaction(transaction);
-        
-        // Additional signers sign afterward
-        signedTx.partialSign(stakeAccount);
+
+        // Re-apply local signer to ensure it's still present after wallet adapter transforms.
+        if (typeof signedTx.partialSign === 'function') {
+          signedTx.partialSign(stakeAccount);
+        }
         
         // Send transaction immediately after signing (blockhash is still fresh)
         // Use Helius for write operations (more reliable)
