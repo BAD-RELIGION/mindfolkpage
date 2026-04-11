@@ -2805,25 +2805,9 @@ body.stake-solana-page .liquid-swap-footnote--fine .link-warning {
   font-size: inherit;
 }
 
-/* Outer shell: gives Jupiter a definite vertical budget (integrated plugin measures parents) */
-body.stake-solana-page .staking-jupiter-shell {
-  min-height: min(74vh, 860px);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  position: relative;
-  z-index: 3;
-  overflow: visible;
-  margin: 0 0 0.35rem;
-}
-
-/* Jupiter Plugin: full panel width; no extra dark band under the widget */
+/* Jupiter Plugin: full panel width; keep layout neutral (aggressive flex/vh overrides broke token list UI) */
 body.stake-solana-page .staking-jupiter-embed {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: inherit;
+  min-height: 0;
   height: auto;
   width: 100%;
   max-width: 100%;
@@ -2834,56 +2818,31 @@ body.stake-solana-page .staking-jupiter-embed {
   background: transparent;
   border: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0.35rem;
 }
 
 /* Jupiter mounts here; stretch host so integrated UI can use full column width */
 body.stake-solana-page .staking-jupiter-embed #jupiter-plugin-instance {
-  flex: 1 1 auto;
   width: 100% !important;
   max-width: 100% !important;
-  min-height: min(72vh, 820px) !important;
+  min-height: 0 !important;
   height: auto !important;
   margin-left: auto;
   margin-right: auto;
-  display: flex !important;
-  flex-direction: column !important;
+  display: block;
 }
 
-/* When Liquid tab is active, stop clipping along the whole staking column (:has() is not enough on all ancestors) */
-body.stake-solana-page.stake-solana-liquid-active .stake-solana-content-col,
-body.stake-solana-page.stake-solana-liquid-active .stake-solana-panel-stack,
-body.stake-solana-page.stake-solana-liquid-active .stake-solana-panel-stack > #staking,
-body.stake-solana-page.stake-solana-liquid-active #staking {
-  overflow: visible !important;
-}
-
-/* Token search / dropdowns render inside the plugin; .staking-card { overflow: hidden } clips them and the UI can look blank */
-body.stake-solana-page .stake-solana-stake-panel.staking-card-elegant:has([data-panel="liquid"].active),
-body.stake-solana-page.stake-solana-liquid-active .stake-solana-stake-panel.staking-card-elegant {
+/* Token search / dropdowns render inside the plugin; .staking-card { overflow: hidden } clips overlays */
+body.stake-solana-page .stake-solana-stake-panel.staking-card-elegant:has([data-panel="liquid"].active) {
   overflow: visible;
 }
 
-/* Let the liquid column grow inside the card so the Jupiter shell can use vh-based min-heights */
-body.stake-solana-page.stake-solana-liquid-active .stake-solana-stake-panel.staking-card-elegant {
-  display: flex;
-  flex-direction: column;
-}
-
-body.stake-solana-page.stake-solana-liquid-active .staking-mode-grid {
-  flex: 0 0 auto;
-}
-
-body.stake-solana-page.stake-solana-liquid-active .staking-panel[data-panel="liquid"].active {
+body.stake-solana-page .staking-panel[data-panel="liquid"].active {
   overflow: visible;
   position: relative;
   z-index: 2;
   padding-bottom: 0;
   margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: min(78vh, 900px);
 }
 
 body.stake-solana-page {

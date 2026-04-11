@@ -31,9 +31,8 @@
       content="Native SOL staking, mindSOL swap (Jupiter), vote account, wallets, validator stats, and staking FAQ—all on one page."
     />
     <meta name="twitter:image" content="https://mindfolk.xyz/img/og-mindfolk-staking.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' http://127.0.0.1 http://localhost http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https://esm.sh https://*.esm.sh https: wss:;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://plugin.jup.ag https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://plugin.jup.ag; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; frame-src 'self' https://www.youtube.com https://youtube.com https://plugin.jup.ag https://jup.ag https://www.jup.ag; child-src 'self' https://www.youtube.com https://youtube.com; worker-src 'self' blob:; connect-src 'self' http://127.0.0.1 http://localhost http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* https://api.coingecko.com https://mainnet.helius-rpc.com wss://mainnet.helius-rpc.com https://api.mainnet-beta.solana.com wss://api.mainnet-beta.solana.com https://unpkg.com https://cdn.jsdelivr.net https://plugin.jup.ag https://ultra-api.jup.ag wss://ultra-api.jup.ag https://jup.ag https://www.jup.ag https://quote-api.jup.ag https://lite-api.jup.ag https://api.jup.ag https://tokens.jup.ag https://worker.jup.ag https://price.jup.ag https://token.jup.ag wss://api.jup.ag wss://quote-api.jup.ag https://*.jup.ag wss://*.jup.ag https://esm.sh https://*.esm.sh https: wss:;" />
     <title>Stake SOL with Mindfolk Validator</title>
-    <script type="module" src="js/register-mwa.js?v=mwa-1"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -128,7 +127,7 @@
     <link rel="stylesheet" href="css/mdb.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bust cache after deploy: live site had an old ~19KB staking.css without body.stake-solana-page rules -->
-    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260415" />
+    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260416" />
     <link rel="stylesheet" href="fonts/stylesheet.css" />
     <!-- Jupiter Plugin loader (defers until parsed); data-preload warms the main app bundle per Jupiter docs -->
     <script src="https://plugin.jup.ag/plugin-v1.js" data-preload defer></script>
@@ -474,14 +473,12 @@
                               </div>
                             </div>
                           </div>
-                          <div class="staking-jupiter-shell">
-                            <div
-                              id="mindSOL-jupiter-plugin"
-                              class="staking-jupiter-embed"
-                              role="region"
-                              aria-label="Swap tokens for mindSOL"
-                            ></div>
-                          </div>
+                          <div
+                            id="mindSOL-jupiter-plugin"
+                            class="staking-jupiter-embed"
+                            role="region"
+                            aria-label="Swap tokens for mindSOL"
+                          ></div>
                           <button
                             type="button"
                             class="btn btn-link text-warning text-decoration-none small py-0 mb-2 px-0"
@@ -759,8 +756,9 @@
     <script src="js/mdb.umd.min.js"></script>
     <script src="js/solana-web3-loader.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/staking-preview.js?v=20260415"></script>
-    <script src="js/mindsol-jupiter-swap.js?v=20260415"></script>
+    <script src="js/staking-preview.js?v=20260416"></script>
+    <script src="js/mindsol-jupiter-swap.js?v=20260416"></script>
+    <script type="module" src="js/register-mwa.js?v=mwa-1"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="js/stake-solana-validator.js"></script>
     <script src="js/stake-solana-runtime.js"></script>

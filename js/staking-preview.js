@@ -1534,9 +1534,6 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
       });
 
       stakingSection.setAttribute('data-staking-mode', targetMode);
-      if (document.body.classList.contains('stake-solana-page')) {
-        document.body.classList.toggle('stake-solana-liquid-active', targetMode === 'liquid');
-      }
       if (targetMode === 'native') {
         updateConnectButton();
       }

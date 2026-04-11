@@ -144,13 +144,10 @@
     if (!shadowRoot || shadowRoot.querySelector('style[data-mindfolk-jupiter-wide]')) return;
     var st = document.createElement('style');
     st.setAttribute('data-mindfolk-jupiter-wide', '1');
+    /* Only widen the shell; do not override flex/min-height inside Jupiter (breaks token list / virtualized rows). */
     st.textContent =
       '[class*="360px"]{max-width:100%!important;width:100%!important;}' +
-      ':host{display:flex!important;flex-direction:column!important;width:100%!important;height:auto!important;min-height:min(72vh,820px)!important;}' +
-      /* Jupiter uses flex + min-h-0 / h-full; in integrated mode that can collapse the token list to ~0px */
-      '[class*="min-h-0"]{min-height:min(44vh,420px)!important;}' +
-      '[class*="h-full"]{min-height:min(52vh,480px)!important;}' +
-      '[class*="flex-col"]{min-height:min(56vh,520px)!important;}';
+      ':host{display:block!important;width:100%!important;height:auto!important;}';
     shadowRoot.prepend(st);
   }
 
