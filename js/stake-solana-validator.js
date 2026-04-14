@@ -15,9 +15,9 @@
    */
   const VALIDATOR_BRANDING = {
     displayName: 'The Mindfolk',
-    location: 'CL, Santiago',
+    location: 'Brazil, São Paulo',
     /** City line (JPool-style); can mirror location. */
-    city: 'Santiago',
+    city: 'São Paulo',
     description: 'Mindfolk is the Solana OG NFT art collection by Jurgens Walt',
     clientLine: 'Jito v3.1.10',
     /** Optional illustrative MEV tip yield (e.g. from dashboards); 0 to hide the extra line. */
