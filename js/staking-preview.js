@@ -1715,26 +1715,40 @@ const MINDSOL_MINT = 'MiNdUFmqL5XyTBpqcfDzgySwKwdqEzunG2rfJMKb3bD';
 
       try {
         const transactions = [];
-        const validatorPubkey = new web3.PublicKey(VALIDATOR_VOTE_ACCOUNT);
+        const epochInfo = await writeConnection.getEpochInfo('confirmed');
+        const currentEpoch = Number(epochInfo?.epoch || 0);
 
         for (const stakeAccount of STATE.stakeAccounts) {
           const stakePubkey = new web3.PublicKey(stakeAccount.pubkey);
-          
-          // Check if already deactivated (use read connection)
-          // Use Helius for stake activation check (public RPC often blocked)
-          const stakeInfo = await writeConnection.getStakeActivation(stakePubkey);
-          
-          if (stakeInfo.state === 'active' || stakeInfo.state === 'activating') {
-            // Deactivate stake account
+
+          // getStakeActivation is deprecated on newer RPC nodes.
+          // Infer state from parsed stake account data instead.
+          const parsedResp = await writeConnection.getParsedAccountInfo(stakePubkey, 'confirmed');
+          const parsedType = parsedResp?.value?.data?.parsed?.type || '';
+          const delegation = parsedResp?.value?.data?.parsed?.info?.stake?.delegation || null;
+          const rawDeactivationEpoch = delegation?.deactivationEpoch;
+          const deactivationEpochNum =
+            rawDeactivationEpoch === undefined || rawDeactivationEpoch === null
+              ? Number.POSITIVE_INFINITY
+              : Number(rawDeactivationEpoch);
+
+          const isDelegated = parsedType === 'delegated';
+          const isInactiveDelegation =
+            isDelegated &&
+            Number.isFinite(deactivationEpochNum) &&
+            deactivationEpochNum <= currentEpoch;
+
+          if (isDelegated && !isInactiveDelegation) {
+            // Active/activating/deactivating -> send deactivate first.
             const deactivateIx = web3.StakeProgram.deactivate({
               stakePubkey: stakePubkey,
               authorizedPubkey: STATE.wallet
             });
             transactions.push({ instruction: deactivateIx, stakePubkey });
-          } else if (stakeInfo.state === 'inactive') {
-            // Withdraw from deactivated stake account (use Helius - public RPC often blocked)
+          } else {
+            // Inactive (or non-delegated parsed state) -> withdraw full lamports.
             const stakeAccountInfo = await writeConnection.getAccountInfo(stakePubkey);
-            if (stakeAccountInfo) {
+            if (stakeAccountInfo && stakeAccountInfo.lamports > 0) {
               const withdrawIx = web3.StakeProgram.withdraw({
                 stakePubkey: stakePubkey,
                 authorizedPubkey: STATE.wallet,
