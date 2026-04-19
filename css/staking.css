@@ -2129,6 +2129,39 @@ body.stake-solana-page .validator-hero-panel__desc {
   max-width: 48rem;
 }
 
+body.stake-solana-page .validator-hero-panel__apy {
+  max-width: 42%;
+}
+
+@media (min-width: 576px) {
+  body.stake-solana-page .validator-hero-panel__apy {
+    max-width: none;
+  }
+}
+
+body.stake-solana-page .validator-hero-panel__apy-label {
+  letter-spacing: 0.06em;
+  font-size: 0.78rem !important;
+  line-height: 1.25;
+}
+
+/* Same green as stats tile Total APY: .validator-stat-tile--apy .validator-stat-value */
+body.stake-solana-page .validator-hero-panel__apy-value {
+  font-size: clamp(1.35rem, 4.2vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #00d180;
+  font-variant-numeric: tabular-nums;
+}
+
+body.stake-solana-page[data-theme="light"] .validator-hero-panel__apy-value {
+  color: #00d180;
+}
+
+body.stake-solana-page .validator-hero-panel__body {
+  min-width: 0;
+}
+
 body.stake-solana-page .validator-callout-elegant__tagline {
   font-size: clamp(0.78rem, 1.2vw, 0.85rem);
   line-height: 1.45;

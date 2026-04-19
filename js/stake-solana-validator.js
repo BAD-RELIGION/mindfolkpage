@@ -328,6 +328,7 @@
         );
         setText('vsApyJitoTips', `+ ${jitoTip.toFixed(2)}%`);
         setText('vsApyTotal', `${((totalApyFrac || 0) * 100).toFixed(2)}%`);
+        setText('vsHeroApyTotal', `${((totalApyFrac || 0) * 100).toFixed(2)}%`);
         const jitoRow = document.getElementById('vsApyJitoRow');
         const totalRow = document.getElementById('vsApyTotalRow');
         const apyComboRow = document.getElementById('vsApyComboRow');
@@ -338,6 +339,10 @@
         setText('vsApyStakingPlusJito', `${(grossApyFrac * 100).toFixed(2)}%`);
         setText(
           'vsApyTotal',
+          netApyFrac != null ? `${(netApyFrac * 100).toFixed(2)}%` : '—'
+        );
+        setText(
+          'vsHeroApyTotal',
           netApyFrac != null ? `${(netApyFrac * 100).toFixed(2)}%` : '—'
         );
         const apyComboRow = document.getElementById('vsApyComboRow');
@@ -352,6 +357,7 @@
       setText('vsApyAfterCommission', '—');
       setText('vsApyStakingPlusJito', '—');
       setText('vsApyTotal', '—');
+      setText('vsHeroApyTotal', '—');
       const apyComboRow = document.getElementById('vsApyComboRow');
       if (apyComboRow) apyComboRow.classList.add('d-none');
       const jitoRow = document.getElementById('vsApyJitoRow');

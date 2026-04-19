@@ -127,7 +127,7 @@
     <link rel="stylesheet" href="css/mdb.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bust cache after deploy: live site had an old ~19KB staking.css without body.stake-solana-page rules -->
-    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260417" />
+    <link rel="stylesheet" href="css/staking.css?v=stake-solana-20260420" />
     <link rel="stylesheet" href="fonts/stylesheet.css" />
     <!-- Jupiter Plugin loader (defers until parsed); data-preload warms the main app bundle per Jupiter docs -->
     <script src="https://plugin.jup.ag/plugin-v1.js" data-preload defer></script>
@@ -194,7 +194,7 @@
             <div class="stake-solana-content-col">
             <div class="stake-solana-panel-stack">
             <div class="staking-summary validator-hero-panel rounded-4 p-3 p-md-4">
-              <div class="d-flex flex-row gap-3 gap-md-4 align-items-start">
+              <div class="d-flex flex-nowrap gap-3 gap-md-4 align-items-start validator-hero-panel__row">
                 <div class="flex-shrink-0">
                   <img
                     src="img/mindfolk-validator-logo.png"
@@ -205,54 +205,65 @@
                     style="width: 72px; height: 72px; object-fit: contain"
                   />
                 </div>
-                <div class="flex-grow-1 min-w-0 text-start">
-                  <h2 id="vsDisplayName" class="validator-hero-panel__name text-warning mb-2">—</h2>
-                  <div class="validator-hero-panel__meta d-flex flex-wrap align-items-center column-gap-3 row-gap-1 mb-2">
-                    <span id="vsLocation" class="text-muted small mb-0 validator-hero-panel__location">—</span>
-                    <span class="d-inline-flex align-items-center gap-1 flex-shrink-0">
-                      <a
-                        id="vsIdentitySolscan"
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="validator-hero-panel__addr font-monospace text-decoration-none"
-                        title="View identity on Solscan"
-                        ><span id="vsIdentityShort">—</span></a
-                      >
-                      <button
-                        type="button"
-                        id="vsCopyIdentity"
-                        class="validator-hero-panel__copy-btn"
-                        data-copy=""
-                        aria-label="Copy identity address"
-                      >
-                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
-                      </button>
-                    </span>
-                    <span class="d-inline-flex align-items-center gap-1 flex-shrink-0">
-                      <a
-                        id="vsVoteSolscan"
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="validator-hero-panel__addr font-monospace text-decoration-none"
-                        title="View vote account on Solscan"
-                        ><span id="vsVoteShort">—</span></a
-                      >
-                      <button
-                        type="button"
-                        id="vsCopyVote"
-                        class="validator-hero-panel__copy-btn"
-                        data-copy=""
-                        aria-label="Copy vote address"
-                      >
-                        <i class="fa-regular fa-copy" aria-hidden="true"></i>
-                      </button>
-                    </span>
+                <div class="validator-hero-panel__body flex-grow-1 min-w-0 d-flex flex-row align-items-start gap-2 gap-md-3">
+                  <div class="validator-hero-panel__copy flex-grow-1 min-w-0 text-start">
+                    <h2 id="vsDisplayName" class="validator-hero-panel__name text-warning mb-2">—</h2>
+                    <div class="validator-hero-panel__meta d-flex flex-wrap align-items-center column-gap-3 row-gap-1 mb-2">
+                      <span id="vsLocation" class="text-muted small mb-0 validator-hero-panel__location">—</span>
+                      <span class="d-inline-flex align-items-center gap-1 flex-shrink-0">
+                        <a
+                          id="vsIdentitySolscan"
+                          href="#"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="validator-hero-panel__addr font-monospace text-decoration-none"
+                          title="View identity on Solscan"
+                          ><span id="vsIdentityShort">—</span></a
+                        >
+                        <button
+                          type="button"
+                          id="vsCopyIdentity"
+                          class="validator-hero-panel__copy-btn"
+                          data-copy=""
+                          aria-label="Copy identity address"
+                        >
+                          <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        </button>
+                      </span>
+                      <span class="d-inline-flex align-items-center gap-1 flex-shrink-0">
+                        <a
+                          id="vsVoteSolscan"
+                          href="#"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="validator-hero-panel__addr font-monospace text-decoration-none"
+                          title="View vote account on Solscan"
+                          ><span id="vsVoteShort">—</span></a
+                        >
+                        <button
+                          type="button"
+                          id="vsCopyVote"
+                          class="validator-hero-panel__copy-btn"
+                          data-copy=""
+                          aria-label="Copy vote address"
+                        >
+                          <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        </button>
+                      </span>
+                    </div>
+                    <p id="vsDescription" class="text-muted small mb-0 validator-hero-panel__desc">—</p>
+                    <span id="vsIdentityPub" class="visually-hidden" aria-hidden="true"></span>
+                    <span id="vsVotePub" class="visually-hidden" aria-hidden="true"></span>
                   </div>
-                  <p id="vsDescription" class="text-muted small mb-0 validator-hero-panel__desc">—</p>
-                  <span id="vsIdentityPub" class="visually-hidden" aria-hidden="true"></span>
-                  <span id="vsVotePub" class="visually-hidden" aria-hidden="true"></span>
+                  <div
+                    class="validator-hero-panel__apy flex-shrink-0 align-self-start ms-auto text-end"
+                    aria-labelledby="vsHeroApyLabel"
+                  >
+                    <p id="vsHeroApyLabel" class="validator-hero-panel__apy-label small text-muted text-uppercase mb-1">
+                      Annual yield APY
+                    </p>
+                    <p class="validator-hero-panel__apy-value mb-0" id="vsHeroApyTotal" aria-live="polite">—</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -278,7 +289,7 @@
                             >
                               <span class="staking-mode-card__check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
                               <span class="staking-mode-card__title">Native staking</span>
-                              <span class="staking-mode-card__desc">Stake directly with the Mindfolk validator.</span>
+                              <span class="staking-mode-card__desc">Stake directly with the Mindfolk validator</span>
                             </button>
                           </div>
                           <div class="staking-mode-card">
@@ -751,7 +762,7 @@
     <script src="js/staking-preview.js?v=20260421"></script>
     <script src="js/mindsol-jupiter-swap.js?v=20260421"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="js/stake-solana-validator.js"></script>
+    <script src="js/stake-solana-validator.js?v=20260418"></script>
     <script src="js/stake-solana-runtime.js"></script>
 
 
