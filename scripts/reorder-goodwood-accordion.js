@@ -1,5 +1,6 @@
 /**
- * Reorders Good Wood Show accordion: EP10 (top, open) … EP1 (bottom).
+ * Reorders Good Wood Show accordion: newest EP (top, open) … EP1 (bottom).
+ * Expects index.html accordion blocks in DOM order EP1 … EP(N) (oldest first).
  * Run from site root: node scripts/reorder-goodwood-accordion.js
  */
 const fs = require("fs");
@@ -17,7 +18,6 @@ if (iClose < 0) throw new Error("accordion end not found");
 
 let inner = html.slice(afterOpen, iClose);
 inner = inner.replace(/^\s+/, "");
-// Heal accidental minification between items (breaks split below)
 inner = inner.replace(
   /<\/div>\s*<div class="accordion-item">/g,
   "</div>\n\n          <div class=\"accordion-item\">"
@@ -25,8 +25,9 @@ inner = inner.replace(
 
 const delim = /\n\n          <div class="accordion-item">\n/;
 const blocks = inner.split(delim);
-if (blocks.length !== 10) {
-  throw new Error(`Expected 10 accordion blocks, got ${blocks.length}`);
+const EPISODE_COUNT = 18;
+if (blocks.length !== EPISODE_COUNT) {
+  throw new Error(`Expected ${EPISODE_COUNT} accordion blocks, got ${blocks.length}`);
 }
 const items = blocks.map((b, i) =>
   i === 0 ? b : "\n\n          <div class=\"accordion-item\">\n" + b
@@ -43,8 +44,24 @@ const names = [
   "Eight",
   "Nine",
   "Ten",
+  "Eleven",
+  "Twelve",
+  "Thirteen",
+  "Fourteen",
+  "Fifteen",
+  "Sixteen",
+  "Seventeen",
+  "Eighteen",
 ];
 const fromSuffix = [
+  "Eighteen",
+  "Seventeen",
+  "Sixteen",
+  "Fifteen",
+  "Fourteen",
+  "Thirteen",
+  "Twelve",
+  "Eleven",
   "Ten",
   "Nine",
   "Eight",
@@ -91,7 +108,6 @@ function remapChunk(chunk, i) {
 const reversed = [...items].reverse();
 const newItems = reversed.map((ch, i) => remapChunk(ch, i));
 let newInner = newItems.join("") + "\n        ";
-// Join can rarely stick `</div>` to the next item; normalize before write
 newInner = newInner.replace(
   /<\/div>\s*<div class="accordion-item">/g,
   "</div>\n\n          <div class=\"accordion-item\">"
@@ -99,4 +115,4 @@ newInner = newInner.replace(
 
 const out = html.slice(0, afterOpen) + newInner + html.slice(iClose);
 fs.writeFileSync(file, out, "utf8");
-console.log("OK: EP10 … EP1 (EP10 open).");
+console.log(`OK: EP${EPISODE_COUNT} … EP1 (EP${EPISODE_COUNT} open).`);
