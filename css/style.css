@@ -304,3 +304,42 @@ h3 {
   /* icon width + Bootstrap gap-3 (1rem) */
   padding-left: calc(1.375rem + 1rem);
 }
+
+.goodwood-scroller {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem 1.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.goodwood-scroller::-webkit-scrollbar { height: 6px; }
+.goodwood-scroller::-webkit-scrollbar-thumb {
+  background: rgba(255, 193, 7, 0.5);
+  border-radius: 3px;
+}
+.episode-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 193, 7, 0.15);
+  transition: transform 0.2s ease;
+}
+.episode-card:hover { transform: translateY(-4px); }
+.episode-card img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.episode-card-body {
+  padding: 0.85rem 1rem 1rem;
+  color: #fff;
+}
+.episode-card-body h5 {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+.episode-card .btn { margin-top: 0.4rem; }
